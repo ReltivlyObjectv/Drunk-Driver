@@ -1,0 +1,5 @@
+# Do not commit compiled project
+car
+
+# Do not commit temporary files
+*~
