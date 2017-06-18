@@ -47,12 +47,26 @@ struct Shape {
 	Vec center;
 };
 
-class onclick {
-  public: 
+//button click from bship framework
+typedef struct t_button {
     Rect r;
-    char name[15];
+    char text[32];
+    int over;
+    int down;
     int mouse[2];
-}onclick;
+    int down;
+    float color[3];
+    float dcolor[3];
+    int click;
+    unsigned int text_color;
+}Button;
+Button button[MAXBUTTONS];
+void gamemenu(void);
+void mouse(int click);
+void check_mouse(XEvent *e);
+void set_mouse_position(int x,int y);
+void show_mouse_cursor(const int onoff);
 
+bool game = false;
 
 
