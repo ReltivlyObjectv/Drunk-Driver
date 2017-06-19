@@ -1,3 +1,6 @@
+//Author:Alexander Nguyen
+//Date: 6/17/2017
+//Purpose: Create a php that will link game to webpage to post high score
 <!DOCTYPE HTML>  
 <html>
 <head>
