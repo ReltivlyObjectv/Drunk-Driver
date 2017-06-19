@@ -47,6 +47,7 @@ struct Shape {
 	Vec center;
 };
 
+#define MAXBUTTONS 8
 //button click from bship framework
 typedef struct t_button {
     Rect r;
@@ -60,13 +61,28 @@ typedef struct t_button {
     int click;
     unsigned int text_color;
 }Button;
+int nbuttons=0;
+
 Button button[MAXBUTTONS];
 void gamemenu(void);
-void mouse(int click);
+void mouse_click(int b_click, int action, int x, int y);
 void check_mouse(XEvent *e);
-void set_mouse_position(int x,int y);
-void show_mouse_cursor(const int onoff);
 
+
+//initalize buttons in its own function
+//6/19/17 does it need check_resize??
+void button_init(void);
+void button_render(void);
 bool game = false;
 
-
+void gamemenu(void)
+{
+	glPushMatrix();
+	glBindTexture(GL_Texture_2D,0);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUAD); //look at bttleship init_opengl to place ppm images
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); // will modify when it compiles
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,yres);
+	glTexCoord2f(0.0f,0.0f); glVertex2i(xres,yres);
+	glTexCoord2f(0.0f,0.0f); glVertex2i(xres,0);
+	glEnd();
