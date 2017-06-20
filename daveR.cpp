@@ -4,11 +4,17 @@
 #include <iostream>
 #include "game.h"
 #include "fonts.h"
-#include <GL/hl.h>
-#include <GL.glx.h>
-#include <GL.glu.h>
+#include <GL/gl.h>
+//#include <GL/glx.h>
+#include <GL/glu.h>
+#include "ppm.h"
+
+#define gl g
 
 using namespace std;
+
+Ppmimage *inCarImage=NULL;
+GLuint inCarTexture;
 
 //void initOpengl(void);
 
@@ -116,6 +122,7 @@ void initOpengl(void)
 	//
 	//forest transparent part
 	//
+	/*
 	glBindTexture(GL_TEXTURE_2D, forestTransTexture);
 	//
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
@@ -130,5 +137,6 @@ void initOpengl(void)
 	free(ftData);
 	//glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 	//GL_RGB, GL_UNSIGNED_BYTE, bigfootImage->data);
+	*/
 	//-------------------------------------------------------------------------
 }
