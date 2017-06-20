@@ -4,9 +4,12 @@ LFLAGSMAC = -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 
 all: fonts.o fonttex.o staticLib car
 
-mac: fontsmac.o fonttex.o staticLib car
+mac: fontsmac.o fonttex.o staticLib carmac
 
 car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
+	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp  -Wall -Wextra $(LFLAGS) -o car
+
+mac: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp  -Wall -Wextra $(LFLAGSMAC) -o asteroids -stdlib=libc++ -I/usr/X11R6/include -L/usr/X11R6/lib -framework OpenGL -framework Cocoa 
 
 clean:
