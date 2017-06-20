@@ -9,13 +9,13 @@
 #include <GL/glu.h>
 #include "ppm.h"
 
-#define gl g
+extern Game g;
 
 using namespace std;
 
 Ppmimage *inCarImage=NULL;
 GLuint inCarTexture;
-
+int w=0, h=0;
 //void initOpengl(void);
 
 //overlay in car view onto animated screen
@@ -27,12 +27,12 @@ void showInCar()
 void initOpengl(void)
 {
 	//OpenGL initialization
-	glViewport(0, 0, gl.xres, gl.yres);
+	glViewport(0, 0, g.xres, g.yres);
 	//Initialize matrices
 	glMatrixMode(GL_PROJECTION); glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
 	//This sets 2D mode (no perspective)
-	glOrtho(0, gl.xres, 0, gl.yres, -1, 1);
+	glOrtho(0, g.xres, 0, g.yres, -1, 1);
 	//
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -48,7 +48,7 @@ void initOpengl(void)
 	//
 	//load the images file into a ppm structure.
 	//
-	inCarImage     = ppm6GetImage("./images/inCar.ppm");
+//	inCarImage     = ppm6GetImage("./images/inCar.ppm");
 	//forestImage      = ppm6GetImage("./images/forest.ppm");
 	//forestTransImage = ppm6GetImage("./images/forestTrans.ppm");
 	//umbrellaImage    = ppm6GetImage("./images/umbrella.ppm");
