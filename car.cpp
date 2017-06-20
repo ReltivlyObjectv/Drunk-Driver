@@ -51,6 +51,7 @@ int main(void)
 	//init();
 	initXWindows();
 	init_opengl();
+	init();
 	while (!g.done) {
 		while (XPending(dpy)) {
 			XEvent e;
@@ -140,7 +141,10 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
-
+	ControlManager::movingLeft = 
+		ControlManager::movingRight = 
+		ControlManager::slowingDown = 
+		ControlManager::speedingUp = false;
 }
 
 void init_opengl(void)
@@ -305,6 +309,7 @@ void trans_vector(Matrix mat, const Vec in, Vec out)
 void physics(void)
 {
 	ControlManager::applyDrunkSwerve(g);
+	ControlManager::moveForward(g);
 }
 
 void render(void)
