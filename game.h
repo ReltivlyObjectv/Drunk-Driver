@@ -41,13 +41,13 @@ typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
-class Global {
+class Game {
 public:
 	int xres, yres;
 	Flt aspectRatio;
 	Vec cameraPosition;
 	GLfloat lightPosition[4];
-	Global() {
+	Game() {
 		//constructor
 		xres=640;
 		yres=480;
@@ -57,4 +57,4 @@ public:
 		MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 		lightPosition[3] = 1.0f;
 	}
-} g;
+};

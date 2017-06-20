@@ -43,6 +43,8 @@ int check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
+Game g;
+
 int main(void)
 {
 	int done=0;
