@@ -32,11 +32,6 @@ typedef Flt Matrix [4][4];
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
 #define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]
 
-void print_group()
-{
-  string group[] = {"Alex", "Dave", "Christian", "Abdullah"};
-}
-
 struct Vec { 
     float x, y, z;
 };
@@ -70,11 +65,11 @@ void check_mouse(XEvent *e);
 
 
 //initalize buttons in its own function
-//6/19/17 does it need check_resize??
 void button_init(void);
 void button_render(void);
 bool game = false;
 
+//Start Menu
 void gamemenu(void)
 {
 	glPushMatrix();
@@ -86,3 +81,23 @@ void gamemenu(void)
 	glTexCoord2f(0.0f,0.0f); glVertex2i(xres,yres);
 	glTexCoord2f(0.0f,0.0f); glVertex2i(xres,0);
 	glEnd();
+}
+
+
+void button_init(void)
+{
+	//add button function to initiate	
+}
+
+void button_render(void)
+{
+	//add render function to render button
+}
+
+
+//Team Members
+void print_group()
+{
+  string group[] = {"Alex", "Dave", "Christian", "Abdullah"};
+}
+
