@@ -39,7 +39,7 @@ void init_opengl(void);
 void cleanupXWindows(void);
 void check_resize(XEvent *e);
 void check_mouse(XEvent *e);
-int check_keys(XEvent *e);
+void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
@@ -47,17 +47,18 @@ Game g;
 
 int main(void)
 {
-	int done=0;
+	printf("Loading Drunk Driver\n");
+	ControlManager::loadCustomControls();
 	//init();
 	initXWindows();
 	init_opengl();
-	while (!done) {
+	while (!g.done) {
 		while (XPending(dpy)) {
 			XEvent e;
 			XNextEvent(dpy, &e);
 			check_resize(&e);
 			check_mouse(&e);
-			done = check_keys(&e);
+			check_keys(&e);
 		}
 		physics();
 		render();
@@ -219,31 +220,13 @@ void check_mouse(XEvent *e)
 	}
 }
 
-int check_keys(XEvent *e)
+void check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
 	if (e->type == KeyPress) {
 		int key = XLookupKeysym(&e->xkey, 0);
-		switch(key) {
-			case XK_1:
-				break;
-			case XK_Right:
-				g.cameraPosition[0] += 0.1;
-				break;
-			case XK_Left:
-				g.cameraPosition[0] -= 0.1;
-				break;
-			case XK_q:
-				break;
-			case XK_b:
-				break;
-			case XK_s:
-				break;
-			case XK_Escape:
-				return 1;
-		}
+		ControlManager::applyControls(g, key);
 	}
-	return 0;
 }
 
 
@@ -322,8 +305,7 @@ void trans_vector(Matrix mat, const Vec in, Vec out)
 
 void physics(void)
 {
-	g.cameraPosition[2] -= 0.1;
-	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
+	ControlManager::applyDrunkSwerve(g);
 }
 
 void render(void)

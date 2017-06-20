@@ -1,3 +1,6 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
@@ -42,19 +45,40 @@ typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
 class Game {
-public:
-	int xres, yres;
-	Flt aspectRatio;
-	Vec cameraPosition;
-	GLfloat lightPosition[4];
-	Game() {
-		//constructor
-		xres=640;
-		yres=480;
-		aspectRatio = (GLfloat)xres / (GLfloat)yres;
-		MakeVector(0.0, 1.0, 8.0, cameraPosition);
-		//light is up high, right a little, toward a little
-		MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
-		lightPosition[3] = 1.0f;
-	}
+	public:
+		int xres, yres;
+		int done;
+		int inebriationLevel;
+		Flt aspectRatio;
+		Vec cameraPosition;
+		GLfloat lightPosition[4];
+		Game() {
+			//constructor
+			xres=640;
+			yres=480;
+			aspectRatio = (GLfloat)xres / (GLfloat)yres;
+			MakeVector(0.0, 1.0, 8.0, cameraPosition);
+			//light is up high, right a little, toward a little
+			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
+			lightPosition[3] = 1.0f;
+			done = 0;
+		}
 };
+
+
+class ControlManager {
+	public:
+		//Keys
+		static int turnLeft, turnRight, slowDown, speedUp;
+		//Other Methods
+		static void applyControls(Game& g, int key);
+		static void setDefaultControls();
+		static void loadCustomControls();
+		static void applyDrunkSwerve(Game& g);
+};
+
+
+
+
+
+#endif
