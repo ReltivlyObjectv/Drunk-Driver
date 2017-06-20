@@ -1,10 +1,12 @@
-/*Author: Alexander Nguyen
-Modify by: Alexander Nguyen
-Date:6/17/2017
 
-Purpose: Create a start menu that will necessary function
-also have it connect to php file and upload score.
-*/
+
+/*Author: Alexander Nguyen
+  Modify by: Alexander Nguyen
+  Date:6/17/2017
+
+  Purpose: Create a start menu that will necessary function
+  also have it connect to php file and upload score.
+  */
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
@@ -17,31 +19,17 @@ also have it connect to php file and upload score.
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <stdlib.h>
+#include <GL/gl.h>
 #include <GL/glx.h>
+#include <GL/glu.h>
 #include "fonts.h"
 #include "log.h"
 #include "ppm.h"
-  
-typedef double Flt;
-typedef double Vec[3];
-typedef Flt Matrix [4][4];
+#include "game.h"
 
-//macros
-#define rnd() (((double)rand())/(double)RAND_MAX)
-#define random(a) (rand()%a)
-#define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
-#define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]
 
-struct Vec { 
-    float x, y, z;
-};
-
-struct Shape {
-  float width, height;
-	float radius;
-	Vec center;
-};
-
+int xres=1200;
+int yres=800;
 #define MAXBUTTONS 8
 //button click from bship framework
 typedef struct t_button {
@@ -50,7 +38,6 @@ typedef struct t_button {
     int over;
     int down;
     int mouse[2];
-    int down;
     float color[3];
     float dcolor[3];
     int click;
@@ -72,32 +59,27 @@ bool game = false;
 //Start Menu
 void gamemenu(void)
 {
-	glPushMatrix();
-	glBindTexture(GL_Texture_2D,0);
-	glEnable(GL_TEXTURE_2D);
-	glBegin(GL_QUAD); //look at bttleship init_opengl to place ppm images
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); // will modify when it compiles
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,yres);
-	glTexCoord2f(0.0f,0.0f); glVertex2i(xres,yres);
-	glTexCoord2f(0.0f,0.0f); glVertex2i(xres,0);
-	glEnd();
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D,0);
+    glEnable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS); //look at bttleship init_opengl to place ppm images
+    glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); // will modify when it compiles
+    glTexCoord2f(0.0f,0.0f); glVertex2i(0,yres);
+    glTexCoord2f(0.0f,0.0f); glVertex2i(xres,yres);
+    glTexCoord2f(0.0f,0.0f); glVertex2i(xres,0);
+    glEnd();
 }
 
 
 void button_init(void)
 {
-	//add button function to initiate	
+    //add button function to initiate	
 }
 
 void button_render(void)
 {
-	//add render function to render button
+    //add render function to render button
 }
 
 
-//Team Members
-void print_group()
-{
-  string group[] = {"Alex", "Dave", "Christian", "Abdullah"};
-}
 
