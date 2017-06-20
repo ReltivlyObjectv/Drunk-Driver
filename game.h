@@ -68,12 +68,7 @@ class Game {
 
 class ControlManager {
 	public:
-		//Keys
-		static int turnLeft, turnRight, slowDown, speedUp;
-		//Other Methods
 		static void applyControls(Game& g, int key);
-		static void setDefaultControls();
-		static void loadCustomControls();
 		static void applyDrunkSwerve(Game& g);
 };
 

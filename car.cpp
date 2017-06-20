@@ -48,7 +48,6 @@ Game g;
 int main(void)
 {
 	printf("Loading Drunk Driver\n");
-	ControlManager::loadCustomControls();
 	//init();
 	initXWindows();
 	init_opengl();
