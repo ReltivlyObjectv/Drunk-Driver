@@ -10,7 +10,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
+
+#ifdef __APPLE__
+#else
 #include <malloc.h>
+#endif
+
 #include <stdarg.h>
 #include <unistd.h>
 #include <GL/glx.h>

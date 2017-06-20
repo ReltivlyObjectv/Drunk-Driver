@@ -3,3 +3,5 @@ car
 
 # Do not commit temporary files
 *~
+
+libggfonts.a
