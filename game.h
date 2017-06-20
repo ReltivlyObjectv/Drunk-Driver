@@ -49,6 +49,7 @@ class Game {
 		int xres, yres;
 		int done;
 		int inebriationLevel;
+		double speed;
 		Flt aspectRatio;
 		Vec cameraPosition;
 		GLfloat lightPosition[4];
@@ -62,14 +63,19 @@ class Game {
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 			lightPosition[3] = 1.0f;
 			done = 0;
+			speed = 0.1;
+			inebriationLevel = 3;
 		}
 };
 
 
 class ControlManager {
 	public:
+		static bool movingLeft, movingRight, slowingDown, speedingUp;
 		static void applyControls(Game& g, int key);
 		static void applyDrunkSwerve(Game& g);
+		static void moveForward(Game& g);
+		static double calculateSwerveModifier(int inebriationLevel);
 };
 
 
