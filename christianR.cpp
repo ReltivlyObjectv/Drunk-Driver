@@ -17,7 +17,7 @@ void ControlManager::loadCustomControls(){
 
 void ControlManager::applyDrunkSwerve(Game& g){
 	g.cameraPosition[2] -= 0.1;
-	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
+	g.cameraPosition[0] = 0.0 + sin(g.cameraPosition[2]*0.3);
 }
 
 void ControlManager::applyControls(Game& g, int key){
