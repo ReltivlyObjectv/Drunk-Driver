@@ -25,6 +25,12 @@
 #include "log.h"
 #include "fonts.h"
 #include "game.h"
+#include "ppm.h"
+//---------------------------------------
+//Alex start menu images
+Ppmimage *menuImage = NULL;
+GLuint menuTexture;
+//---------------------------------------
 
 
 //X Windows variables
@@ -168,7 +174,15 @@ void init_opengl(void)
 	//Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+	menuImage	= ppm6GetImage("./images/menu.ppm");
+	glGenTextures(1 , &menuTexture);
 	//init_textures();
+	glBindTexture(GL_TEXTURE_2D, menuTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3,
+            g.xres, g.yres,
+            0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	 
 }
 
 void check_resize(XEvent *e)
