@@ -351,7 +351,8 @@ void render(void)
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
-	ggprint8b(&r, 16, 0x00887766, "car framework");
+	ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
+	drawDebugInfo(g);
 	glPopAttrib();
 }
 

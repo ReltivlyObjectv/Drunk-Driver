@@ -1,24 +1,36 @@
 //Christian Russell
+//June 20, 2017
+//-Created Control Manager
+//--Interprets keyboard
+//--Drunk swerve calculation based on drunkness level
+//--Reads keyboard and applies controls:
+//--Turn left, right, and speed up, and slow down
+//--Bounds checking to make sure you don't swerve off map
+//--Send you to beginning of road once a certain point is reached
+//---to create seamless loop
+//--Makes light follow car like a headlight
+//-Added to Game class
+//--Converter for camera speed to MPH
+//-Other Changes
+//--Added debug info screen to display important variables
+
+#include <iostream>
 #include <math.h>
 #include <stdio.h>
 #include <ctime>
+#include <string>
+#include <sstream>
 #include "game.h"
+#include "fonts.h"
 #define BASIC_MOVEMENT 0.1
 #define MAX_MOVEMENT 1
-#define MIN_MOVEMENT 0.5
+#define MIN_MOVEMENT 0.1
 #define ROAD_WIDTH 4
-/* 
-	int turnLeft, turnRight, slowDown, speedUp;
-	void setDefaultControls();
-	void loadCustomControls();
-*/
-//bool movingLeft, movingRight, slowingDown, speedingUp;
+
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
      ControlManager::slowingDown,
      ControlManager::speedingUp;
-
-
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = 
@@ -43,7 +55,6 @@ void ControlManager::applyDrunkSwerve(Game& g)
 	g.cameraPosition[0] += swerveMovement;
 	
 }
-
 void ControlManager::moveForward(Game& g)
 {
 	g.cameraPosition[2] -= g.speed;
@@ -72,7 +83,6 @@ double ControlManager::calculateSwerveModifier(int inebriationLevel)
 {
 	return 0.05 * inebriationLevel;
 }
-
 void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
 	switch(key) {
@@ -112,4 +122,26 @@ void ControlManager::checkBounds(Game& g){
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 	}
 }
+double Game::getMPH(){
+	return speed * 60;
+}
+void drawDebugInfo(Game& g){
+	Rect debugStats;
+	debugStats.bot = g.yres - 20;
+	debugStats.left = g.xres - (150);
+	debugStats.center = 0;
+	char buffer[50];
+	sprintf(buffer, "Speed: %02.3f", g.speed);
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	sprintf(buffer, "Speed: %2.1f MPH", g.getMPH());
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+}
+
+
+
+
+
+
 

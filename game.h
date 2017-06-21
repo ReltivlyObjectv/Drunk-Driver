@@ -65,9 +65,11 @@ class Game {
 			speed = 0.1;
 			inebriationLevel = 3;
 		}
+		double getMPH();
 };
 
 void drawStreet(Game& g);
+void drawDebugInfo(Game& g);
 
 class ControlManager {
 	public:
