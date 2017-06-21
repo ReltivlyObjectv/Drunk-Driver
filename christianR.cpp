@@ -51,6 +51,12 @@ void ControlManager::moveForward(Game& g)
 	if(movingRight){
 		g.cameraPosition[0] += 0.1;
 	}
+	if(speedingUp){
+		g.speed *= 1.1;
+	}
+	if(slowingDown){
+		g.speed *= 0.95;
+	}
 }
 double ControlManager::calculateSwerveModifier(int inebriationLevel)
 {
@@ -73,13 +79,13 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 		case XK_Up:
 		case XK_w:
 			printf("Key is pressed: %s (%d)\n", "Speed Up", key);
-			g.speed *= 1.1;
+			ControlManager::speedingUp = isPress;
 			printf("Speeding Up. Velocity: %.5f\n", g.speed);
 			break;
 		case XK_Down:
 		case XK_s:
 			printf("Key is pressed: %s (%d)\n", "Slow Down", key);
-			g.speed *= 0.95;
+			ControlManager::slowingDown = isPress;
 			printf("Slowing Down. Velocity: %.5f\n", g.speed);
 			break;
 		case XK_Escape:
