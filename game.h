@@ -82,6 +82,7 @@ class ControlManager {
 		static void playAnimationHit();
 	private:
 		static void ControlManager::displayHitAnimation();
+
 };
 
 
