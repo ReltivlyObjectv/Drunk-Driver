@@ -131,13 +131,16 @@ void ControlManager::checkBounds(Game& g)
 }
 void ControlManager::playAnimationHit()
 {
+	printf("Playing hit animation");
 	//Called by external functions to begin playing the animation
 }
+/*
 void ControlManager::displayHitAnimation()
 {
 	//Called by playHit animation to start, then each frame to display
 
 }
+*/
 double Game::getMPH()
 {
 	return speed * 80;
