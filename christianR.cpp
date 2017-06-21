@@ -33,27 +33,20 @@ bool ControlManager::movingLeft,
      ControlManager::speedingUp;
 void ControlManager::applyDrunkSwerve(Game& g)
 {
-	double swerveMovement = 
-		sin(
-		g.cameraPosition[2] * 
-		ControlManager::calculateSwerveModifier(g.inebriationLevel)
-		) * .05;
-	//printf("%f\n", g.cameraPosition[0]);
-	//g.cameraPosition[0] += sin(g.cameraPosition[2] / 4) * calculateSwerveModifier(g.inebriationLevel);	
-	if(ControlManager::movingLeft) {
-		if(swerveMovement > 0) {		
-			swerveMovement = -1 * BASIC_MOVEMENT / 2;
+	double swerveMovement = ControlManager::calculateSwerveModifier(g);
+		if(ControlManager::movingLeft) {
+			if(swerveMovement > 0) {		
+				swerveMovement = -1 * BASIC_MOVEMENT / 2;
+			}
+		}else if(ControlManager::movingLeft) {
+			if(swerveMovement > 0) {		
+				swerveMovement =  BASIC_MOVEMENT / 2;
+			}
+		}else {
+
 		}
-	}else if(ControlManager::movingLeft) {
-		if(swerveMovement > 0) {		
-			swerveMovement =  BASIC_MOVEMENT / 2;
-		}
-	
-	}else {
-	
-	}
 	g.cameraPosition[0] += swerveMovement;
-	
+
 }
 void ControlManager::moveForward(Game& g)
 {
@@ -67,7 +60,7 @@ void ControlManager::moveForward(Game& g)
 	}
 	if(speedingUp){
 		if(g.speed < MAX_MOVEMENT){
-			g.speed *= 1.1;
+			g.speed += .001;
 		}
 	}
 	if(slowingDown){
@@ -79,9 +72,15 @@ void ControlManager::moveForward(Game& g)
 		g.cameraPosition[2] = 2;
 	}
 }
-double ControlManager::calculateSwerveModifier(int inebriationLevel)
+double ControlManager::calculateSwerveModifier(Game& g)
 {
-	return 0.05 * inebriationLevel;
+	double inebriationLevelModifier = (1 + (g.inebriationLevel / 3));
+	//printf("%f\n", g.cameraPosition[0]);
+	//g.cameraPosition[0] += sin(g.cameraPosition[2] / 4) * calculateSwerveModifier(g.inebriationLevel);	
+	/*
+	 *  * .05;
+	 */
+	return 0.05 * sin(g.cameraPosition[2] / 4.0)  * inebriationLevelModifier;
 }
 void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
@@ -123,7 +122,7 @@ void ControlManager::checkBounds(Game& g){
 	}
 }
 double Game::getMPH(){
-	return speed * 60;
+	return speed * 80;
 }
 void drawDebugInfo(Game& g){
 	Rect debugStats;
