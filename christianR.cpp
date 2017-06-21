@@ -9,6 +9,7 @@
 //--Send you to beginning of road once a certain point is reached
 //---to create seamless loop
 //--Makes light follow car like a headlight
+//--Animation function for when an object is hit
 //-Added to Game class
 //--Converter for camera speed to MPH
 //-Other Changes
@@ -30,15 +31,16 @@
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
      ControlManager::slowingDown,
-     ControlManager::speedingUp;
+     ControlManager::speedingUp, 
+     ControlManager::hittingObject;
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
 		if(ControlManager::movingLeft) {
-			if(swerveMovement > 0) {		
+			if(swerveMovement < 0) {		
 				swerveMovement = -1 * BASIC_MOVEMENT / 2;
 			}
-		}else if(ControlManager::movingLeft) {
+		}else if(ControlManager::movingRight) {
 			if(swerveMovement > 0) {		
 				swerveMovement =  BASIC_MOVEMENT / 2;
 			}
@@ -50,6 +52,7 @@ void ControlManager::applyDrunkSwerve(Game& g)
 }
 void ControlManager::moveForward(Game& g)
 {
+	//TODO Headlight
 	g.cameraPosition[2] -= g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
 	if(movingLeft){
@@ -107,6 +110,10 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 			ControlManager::slowingDown = isPress;
 			printf("Slowing Down. Velocity: %.5f\n", g.speed);
 			break;
+		case XK_h:
+			printf("Key is pressed: %s (%d)\n", "Hit Animation", key);
+			ControlManager::playAnimationHit();
+			break;
 		case XK_Escape:
 			printf("Key is pressed: %s (%d)\n", "Escape", key);
 			g.done = 1;
@@ -120,6 +127,9 @@ void ControlManager::checkBounds(Game& g){
 	if(g.cameraPosition[0] < -1 * ROAD_WIDTH){
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 	}
+}
+void ControlManager::playAnimationHit(){
+	
 }
 double Game::getMPH(){
 	return speed * 80;
