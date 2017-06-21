@@ -1,47 +1,73 @@
 //Christian Russell
 #include <math.h>
-#include "game.h"
 #include <stdio.h>
-
+#include <ctime>
+#include "game.h"
+#define BASIC_MOVEMENT 0.1
 /* 
- int turnLeft, turnRight, slowDown, speedUp;
- void setDefaultControls();
- void loadCustomControls();
- */
+	int turnLeft, turnRight, slowDown, speedUp;
+	void setDefaultControls();
+	void loadCustomControls();
+*/
 //bool movingLeft, movingRight, slowingDown, speedingUp;
 bool ControlManager::movingLeft,
-	ControlManager::movingRight,
-	ControlManager::slowingDown,
-	ControlManager::speedingUp;
+     ControlManager::movingRight,
+     ControlManager::slowingDown,
+     ControlManager::speedingUp;
 
 
 void ControlManager::applyDrunkSwerve(Game& g)
-{	
-	g.cameraPosition[0] = sin(g.cameraPosition[2] * ControlManager::calculateSwerveModifier(g.inebriationLevel));
+{
+	double swerveMovement = 
+		sin(
+		g.cameraPosition[2] * 
+		ControlManager::calculateSwerveModifier(g.inebriationLevel)
+		) * .05;
+	//printf("%f\n", g.cameraPosition[0]);
+	//g.cameraPosition[0] += sin(g.cameraPosition[2] / 4) * calculateSwerveModifier(g.inebriationLevel);	
+	if(ControlManager::movingLeft) {
+		if(swerveMovement > 0) {		
+			swerveMovement = -1 * BASIC_MOVEMENT / 2;
+		}
+	}else if(ControlManager::movingLeft) {
+		if(swerveMovement > 0) {		
+			swerveMovement =  BASIC_MOVEMENT / 2;
+		}
+	
+	}else {
+	
+	}
+	g.cameraPosition[0] += swerveMovement;
+	
 }
 
 void ControlManager::moveForward(Game& g)
 {
 	g.cameraPosition[2] -= g.speed;
+	if(movingLeft){
+		g.cameraPosition[0] -= 0.1;
+	}
+	if(movingRight){
+		g.cameraPosition[0] += 0.1;
+	}
 }
 double ControlManager::calculateSwerveModifier(int inebriationLevel)
 {
 	return 0.05 * inebriationLevel;
 }
 
-void ControlManager::applyControls(Game& g, int key)
+void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
 	switch(key) {
 		case XK_Right:
 		case XK_d:
 			printf("Key is pressed: %s (%d)\n", "Right", key);
-			g.cameraPosition[0] += 0.1;
+			ControlManager::movingRight = isPress;
 			break;
 		case XK_Left:
 		case XK_a:
 			printf("Key is pressed: %s (%d)\n", "Left", key);
-			g.cameraPosition[0] -= 5;
-			movingLeft = true;
+			ControlManager::movingLeft = isPress;
 			break;
 		case XK_Up:
 		case XK_w:

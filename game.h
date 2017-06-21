@@ -72,7 +72,7 @@ class Game {
 class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp;
-		static void applyControls(Game& g, int key);
+		static void applyControls(Game& g, int key, bool isPress);
 		static void applyDrunkSwerve(Game& g);
 		static void moveForward(Game& g);
 		static double calculateSwerveModifier(int inebriationLevel);
