@@ -68,7 +68,7 @@ void ControlManager::moveForward(Game& g)
 	}
 	if(slowingDown){
 		if(g.speed > MIN_MOVEMENT){
-			g.speed *= 0.95;
+			g.speed -= .005;
 		}
 	}
 	if(g.cameraPosition[2] <= -100){
