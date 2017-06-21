@@ -6,7 +6,7 @@
  */
 
 /* 6/17/17 : Borrow some definition and function from bship and moditify it
- * 6/21/17 :
+ * 6/21/17 : add ppm image of menu, start button init function move check mouse
  *
  *
  *
