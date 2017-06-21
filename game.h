@@ -5,7 +5,6 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 
-void drawStreet();
 void box (float , float , float );
 
 //some defined macros
@@ -68,6 +67,7 @@ class Game {
 		}
 };
 
+void drawStreet(Game& g);
 
 class ControlManager {
 	public:
