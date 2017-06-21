@@ -181,7 +181,7 @@ void init_opengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, 3,
-            g.xres, g.yres,
+            menuImage->width, menuImage->height,
             0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	 
 }
 
@@ -212,7 +212,7 @@ Flt vecNormalize(Vec vec) {
 	return len;
 }
 
-void check_mouse(XEvent *e)
+/*void check_mouse(XEvent *e)
 {
 	//Did the mouse move?
 	//Was a mouse button clicked?
@@ -236,7 +236,7 @@ void check_mouse(XEvent *e)
 		savey = e->xbutton.y;
 	}
 }
-
+*/
 void check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
