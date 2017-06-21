@@ -48,7 +48,7 @@ void initOpengl(void)
 	//
 	//load the images file into a ppm structure.
 	//
-//	inCarImage     = ppm6GetImage("./images/inCar.ppm");
+	inCarImage = ppm6GetImage("inCarPic.ppm");
 	//forestImage      = ppm6GetImage("./images/forest.ppm");
 	//forestTransImage = ppm6GetImage("./images/forestTrans.ppm");
 	//umbrellaImage    = ppm6GetImage("./images/umbrella.ppm");
