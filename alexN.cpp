@@ -30,6 +30,9 @@
 
 int xres=1200;
 int yres=800;
+int game = 1;
+int startgame = 1;
+int done = 0;
 #define MAXBUTTONS 8
 //button click from bship framework
 typedef struct t_button {
@@ -47,14 +50,15 @@ int nbuttons=0;
 
 Button button[MAXBUTTONS];
 void gamemenu(void);
-void mouse_click(int b_click, int action, int x, int y);
+void mouse_click(int action);
 void check_mouse(XEvent *e);
 
 
 //initalize buttons in its own function
 void button_init(void);
 void button_render(void);
-bool game = false;
+bool score = true;
+bool credits = true;
 
 //Start Menu
 void gamemenu(void)
@@ -68,6 +72,9 @@ void gamemenu(void)
     glTexCoord2f(0.0f,0.0f); glVertex2i(xres,yres);
     glTexCoord2f(0.0f,0.0f); glVertex2i(xres,0);
     glEnd();
+    button_init();
+    button_render();
+  
 }
 
 
@@ -81,5 +88,33 @@ void button_render(void)
     //add render function to render button
 }
 
+void mouse_click(int action)
+{
+  //check to see game runs
+  if (game) {
+    if (action == 1) {
+      //center of menu
+      int center = 0;
+      for (int i=0;nbuttons; i++) {
+        button[i].down = 1;
+        button[i].click = 1;
+        if (i == 0) {
+          //start the game
+          start = 0;
+        } 
+        if (i == 1) {
+          score;
+        }
+        if (i == 2) {
+          credits;
+        }
+        if (i == 3) {
+          //set check key escape to done=1
+          done = 1;
+        }
+      }
+    }
+  }
+}
 
-
+      
