@@ -78,7 +78,7 @@ class ControlManager {
 		static void applyDrunkSwerve(Game& g);
 		static void moveForward(Game& g);
 		static void checkBounds(Game& g);
-		static double calculateSwerveModifier(int inebriationLevel);
+		static double calculateSwerveModifier(Game& g);
 };
 
 
