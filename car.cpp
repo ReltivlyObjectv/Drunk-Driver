@@ -228,7 +228,10 @@ void check_keys(XEvent *e)
 	//Was there input from the keyboard?
 	if (e->type == KeyPress) {
 		int key = XLookupKeysym(&e->xkey, 0);
-		ControlManager::applyControls(g, key);
+		ControlManager::applyControls(g, key, true);
+	} else if (e->type == KeyRelease) {
+		int key = XLookupKeysym(&e->xkey, 0);
+		ControlManager::applyControls(g, key, false);
 	}
 }
 
