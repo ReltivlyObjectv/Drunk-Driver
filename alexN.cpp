@@ -5,8 +5,8 @@
   Purpose: Create a start menu that will have Start, High Score, Credits and Exit
  */
 
-/*
- *
+/* 6/17/17 : Borrow some definition and function from bship and moditify it
+ * 6/21/17 :
  *
  *
  *
@@ -33,8 +33,6 @@
 #include "game.h"
 
 
-int xres=500;
-int yres=500;
 int game = 1;
 int startgame = 1;
 int done = 0;
@@ -59,7 +57,8 @@ void gamemenu(void);
 void mouse_click(int action);
 void check_mouse(XEvent *e);
 
-
+extern Game g;
+extern GLuint menuTexture;
 //initalize buttons in its own function
 void button_init(void);
 void button_render(void);
@@ -77,15 +76,16 @@ void gamemenu(void)
     glEnable(GL_COLOR_MATERIAL);
     glShadeModel(GL_SMOOTH);
     glDisable(GL_LIGHTING);
-    glBindTexture(GL_TEXTURE_2D,0);
-    glEnable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS); //look at bttleship init_opengl to place ppm images
-    glColor3f(100,100,0);
-    glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); // will modify when it compiles
-    glTexCoord2f(5.0f,5.0f); glVertex2i(0,yres);
-    glTexCoord2f(10.0f,5.0f); glVertex2i(xres,yres);
-    glTexCoord2f(0.0f,5.0f); glVertex2i(xres,0);
+    glBindTexture(GL_TEXTURE_2D,menuTexture);
+    glBegin(GL_QUADS); 
+    glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); 
+    glTexCoord2f(0.0f,5.0f); glVertex2i(0,g.yres);
+    glTexCoord2f(50.0f,5.0f); glVertex2i(g.xres,g.yres);
+    glTexCoord2f(5.0f,0.0f); glVertex2i(g.xres,0);
+  
     glEnd();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glPopMatrix();
     button_init();
     button_render();
   
