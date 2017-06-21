@@ -4,6 +4,8 @@
 #include <ctime>
 #include "game.h"
 #define BASIC_MOVEMENT 0.1
+#define MAX_MOVEMENT 1
+#define MIN_MOVEMENT 0.5
 #define ROAD_WIDTH 4
 /* 
 	int turnLeft, turnRight, slowDown, speedUp;
@@ -52,10 +54,17 @@ void ControlManager::moveForward(Game& g)
 		g.cameraPosition[0] += 0.1;
 	}
 	if(speedingUp){
-		g.speed *= 1.1;
+		if(g.speed < MAX_MOVEMENT){
+			g.speed *= 1.1;
+		}
 	}
 	if(slowingDown){
-		g.speed *= 0.95;
+		if(g.speed > MIN_MOVEMENT){
+			g.speed *= 0.95;
+		}
+	}
+	if(g.cameraPosition[2] <= -40){
+		g.cameraPosition[2] = 2;
 	}
 }
 double ControlManager::calculateSwerveModifier(int inebriationLevel)
