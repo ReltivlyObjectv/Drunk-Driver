@@ -313,6 +313,7 @@ void physics(void)
 {
 	ControlManager::applyDrunkSwerve(g);
 	ControlManager::moveForward(g);
+	ControlManager::checkBounds(g);
 }
 
 void render(void)

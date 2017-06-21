@@ -4,6 +4,7 @@
 #include <ctime>
 #include "game.h"
 #define BASIC_MOVEMENT 0.1
+#define ROAD_WIDTH 4
 /* 
 	int turnLeft, turnRight, slowDown, speedUp;
 	void setDefaultControls();
@@ -85,6 +86,14 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 			printf("Key is pressed: %s (%d)\n", "Escape", key);
 			g.done = 1;
 			break;
+	}
+}
+void ControlManager::checkBounds(Game& g){
+	if(g.cameraPosition[0] > ROAD_WIDTH){
+		g.cameraPosition[0] = ROAD_WIDTH;
+	}
+	if(g.cameraPosition[0] < -1 * ROAD_WIDTH){
+		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 	}
 }
 void drawStreet()
