@@ -120,7 +120,8 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 			break;
 	}
 }
-void ControlManager::checkBounds(Game& g){
+void ControlManager::checkBounds(Game& g)
+{
 	if(g.cameraPosition[0] > ROAD_WIDTH){
 		g.cameraPosition[0] = ROAD_WIDTH;
 	}
@@ -128,10 +129,17 @@ void ControlManager::checkBounds(Game& g){
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 	}
 }
-void ControlManager::playAnimationHit(){
-	
+void ControlManager::playAnimationHit()
+{
+	//Called by external functions to begin playing the animation
 }
-double Game::getMPH(){
+void ControlManager::displayHitAnimation()
+{
+	//Called by playHit animation to start, then each frame to display
+
+}
+double Game::getMPH()
+{
 	return speed * 80;
 }
 void drawDebugInfo(Game& g){
