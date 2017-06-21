@@ -73,12 +73,13 @@ void drawDebugInfo(Game& g);
 
 class ControlManager {
 	public:
-		static bool movingLeft, movingRight, slowingDown, speedingUp;
+		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;
 		static void applyControls(Game& g, int key, bool isPress);
 		static void applyDrunkSwerve(Game& g);
 		static void moveForward(Game& g);
 		static void checkBounds(Game& g);
 		static double calculateSwerveModifier(Game& g);
+		static void playAnimationHit();
 };
 
 
