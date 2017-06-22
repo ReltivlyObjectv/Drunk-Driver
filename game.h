@@ -70,7 +70,7 @@ class Game {
 
 void drawStreet(Game& g);
 void drawDebugInfo(Game& g);
-
+void check_button(XEvent *e);
 class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;

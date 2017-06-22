@@ -134,17 +134,17 @@ void check_button(XEvent *e)
 {
 	static int savex = 0;
 	static int savey = 0;
-	int x,y;
+	int x = e->xbutton.x;
+	int y = e->xbutton.y;;
 	int i;
 	int lbutton=0;
 	int rbutton=0;
 
-	if (x == savex && y == savey)
-		return;
-	savex=x;
-	savey=y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+	savex=e->xbutton.x;
+	savey=e->xbutton.y;
 
-
+	}
 	for (i=0; i<nbuttons; i++) {
 		button[i].over=0;
 		button[i].down=0;
@@ -169,7 +169,7 @@ void mouse_click(int action)
  
     if (action == 1) {
       //center of menu
-      for (int i=0;nbuttons; i++) {
+      for (int i=0; i<nbuttons; i++) {
         button[i].down = 1;
         button[i].click = 1;
         if (i == 0) {
