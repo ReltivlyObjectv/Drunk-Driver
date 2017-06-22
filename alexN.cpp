@@ -55,7 +55,8 @@ int nbuttons=0;
 Button button[MAXBUTTONS];
 void gamemenu(void);
 void mouse_click(int action);
-void check_mouse(XEvent *e);
+void check_button(XEvent *e);
+
 
 extern Game g;
 extern GLuint menuTexture;
@@ -86,7 +87,9 @@ void gamemenu(void)
     glEnd();
     glBindTexture(GL_TEXTURE_2D, 0);
     glPopMatrix();
-    button_init();
+    if(game) {	
+    	button_init();
+    }
     button_render();
   
 }
@@ -127,7 +130,7 @@ void button_render(void)
 
 
 //move check mouse from car.cpp to this .cpp
-void check_mouse(XEvent *e)
+void check_button(XEvent *e)
 {
 	static int savex = 0;
 	static int savey = 0;
@@ -136,30 +139,6 @@ void check_mouse(XEvent *e)
 	int lbutton=0;
 	int rbutton=0;
 
-	if (e->type == ButtonRelease) {
-		mouse_click(2);
-		return;
-	}
-	if (e->type == ButtonPress) {
-		if (e->xbutton.button==1) {
-			//Left button is down
-			lbutton=1;
-		}
-		if (e->xbutton.button==3) {
-			//Right button is down
-			rbutton=1;
-		}
-	}
-	x = e->xbutton.x;
-	y = e->xbutton.y;
-	
-	//reverse the y position
-	y = g.yres - y;
-	if (savex != e->xbutton.x || savey != e->xbutton.y) {
-		//Mouse moved
-		savex = e->xbutton.x;
-		savey = e->xbutton.y;
-	}
 	if (x == savex && y == savey)
 		return;
 	savex=x;
