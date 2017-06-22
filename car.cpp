@@ -212,7 +212,7 @@ Flt vecNormalize(Vec vec) {
 	return len;
 }
 
-/*void check_mouse(XEvent *e)
+void check_mouse(XEvent *e)
 {
 	//Did the mouse move?
 	//Was a mouse button clicked?
@@ -235,8 +235,9 @@ Flt vecNormalize(Vec vec) {
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
+	check_button(e);//Check to see if it works 
 }
-*/
+
 void check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
