@@ -344,8 +344,8 @@ void render(void)
 	//for documentation...
 	gluLookAt(
 		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
-		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2]-1.0,
-		g.up[0], g.up[1], g.up[2]);
+		g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
+		0, 1, 0);
 	//
 	drawStreet(g);
 	//
