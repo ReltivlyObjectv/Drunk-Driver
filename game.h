@@ -67,6 +67,7 @@ class Game {
 			inebriationLevel = 3;
 		}
 		double getMPH();
+		double getDistanceMiles();
 };
 
 void drawStreet(Game& g);
