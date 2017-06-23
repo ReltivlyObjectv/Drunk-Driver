@@ -27,6 +27,7 @@
 #define MAX_MOVEMENT 1
 #define MIN_MOVEMENT 0.1
 #define ROAD_WIDTH 4
+#define SPEED_TO_MPH_MULT 100
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -56,23 +57,23 @@ void ControlManager::moveForward(Game& g)
 	g.cameraPosition[2] -= g.speed;
 	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
-	if(movingLeft){
+	if(movingLeft) {
 		g.cameraPosition[0] -= 0.1;
 	}
-	if(movingRight){
+	if(movingRight) {
 		g.cameraPosition[0] += 0.1;
 	}
-	if(speedingUp){
-		if(g.speed < MAX_MOVEMENT){
+	if(speedingUp) {
+		if(g.speed < MAX_MOVEMENT) {
 			g.speed += .001;
 		}
 	}
-	if(slowingDown){
-		if(g.speed > MIN_MOVEMENT){
+	if(slowingDown) {
+		if(g.speed > MIN_MOVEMENT) {
 			g.speed -= .005;
 		}
 	}
-	if(g.cameraPosition[2] <= -100){
+	if(g.cameraPosition[2] <= -100) {
 		g.cameraPosition[2] = 2;
 	}
 }
@@ -123,17 +124,17 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 }
 void ControlManager::checkBounds(Game& g)
 {
-	if(g.cameraPosition[0] > ROAD_WIDTH){
+	if(g.cameraPosition[0] > ROAD_WIDTH) {
 		g.cameraPosition[0] = ROAD_WIDTH;
 	}
-	if(g.cameraPosition[0] < -1 * ROAD_WIDTH){
+	if(g.cameraPosition[0] < -1 * ROAD_WIDTH) {
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 	}
 }
 void ControlManager::playAnimationHit()
 {
-	printf("Playing hit animation");
 	//Called by external functions to begin playing the animation
+	printf("Playing hit animation");
 }
 /*
 void ControlManager::displayHitAnimation()
@@ -144,21 +145,31 @@ void ControlManager::displayHitAnimation()
 */
 double Game::getMPH()
 {
-	return speed * 80;
+	return speed * SPEED_TO_MPH_MULT;
 }
-void drawDebugInfo(Game& g){
+double Game::getDistanceMiles(){
+	return distanceTraveled / SPEED_TO_MPH_MULT;
+}
+void drawDebugInfo(Game& g)
+{
 	Rect debugStats;
 	debugStats.bot = g.yres - 20;
-	debugStats.left = g.xres - (150);
+	debugStats.left = g.xres - (175);
 	debugStats.center = 0;
 	char buffer[50];
+	//Speed
 	sprintf(buffer, "Speed: %02.3f", g.speed);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	sprintf(buffer, "Speed: %2.1f MPH", g.getMPH());
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
-	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
-	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	//Distance Traveled
 	sprintf(buffer, "Distance Traveled: %.3f", g.distanceTraveled);
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	sprintf(buffer, "Distance Traveled: %.1f Miles", g.getDistanceMiles());
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	
+	//Left/Right position
+	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 }
 
