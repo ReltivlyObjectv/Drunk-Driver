@@ -7,11 +7,13 @@
 
 /* 6/17/17 : Borrow some definition and function from bship and moditify it
  * 6/21/17 : add ppm image of menu, start button init function move check mouse
- *
+ * 6/22/17 :Move check mouse back and add the function to it to extend check mouse
  *
  *
  *
  */
+
+//Will fix the include on Saturday
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
@@ -94,14 +96,15 @@ void gamemenu(void)
   
 }
 
-
+//Will modify once menu is up and running
 void button_init(void)
 {
     //add button function to initiate
-	button[nbuttons].r.width = 0;
-	button[nbuttons].r.height = 0;
+	//Start button
+	button[nbuttons].r.width = 100;
+	button[nbuttons].r.height = 50;
 	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
-	button[nbuttons].r.bot = 0;
+	button[nbuttons].r.bot = 500;
 	button[nbuttons].r.right = 
 		button[nbuttons].r.left + button[nbuttons].r.width;
 	button[nbuttons].r.top = 
@@ -116,9 +119,81 @@ void button_init(void)
 	button[nbuttons].color[0] = 0.0f;
 	button[nbuttons].color[1] = 0.0f;
 	button[nbuttons].color[2] = 0.0f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.0f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.0f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.0f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x0000ffff;
+	nbuttons++;
+	//High Score button
+	button[nbuttons].r.width = 300;
+	button[nbuttons].r.height = 50;
+	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
+	button[nbuttons].r.bot = 400;
+	button[nbuttons].r.right = 
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = 
+		button[nbuttons].r.bot + button[nbuttons].r.height;
+	button[nbuttons].r.centerx = 
+		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = 
+		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "High Score");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.0f;
+	button[nbuttons].color[1] = 0.0f;
+	button[nbuttons].color[2] = 0.0f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x0000ffff;
+	nbuttons++;
+	//Credits button
+	button[nbuttons].r.width = 150;
+	button[nbuttons].r.height = 50;
+	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
+	button[nbuttons].r.bot = 300;
+	button[nbuttons].r.right = 
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = 
+		button[nbuttons].r.bot + button[nbuttons].r.height;
+	button[nbuttons].r.centerx = 
+		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = 
+		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Credits");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.0f;
+	button[nbuttons].color[1] = 0.0f;
+	button[nbuttons].color[2] = 0.0f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	button[nbuttons].text_color = 0x0000ffff;
+	nbuttons++;
+	//Quit button
+	button[nbuttons].r.width = 100;
+	button[nbuttons].r.height = 50;
+	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
+	button[nbuttons].r.bot = 200;
+	button[nbuttons].r.right = 
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = 
+		button[nbuttons].r.bot + button[nbuttons].r.height;
+	button[nbuttons].r.centerx = 
+		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = 
+		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Exit");
+	button[nbuttons].down = 0;
+	button[nbuttons].click = 0;
+	button[nbuttons].color[0] = 0.0f;
+	button[nbuttons].color[1] = 0.0f;
+	button[nbuttons].color[2] = 0.0f;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
 	button[nbuttons].text_color = 0x0000ffff;
 	nbuttons++;
 }
