@@ -48,7 +48,7 @@ class Game {
 		int xres, yres;
 		int done;
 		int inebriationLevel;
-		double speed;
+		double speed, distanceTraveled;
 		Flt aspectRatio;
 		Vec cameraPosition;
 		GLfloat lightPosition[4];
@@ -63,6 +63,7 @@ class Game {
 			lightPosition[3] = 1.0f;
 			done = 0;
 			speed = 0.1;
+			distanceTraveled = 0;
 			inebriationLevel = 3;
 		}
 		double getMPH();

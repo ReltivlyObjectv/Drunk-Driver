@@ -54,6 +54,7 @@ void ControlManager::moveForward(Game& g)
 {
 	//TODO Headlight
 	g.cameraPosition[2] -= g.speed;
+	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
 	if(movingLeft){
 		g.cameraPosition[0] -= 0.1;
@@ -156,6 +157,8 @@ void drawDebugInfo(Game& g){
 	sprintf(buffer, "Speed: %2.1f MPH", g.getMPH());
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	sprintf(buffer, "Distance Traveled: %.3f", g.distanceTraveled);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 }
 
