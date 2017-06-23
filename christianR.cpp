@@ -39,12 +39,12 @@ bool ControlManager::movingLeft,
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
-		if(ControlManager::movingLeft) {
-			if(swerveMovement < 0) {		
+		if (ControlManager::movingLeft) {
+			if (swerveMovement < 0) {		
 				swerveMovement = -1 * BASIC_MOVEMENT / 2;
 			}
-		}else if(ControlManager::movingRight) {
-			if(swerveMovement > 0) {		
+		}else if (ControlManager::movingRight) {
+			if (swerveMovement > 0) {		
 				swerveMovement =  BASIC_MOVEMENT / 2;
 			}
 		}else {
@@ -60,23 +60,23 @@ void ControlManager::moveForward(Game& g)
 	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
 	displayHitAnimation(g);
-	if(movingLeft) {
+	if (movingLeft) {
 		g.cameraPosition[0] -= 0.1;
 	}
-	if(movingRight) {
+	if (movingRight) {
 		g.cameraPosition[0] += 0.1;
 	}
-	if(speedingUp) {
-		if(g.speed < MAX_MOVEMENT) {
+	if (speedingUp) {
+		if (g.speed < MAX_MOVEMENT) {
 			g.speed += .001;
 		}
 	}
-	if(slowingDown) {
-		if(g.speed > MIN_MOVEMENT) {
+	if (slowingDown) {
+		if (g.speed > MIN_MOVEMENT) {
 			g.speed -= .005;
 		}
 	}
-	if(g.cameraPosition[2] <= -100) {
+	if (g.cameraPosition[2] <= -100) {
 		g.cameraPosition[2] = 2;
 	}
 }
@@ -92,7 +92,7 @@ double ControlManager::calculateSwerveModifier(Game& g)
 }
 void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
-	switch(key) {
+	switch (key) {
 		case XK_Right:
 		case XK_d:
 			printf("Key is pressed: %s (%d)\n", "Right", key);
@@ -127,20 +127,20 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 }
 void ControlManager::checkBounds(Game& g)
 {
-	if(g.cameraPosition[0] > ROAD_WIDTH) {
+	if (g.cameraPosition[0] > ROAD_WIDTH) {
 		g.cameraPosition[0] = ROAD_WIDTH;
 	}
-	if(g.cameraPosition[0] < -1 * ROAD_WIDTH) {
+	if (g.cameraPosition[0] < -1 * ROAD_WIDTH) {
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 	}
 }
 void ControlManager::playAnimationHit()
 {
 	//Called by external functions to begin playing the animation
-	if(hittingObject) {
+	if (hittingObject) {
 		printf("Hit animation already in progress\n");
 		return;
-	}else {
+	} else {
 		printf("Playing hit animation\n");
 		hittingObject = true;
 	}
@@ -148,9 +148,9 @@ void ControlManager::playAnimationHit()
 void ControlManager::displayHitAnimation(Game& g)
 {
 	//Called every frame to display any hit animations
-	if(hittingObject) {
+	if (hittingObject) {
 		static double progress = 0.0;
-		if(progress >= 3){
+		if (progress >= 3) {
 			progress = 0.0;
 			hittingObject = false;
 			g.up[1] = 0;
@@ -188,19 +188,3 @@ void drawDebugInfo(Game& g)
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
