@@ -150,12 +150,14 @@ void ControlManager::displayHitAnimation(Game& g)
 	//Called every frame to display any hit animations
 	if(hittingObject) {
 		static double progress = 0.0;
-		if(progress >= 2){
+		if(progress >= 3){
 			progress = 0.0;
 			hittingObject = false;
+			g.up[1] = 0;
+			return;
 		}
-		progress += .05;
-		g.up[1] = progress;
+		progress += .1;
+		g.up[1] = -0.3 * sin(progress);
 	}
 }
 double Game::getMPH()
