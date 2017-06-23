@@ -58,7 +58,7 @@ class Game {
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
 			up[0] = 0;
-			up[1] = 1;
+			up[1] = 0;
 			up[2] = 0;
 			MakeVector(0.0, 1.0, 8.0, cameraPosition);
 			//light is up high, right a little, toward a little
