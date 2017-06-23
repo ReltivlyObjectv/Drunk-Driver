@@ -59,6 +59,7 @@ void ControlManager::moveForward(Game& g)
 	g.cameraPosition[2] -= g.speed;
 	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
+	displayHitAnimation(g);
 	if(movingLeft) {
 		g.cameraPosition[0] -= 0.1;
 	}
@@ -136,13 +137,26 @@ void ControlManager::checkBounds(Game& g)
 void ControlManager::playAnimationHit()
 {
 	//Called by external functions to begin playing the animation
-	printf("Playing hit animation");
-	displayHitAnimation();
+	if(hittingObject) {
+		printf("Hit animation already in progress\n");
+		return;
+	}else {
+		printf("Playing hit animation\n");
+		hittingObject = true;
+	}
 }
-void ControlManager::displayHitAnimation()
+void ControlManager::displayHitAnimation(Game& g)
 {
-	//Called by playHit animation to start, then each frame to display
-
+	//Called every frame to display any hit animations
+	if(hittingObject) {
+		static double progress = 0.0;
+		if(progress >= 2){
+			progress = 0.0;
+			hittingObject = false;
+		}
+		progress += .05;
+		g.up[1] = progress;
+	}
 }
 double Game::getMPH()
 {
