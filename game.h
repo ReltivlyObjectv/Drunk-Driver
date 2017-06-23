@@ -50,13 +50,16 @@ class Game {
 		int inebriationLevel;
 		double speed, distanceTraveled;
 		Flt aspectRatio;
-		Vec cameraPosition;
+		Vec cameraPosition, up;
 		GLfloat lightPosition[4];
 		Game() {
 			//constructor
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
+			up[0] = 0;
+			up[1] = 1;
+			up[2] = 0;
 			MakeVector(0.0, 1.0, 8.0, cameraPosition);
 			//light is up high, right a little, toward a little
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
@@ -83,7 +86,7 @@ class ControlManager {
 		static double calculateSwerveModifier(Game& g);
 		static void playAnimationHit();
 	private:
-		static void displayHitAnimation();
+		static void displayHitAnimation(Game& g);
 };
 
 
