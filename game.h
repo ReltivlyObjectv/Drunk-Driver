@@ -83,7 +83,7 @@ class ControlManager {
 		static double calculateSwerveModifier(Game& g);
 		static void playAnimationHit();
 	private:
-//		static void ControlManager::displayHitAnimation();
+		static void displayHitAnimation();
 };
 
 
