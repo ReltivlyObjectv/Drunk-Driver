@@ -12,6 +12,7 @@
 //--Animation function for when an object is hit
 //-Added to Game class
 //--Converter for camera speed to MPH
+//--Converter for distance traveled to Miles
 //-Other Changes
 //--Added debug info screen to display important variables
 
@@ -28,6 +29,7 @@
 #define MIN_MOVEMENT 0.1
 #define ROAD_WIDTH 4
 #define SPEED_TO_MPH_MULT 100
+#define FPS 30
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -135,20 +137,19 @@ void ControlManager::playAnimationHit()
 {
 	//Called by external functions to begin playing the animation
 	printf("Playing hit animation");
+	displayHitAnimation();
 }
-/*
 void ControlManager::displayHitAnimation()
 {
 	//Called by playHit animation to start, then each frame to display
 
 }
-*/
 double Game::getMPH()
 {
 	return speed * SPEED_TO_MPH_MULT;
 }
 double Game::getDistanceMiles(){
-	return distanceTraveled / SPEED_TO_MPH_MULT;
+	return distanceTraveled / SPEED_TO_MPH_MULT / FPS;
 }
 void drawDebugInfo(Game& g)
 {
@@ -167,11 +168,19 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	sprintf(buffer, "Distance Traveled: %.1f Miles", g.getDistanceMiles());
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
-	
 	//Left/Right position
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 }
+
+
+
+
+
+
+
+
+
 
 
 
