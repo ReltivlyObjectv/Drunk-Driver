@@ -342,11 +342,10 @@ void render(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//for documentation...
-	Vec up = {0,1,0};
 	gluLookAt(
 		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
 		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2]-1.0,
-		up[0], up[1], up[2]);
+		g.up[0], g.up[1], g.up[2]);
 	//
 	drawStreet(g);
 	//
