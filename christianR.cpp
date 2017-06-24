@@ -1,4 +1,4 @@
-//Christian Russell
+//Author: Christian Russell
 //June 20, 2017
 //-Created Control Manager
 //--Interprets keyboard
@@ -13,10 +13,13 @@
 //-Added to Game class
 //--Converter for camera speed to MPH
 //--Converter for distance traveled to Miles
+//-Road Obstancle Class
+//--This is a class that will serve as a parent class
+//---type for all obstacles. Effects will be overrided
+//---virtual functions
 //-Other Changes
 //--Added debug info screen to display important variables
 
-#include <iostream>
 #include <math.h>
 #include <stdio.h>
 #include <ctime>
@@ -30,6 +33,8 @@
 #define ROAD_WIDTH 4
 #define SPEED_TO_MPH_MULT 100
 #define FPS 30
+#define OBSTACLE_DEPTH 5
+#define OBSTACLE_WIDTH 5
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -55,7 +60,7 @@ void ControlManager::applyDrunkSwerve(Game& g)
 }
 void ControlManager::moveForward(Game& g)
 {
-	//TODO Headlight
+	//TODO Two Headlights as light source
 	g.cameraPosition[2] -= g.speed;
 	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
@@ -84,7 +89,8 @@ double ControlManager::calculateSwerveModifier(Game& g)
 {
 	double inebriationLevelModifier = (1 + (g.inebriationLevel / 3));
 	//printf("%f\n", g.cameraPosition[0]);
-	//g.cameraPosition[0] += sin(g.cameraPosition[2] / 4) * calculateSwerveModifier(g.inebriationLevel);	
+	//g.cameraPosition[0] += sin(g.cameraPosition[2] / 4) * 
+	//calculateSwerveModifier(g.inebriationLevel);	
 	/*
 	 *  * .05;
 	 */
@@ -166,6 +172,37 @@ double Game::getMPH()
 }
 double Game::getDistanceMiles(){
 	return distanceTraveled / SPEED_TO_MPH_MULT / FPS;
+}
+/*class RoadObstacle {
+	public:
+		double roadPositionLR, roadPositionDistance;
+		RoadObstacle(double roadPosLR, double roadPosDistance);
+		bool isCameraInside(Vec camPos);
+	protected:
+		virtual void triggerHitEffects();
+};*/
+RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc) 
+{
+	roadPositionLR = roadPosLR;
+	roadPositionDistance = roadPosDistance;
+	spriteLocation = spriteLoc;	
+}
+bool RoadObstacle::isCameraInside(Game& g)
+{
+	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH
+	|| g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH
+	) {
+		return false;
+	}
+	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH
+	|| g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
+		return false;
+	}
+	return true;
+}
+void RoadObstacle::triggerHitEffects()
+{
+	ControlManager::playAnimationHit();
 }
 void drawDebugInfo(Game& g)
 {
