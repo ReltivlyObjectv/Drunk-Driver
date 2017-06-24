@@ -5,6 +5,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <string>
+#include "ppm.h"
 
 void box (float , float , float );
 
@@ -94,12 +95,17 @@ class ControlManager {
 //This is a parent class to be used by all road obstacles as children classes
 class RoadObstacle {
 	public:
-		double roadPositionLR, roadPositionDistance;
-		std::string spriteLocation;
-		RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc);
+		RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		bool isCameraInside(Game& g);
 		void render(Game& g);
 		virtual void triggerHitEffects();
+	private:
+		double roadPositionLR, roadPositionDistance;
+		int frameColumns, frameRows;
+		std::string spriteLocation;
+		Ppmimage sprite;
+		double calculateWidth();
+		double calculateHeight();
 };
 
 
