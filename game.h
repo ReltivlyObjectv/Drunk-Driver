@@ -98,6 +98,7 @@ class RoadObstacle {
 		std::string spriteLocation;
 		RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc);
 		bool isCameraInside(Game& g);
+		void render(Game& g);
 		virtual void triggerHitEffects();
 };
 
