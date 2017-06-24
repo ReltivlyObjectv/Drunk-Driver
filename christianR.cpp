@@ -35,6 +35,7 @@
 #define FPS 30
 #define OBSTACLE_DEPTH 5
 #define OBSTACLE_WIDTH 5
+#define OBSTACLE_RENDER_DIST 100
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -203,6 +204,18 @@ bool RoadObstacle::isCameraInside(Game& g)
 void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
+}
+void RoadObstacle::render(Game& g)
+{
+	if (g.distanceTraveled > roadPositionDistance) {
+		//Object has been passed
+		return;
+	}
+	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_RENDER_DIST) {
+		//Object is too far ahead to see
+		return;
+	}
+	//TODO
 }
 void drawDebugInfo(Game& g)
 {
