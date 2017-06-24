@@ -27,6 +27,7 @@
 #include <sstream>
 #include "game.h"
 #include "fonts.h"
+#include "ppm.h"
 #define BASIC_MOVEMENT 0.1
 #define MAX_MOVEMENT 1
 #define MIN_MOVEMENT 0.1
@@ -174,19 +175,13 @@ double Game::getMPH()
 double Game::getDistanceMiles(){
 	return distanceTraveled / SPEED_TO_MPH_MULT / FPS;
 }
-/*class RoadObstacle {
-	public:
-		double roadPositionLR, roadPositionDistance;
-		RoadObstacle(double roadPosLR, double roadPosDistance);
-		bool isCameraInside(Vec camPos);
-	protected:
-		virtual void triggerHitEffects();
-};*/
-RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc) 
+RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc, int frameWidth, int frameHeight) 
 {
 	roadPositionLR = roadPosLR;
 	roadPositionDistance = roadPosDistance;
-	spriteLocation = spriteLoc;	
+	spriteLocation = spriteLoc;
+	frameColumns = frameWidth;
+	frameRows = frameHeight;
 }
 bool RoadObstacle::isCameraInside(Game& g)
 {
@@ -215,7 +210,37 @@ void RoadObstacle::render(Game& g)
 		//Object is too far ahead to see
 		return;
 	}
+	printf("An obstacle can be seen on the road\n");
+	/*
+	//Object is within renderable space
+	double width = calculateWidth();
+	double height = calculateHeight();
+	//Ppmimage sprite;
+	glBindTexture(GL_TEXTURE_2D, sprite);
+	//
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	//Assumes one row for frames right now
+	static int frame = 0;
+	if (frame >= frameCount)
+		frame = 0;;
+	int ix = frame % frameCount;
+	int iy = 0;
+	float tx = (float)ix / frameCount;
+	float ty = (float)iy / 1.0;
+	glBegin(GL_QUADS);
+		glTexCoord2f(tx,      ty+.5); glVertex2i(cx-w, cy-h);
+		glTexCoord2f(tx,      ty);    glVertex2i(cx-w, cy+h);
+		glTexCoord2f(tx+.125, ty);    glVertex2i(cx+w, cy+h);
+		glTexCoord2f(tx+.125, ty+.5); glVertex2i(cx+w, cy-h);
+	glEnd();
+	frame++;
 	//TODO
+	*/
+}
+double RoadObstacle::calculateWidth(){
+	return 0.0;
 }
 void drawDebugInfo(Game& g)
 {
