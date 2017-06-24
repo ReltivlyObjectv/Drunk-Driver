@@ -13,8 +13,8 @@
 //-Added to Game class
 //--Converter for camera speed to MPH
 //--Converter for distance traveled to Miles
-//-Road Obstancle Class
-//--This is a class that will serve as a parent class
+//-Road Obstacle Class
+//--This is a class that can serve as a parent class
 //---type for all obstacles. Effects will be overrided
 //---virtual functions
 //-Other Changes
@@ -224,4 +224,10 @@ void drawDebugInfo(Game& g)
 	//Left/Right position
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	//Controls
+	ggprint8b(&debugStats, 16, 0x0000FF00, "W/Up - Speed Up");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "S/Down - Slow Down");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "A/Left - Speed Up");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "D/Right - Turn Right");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "H - Hit Animation Test");
 }
