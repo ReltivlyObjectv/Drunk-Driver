@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
+#include <string>
 
 void box (float , float , float );
 
@@ -76,6 +77,7 @@ class Game {
 void drawStreet(Game& g);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
+
 class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;
@@ -89,6 +91,15 @@ class ControlManager {
 		static void displayHitAnimation(Game& g);
 };
 
+//This is a parent class to be used by all road obstacles as children classes
+class RoadObstacle {
+	public:
+		double roadPositionLR, roadPositionDistance;
+		std::string spriteLocation;
+		RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc);
+		bool isCameraInside(Game& g);
+		virtual void triggerHitEffects();
+};
 
 
 
