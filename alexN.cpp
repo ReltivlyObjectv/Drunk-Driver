@@ -14,21 +14,7 @@
  */
 
 //Will fix the include on Saturday
-#include <iostream>
-#include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include <cstring>
-#include <cstdlib>  
-#include <unistd.h> 
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <stdlib.h>
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
 #include "fonts.h"
 #include "log.h"
 #include "ppm.h"
