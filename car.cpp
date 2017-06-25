@@ -49,6 +49,7 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
+int startgame = 1;
 Game g;
 
 int main(void)

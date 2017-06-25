@@ -77,7 +77,11 @@ class Game {
 
 void drawStreet(Game& g);
 void drawDebugInfo(Game& g);
+
+//Alex's Function
 void check_button(XEvent *e);
+void gamemenu(void);
+//
 
 class ControlManager {
 	public:
