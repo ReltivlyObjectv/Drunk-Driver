@@ -373,9 +373,10 @@ void render(void)
 	drawDebugInfo(g);
 	glPopAttrib();
 	//if startgame holds true pop up menu
+	/*
 	if(startgame) {
 		gamemenu();
-	}
+	}*/
 }
 
 void drawStreet(Game& g)
