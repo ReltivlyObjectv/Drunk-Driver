@@ -37,10 +37,10 @@ typedef struct t_button {
 	int click;
 	unsigned int text_color;
 }Button;
+
 bool high_score = false;
 bool credits = false;
 
-Button button[MAXBUTTONS];
 //Functions---------------------
 void mouse_click(int action);
 void check_button(XEvent *e);
@@ -64,6 +64,7 @@ extern GLuint menuTexture;
 //4 buttons Start, High Score, Credits, Exit
 #define MAXBUTTONS 4
 //-------------------------------------------
+Button button[MAXBUTTONS];
 //Start Menu
 void gamemenu(void)
 {
@@ -73,7 +74,7 @@ void gamemenu(void)
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,menuTexture);
 	glBegin(GL_QUADS); 
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g,yres); 
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres); 
 	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
 	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
 	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
@@ -108,7 +109,7 @@ void button_init(void)
 	button[0].dcolor[0] = button[0].color[0] * 0.5f;
 	button[0].dcolor[1] = button[0].color[1] * 0.5f;
 	button[0].dcolor[2] = button[0].color[2] * 0.5f;
-	button[0].text_color = 0x0000ffff;
+	button[0].text_color = 0x00FFFFFF;
 	//High Score button
 	button[1].r.width = (BUTTON_W + 200);
 	button[1].r.height = BUTTON_H;
