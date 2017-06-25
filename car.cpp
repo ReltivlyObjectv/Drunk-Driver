@@ -367,6 +367,8 @@ void render(void)
 	gluOrtho2D(0, g.xres, 0, g.yres);
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
+	//
+	initobstacle(g);
 	//glDisable(GL_DEPTH_TEST);
 	//glDisable(GL_CULL_FACE);
 	r.bot = g.yres - 20;

@@ -5,6 +5,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <string>
+#include <cstring>
 #include "ppm.h"
 
 void box (float , float , float );
@@ -54,6 +55,13 @@ class Game {
 		Flt aspectRatio;
 		Vec cameraPosition, up;
 		GLfloat lightPosition[4];
+		//
+		int obstacle;
+		int obstacleFrame;
+		GLuint obstacleTexture;
+		Ppmimage *obstacleImage;
+		double delay;
+		//
 		Game() {
 			//constructor
 			xres=640;
@@ -82,7 +90,9 @@ void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
 void gamemenu(void);
 //
-
+void box (float , float , float );
+void initobstacle(Game& g);
+void obstacles(Game& g);
 class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;
@@ -112,7 +122,31 @@ class RoadObstacle {
 		double calculateHeight();
 };
 
+//----------------------------------------------------------------------------
 
+//Setup timers
+class Timers {
+public:
+	double physicsRate;
+	double oobillion;
+	struct timespec timeStart, timeEnd, timeCurrent;
+	struct timespec obstacleTime;
+	Timers() {
+		physicsRate = 1.0 / 30.0;
+		oobillion = 1.0 / 1e9;
+	}
+	double timeDiff(struct timespec *start, struct timespec *end) {
+		return (double)(end->tv_sec - start->tv_sec ) +
+				(double)(end->tv_nsec - start->tv_nsec) * oobillion;
+	}
+	void timeCopy(struct timespec *dest, struct timespec *source) {
+		memcpy(dest, source, sizeof(struct timespec));
+	}
+	void recordTime(struct timespec *t) {
+		clock_gettime(CLOCK_REALTIME, t);
+	}
+} ;
+//-----------------------------------------------------------------------------
 
 
 #endif
