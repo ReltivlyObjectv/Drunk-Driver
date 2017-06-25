@@ -159,7 +159,7 @@ void init(void)
 void init_opengl(void)
 {
 	//OpenGL initialization
-	glClearColor(0.0f, 0.4f, 0.5f, 0.0f);
+	glClearColor(0.0f, 0.4f, 0.5f, 1.0f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
@@ -183,7 +183,7 @@ void init_opengl(void)
 	glBindTexture(GL_TEXTURE_2D, menuTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3,
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
             menuImage->width, menuImage->height,
             0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
 	//End of Menu Image
@@ -338,6 +338,14 @@ void physics(void)
 void render(void)
 {
 	if (startgame) {
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glViewport(0, 0, g.xres, g.yres);
+		glMatrixMode(GL_MODELVIEW);
+		glMatrixMode(GL_PROJECTION); glLoadIdentity();
+		gluOrtho2D(0, g.xres, 0, g.yres);
+		glPushAttrib(GL_ENABLE_BIT);
+		glDisable(GL_LIGHTING);
+		glPopAttrib();
 		gamemenu();
 	} else {
 	Rect r;
