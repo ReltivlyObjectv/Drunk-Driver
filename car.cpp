@@ -49,7 +49,7 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
-static int startgame = 1;
+int startgame = 1;
 Game g;
 
 int main(void)
@@ -337,55 +337,55 @@ void physics(void)
 
 void render(void)
 {
-	if (startgame) {
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-		glViewport(0, 0, g.xres, g.yres);
-		glMatrixMode(GL_MODELVIEW);
-		glMatrixMode(GL_PROJECTION); glLoadIdentity();
-		gluOrtho2D(0, g.xres, 0, g.yres);
-		glPushAttrib(GL_ENABLE_BIT);
-		glDisable(GL_LIGHTING);
-		glPopAttrib();
-		gamemenu();
-	} else {
-	Rect r;
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	//
-	//3D mode
-	glMatrixMode(GL_PROJECTION); glLoadIdentity();
-	gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//for documentation...
-	gluLookAt(
-		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
-		g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
-		0, 1, 0);
-	//
-	drawStreet(g);
-	//
-	//
-	//
-	//
-	//switch to 2D mode
-	//
-	glViewport(0, 0, g.xres, g.yres);
-	glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
-	glMatrixMode (GL_PROJECTION); glLoadIdentity();
-	gluOrtho2D(0, g.xres, 0, g.yres);
-	glPushAttrib(GL_ENABLE_BIT);
-	glDisable(GL_LIGHTING);
-	//
-	initobstacle(g);
-	//glDisable(GL_DEPTH_TEST);
-	//glDisable(GL_CULL_FACE);
-	r.bot = g.yres - 20;
-	r.left = 10;
-	r.center = 0;
-	ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
-	drawDebugInfo(g);
-	glPopAttrib();
-	}
+    //if startgame holds true pop up menu
+    if (startgame) {
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        glViewport(0, 0, g.xres, g.yres);
+	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+	    glMatrixMode (GL_PROJECTION); glLoadIdentity();
+	    gluOrtho2D(0, g.xres, 0, g.yres);
+	    glPushAttrib(GL_ENABLE_BIT);
+	    glDisable(GL_LIGHTING);
+
+        gamemenu();
+        glPopAttrib();
+    } else {
+	    Rect r;
+	    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	    //
+	    //3D mode
+	    glMatrixMode(GL_PROJECTION); glLoadIdentity();
+	    gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
+	    glMatrixMode(GL_MODELVIEW);
+	    glLoadIdentity();
+	    //for documentation...
+	    gluLookAt(
+		    g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
+		    g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
+		    0, 1, 0);
+	    //
+	    drawStreet(g);
+	    //
+	    //
+	    //
+	    //
+	    //switch to 2D mode
+	    //
+	    glViewport(0, 0, g.xres, g.yres);
+	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+	    glMatrixMode (GL_PROJECTION); glLoadIdentity();
+	    gluOrtho2D(0, g.xres, 0, g.yres);
+	    glPushAttrib(GL_ENABLE_BIT);
+	    glDisable(GL_LIGHTING);
+	    //glDisable(GL_DEPTH_TEST);
+	    //glDisable(GL_CULL_FACE);
+	    r.bot = g.yres - 20;
+	    r.left = 10;
+	    r.center = 0;
+	    ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
+	    drawDebugInfo(g);
+	    glPopAttrib();
+    }
 }
 
 void drawStreet(Game& g)
@@ -447,4 +447,5 @@ void drawStreet(Game& g)
 	//float lightPosition = *g.lightPosition;
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
 }
+
 
