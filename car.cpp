@@ -65,6 +65,8 @@ int main(void)
 			check_resize(&e);
 			check_mouse(&e);
 			check_keys(&e);
+			//check to see if mouse clicked correctly
+			check_button(&e);
 		}
 		physics();
 		render();
@@ -174,15 +176,16 @@ void init_opengl(void)
 	//Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+	//Alex Menu Image 
 	menuImage	= ppm6GetImage("./images/menu.ppm");
 	glGenTextures(1 , &menuTexture);
-	//init_textures();
 	glBindTexture(GL_TEXTURE_2D, menuTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, 3,
             menuImage->width, menuImage->height,
-            0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	 
+            0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
+	//End of Menu Image
 }
 
 void check_resize(XEvent *e)
@@ -368,6 +371,10 @@ void render(void)
 	ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
 	drawDebugInfo(g);
 	glPopAttrib();
+	//if startgame holds true pop up menu
+	if(startgame) {
+		gamemenu();
+	}
 }
 
 void drawStreet(Game& g)
