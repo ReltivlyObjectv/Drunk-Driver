@@ -49,7 +49,7 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
-int startgame = 1;
+static int startgame = 1;
 Game g;
 
 int main(void)
@@ -337,6 +337,9 @@ void physics(void)
 
 void render(void)
 {
+	if (startgame) {
+		gamemenu();
+	} else {
 	Rect r;
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	//
@@ -372,11 +375,7 @@ void render(void)
 	ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
 	drawDebugInfo(g);
 	glPopAttrib();
-	//if startgame holds true pop up menu
-	/*
-	if(startgame) {
-		gamemenu();
-	}*/
+	}
 }
 
 void drawStreet(Game& g)
