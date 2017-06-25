@@ -20,6 +20,7 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 #include "log.h"
 #include "ppm.h"
 #include "game.h"
+#include <iostream>
 
 static int startgame = 1;
 int done = 0;
@@ -66,19 +67,20 @@ extern GLuint menuTexture;
 //Start Menu
 void gamemenu(void)
 {
+	
+	button_init();
+	button_render();
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,menuTexture);
 	glBegin(GL_QUADS); 
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); 
-	glTexCoord2f(0.0f,5.0f); glVertex2i(0,g.yres);
-	glTexCoord2f(50.0f,5.0f); glVertex2i(g.xres,g.yres);
-	glTexCoord2f(5.0f,0.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g,yres); 
+	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
+	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
 	glEnd();
+	glBindTexture(GL_TEXTURE_2D,0);
 	glPopMatrix();
-	if(startgame) {	
-		button_init();
-	}
-	button_render();
+	
 }
 
 void button_init(void)
@@ -185,29 +187,25 @@ void button_render(void)
 	for (int i = 0; i < MAXBUTTONS; i++) {
 		if (button[i].over) {
 			//create the highlight color of button
-			glColor3f(5.0f, 0.0f, 23.0f);
+			glColor3f(0.5f, 0.0f, 1.0f);
 			//draw a highlight around the button
 			glLineWidth(2);
 			glBegin(GL_LINE_LOOP);
-			glVertex2i(button[i].r.left-2,  button[i].r.bot-2);
-			glVertex2i(button[i].r.left-2,  button[i].r.top+2);
-			glVertex2i(button[i].r.right+2, button[i].r.top+2);
-			glVertex2i(button[i].r.right+2, button[i].r.bot-2);
-			glVertex2i(button[i].r.left-2,  button[i].r.bot-2);
 			glEnd();
 			glLineWidth(1);
 		}
+		glBegin(GL_QUADS);	
 		if (button[i].down) {
 			glColor3fv(button[i].dcolor);
 		} else {
 			glColor3fv(button[i].color);
 		}
-		glBegin(GL_QUADS);
 		glVertex2i(button[i].r.left,  button[i].r.bot);
 		glVertex2i(button[i].r.left,  button[i].r.top);
 		glVertex2i(button[i].r.right, button[i].r.top);
 		glVertex2i(button[i].r.right, button[i].r.bot);
 		glEnd();
+		
 		r.left = button[i].r.centerx;
 		r.bot  = button[i].r.centery-8;
 		r.center = 1;
