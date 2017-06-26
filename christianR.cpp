@@ -223,16 +223,6 @@ void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
 }
-double RoadObstacle::calculateWidth()
-{
-	//TODO
-	return 0.0;
-}
-double RoadObstacle::calculateHeight()
-{
-	//TODO
-	return 0.0;
-}
 void drawDebugInfo(Game& g)
 {
 	Rect debugStats;
