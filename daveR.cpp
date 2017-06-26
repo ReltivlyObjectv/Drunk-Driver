@@ -2,6 +2,13 @@
 //cpp files for Drunk Driving game
 //Summer 2017
 
+/////////Responsibilities/////////
+//
+//
+/////////Updates//////////////////
+//
+//
+
 #include <iostream>
 #include "game.h"
 #include "fonts.h"
@@ -21,7 +28,7 @@ int displayDash=1;
 //void initOpengl(void);
 
 //overlay in car view onto animated screen
-void showInCar()
+void showInCar(void)
 {
 	glBindTexture(GL_TEXTURE_2D, inCarTexture);
 	glBegin(GL_QUADS);
@@ -30,7 +37,8 @@ void showInCar()
 		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
 		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 	glEnd();
-	
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glPopMatrix();
 }
   
 void initOpengl(void)
