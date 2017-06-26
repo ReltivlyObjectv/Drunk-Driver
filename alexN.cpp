@@ -22,9 +22,9 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 
 //-------------------------------------------------
 //Button width
-#define BUTTON_W 0
+#define BUTTON_W 5
 //Button height
-#define BUTTON_H 0
+#define BUTTON_H 5
 //Button bottom
 #define BUTTON_B 400
 //4 buttons Start, High Score, Credits, Exit
@@ -63,10 +63,10 @@ bool credits = false;
 //Start Menu
 void gamemenu(void)
 {
-    button_init();  // this can be safely recalled with new changes
-                    // also needs to be called on each resize anyways...
-	button_render();
 
+    button_init(); 
+    button_render();
+    button[3].text_color = 0x00ffffff;
     glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,menuTexture);
 	glBegin(GL_QUADS); 
@@ -84,7 +84,7 @@ void button_init(void)
 {
 	//add button function to initiate
 	//Start button
-	button[0].r.width = BUTTON_W;
+    	button[0].r.width = BUTTON_W;
 	button[0].r.height = BUTTON_H;
 	button[0].r.left = g.xres/2 - button[0].r.width/2;
 	button[0].r.bot = BUTTON_B;
@@ -99,13 +99,13 @@ void button_init(void)
 	strcpy(button[0].text, "Start");
 	button[0].down = 0;
 	button[0].click = 0;
-	button[0].color[0] = 0.0f;
-	button[0].color[1] = 0.0f;
-	button[0].color[2] = 0.0f;
+	button[0].color[0] = 0.4f;
+	button[0].color[1] = 0.4f;
+	button[0].color[2] = 0.7f;
 	button[0].dcolor[0] = button[0].color[0] * 0.5f;
 	button[0].dcolor[1] = button[0].color[1] * 0.5f;
 	button[0].dcolor[2] = button[0].color[2] * 0.5f;
-	button[0].text_color = 0x0000ffff;
+	button[0].text_color = 0x00ffffff;
 	//High Score button
 	button[1].r.width = (BUTTON_W + 200);
 	button[1].r.height = BUTTON_H;
@@ -128,7 +128,7 @@ void button_init(void)
 	button[1].dcolor[0] = button[1].color[0] * 0.5f;
 	button[1].dcolor[1] = button[1].color[1] * 0.5f;
 	button[1].dcolor[2] = button[1].color[2] * 0.5f;
-	button[1].text_color = 0x0000ffff;
+	button[1].text_color = 0x00ffffff;
 	//Credits button
 	button[2].r.width = (BUTTON_W + 50);
 	button[2].r.height = BUTTON_H;
@@ -151,7 +151,7 @@ void button_init(void)
 	button[2].dcolor[0] = button[2].color[0] * 0.5f;
 	button[2].dcolor[1] = button[2].color[1] * 0.5f;
 	button[2].dcolor[2] = button[2].color[2] * 0.5f;
-	button[2].text_color = 0x0000ffff;
+	button[2].text_color = 0x00ffffff;
 	//Quit button
 	button[3].r.width = BUTTON_W;
 	button[3].r.height = BUTTON_H;
@@ -181,7 +181,6 @@ void button_init(void)
 void button_render(void)
 {
 	//add render function to render button
-	Rect r;
 	for (int i = 0; i < MAXBUTTONS; i++) {
 		if (button[i].over) {
 			//create the highlight color of button
@@ -208,15 +207,22 @@ void button_render(void)
 		glVertex2i(button[i].r.right, button[i].r.top);
 		glVertex2i(button[i].r.right, button[i].r.bot);
 		glEnd();
-		r.left = button[i].r.centerx;
-		r.bot  = button[i].r.centery-8;
-		r.center = 1;
-		if (button[i].down) {
-			ggprint16(&r, 0, button[i].text_color, "Pressed!");
-		} else {
-			ggprint16(&r, 0, button[i].text_color, button[i].text);
-		}
+		button[i].r.left = button[i].r.centerx;
+		button[i].r.bot  = button[i].r.centery-8;
+		button[i].r.center = 1;
 	}
+	for (int i = 0; i < MAXBUTTONS; i++) {
+		if (button[i].down) {
+			ggprint16(&(button[i].r), 0, button[i].text_color, "Pressed!");
+		} else 
+			ggprint16(&(button[i].r), 0, button[i].text_color, button[i].text);
+
+	}
+
+	/*for (int i =0; i < MAXBUTTONS; i++) {
+	std::string text = " ";
+	ggprint16(&(button[i].r), 0, 0x000FFFF000, text.c_str());
+	}*/
 
 }
 
@@ -276,11 +282,11 @@ void check_button(XEvent *e)
 
 }
 
+static int startgame = 1;
 //Will excuted when one of the state holds true
 void mouse_click(int action)
 {
 
-int startgame = 1;
 	if(startgame)
 	{
 		if (action == 1) {

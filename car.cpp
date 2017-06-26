@@ -52,13 +52,12 @@ void physics(void);
 void render(void);
 
 //Turned menu off so it doesn't break program -- Christian
-int startgame = 0;
+static int startgame = 0;
 Game g;
 
 int main(void)
 {
 	printf("Loading Drunk Driver\n");
-	//init();
 	initXWindows();
 	init_opengl();
 	init();
@@ -130,7 +129,10 @@ void initXWindows(void)
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-						StructureNotifyMask | SubstructureNotifyMask;
+	                 StructureNotifyMask | SubstructureNotifyMask |
+			 ButtonPressMask | ButtonReleaseMask | 
+			 PointerMotionMask | StructureNotifyMask |
+			 SubstructureNotifyMask;
 	win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
 							vi->depth, InputOutput, vi->visual,
 							CWColormap | CWEventMask, &swa);
@@ -153,6 +155,7 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
+    button_init();
 	ControlManager::movingLeft = 
 		ControlManager::movingRight = 
 		ControlManager::slowingDown = 
