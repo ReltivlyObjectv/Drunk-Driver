@@ -128,7 +128,10 @@ void initXWindows(void)
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-						StructureNotifyMask | SubstructureNotifyMask;
+	                 StructureNotifyMask | SubstructureNotifyMask |
+			 ButtonPressMask | ButtonReleaseMask | 
+			 PointerMotionMask | StructureNotifyMask |
+			 SubstructureNotifyMask;
 	win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
 							vi->depth, InputOutput, vi->visual,
 							CWColormap | CWEventMask, &swa);
