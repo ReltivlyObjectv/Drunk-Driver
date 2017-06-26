@@ -19,7 +19,6 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 #include "log.h"
 #include "ppm.h"
 #include "game.h"
-
 //-------------------------------------------------
 //Button width
 #define BUTTON_W 5
@@ -30,9 +29,8 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 //4 buttons Start, High Score, Credits, Exit
 #define MAXBUTTONS 4
 //------------------------------------------------
-
-int game = 1;
-int done = 0;
+extern int startgame;
+static int done = 0;
 
 //button click from bship framework
 typedef struct t_button {
@@ -40,11 +38,11 @@ typedef struct t_button {
 	char text[32];
 	int over;
 	int down;
-	int mouse[2];
+	int click;
 	float color[3];
 	float dcolor[3];
-	int click;
 	unsigned int text_color;
+	t_button() { over = false; }
 }Button;
 
 Button button[MAXBUTTONS];
@@ -56,17 +54,17 @@ extern Game g;
 extern GLuint menuTexture;
 void button_init(void);
 void button_render(void);
-bool high_score = false;
-bool credits = false;
+//static int high_score = 1;
+static int credits = 1;
 //---------------------------------------------
 
 //Start Menu
 void gamemenu(void)
 {
 
+
     button_init(); 
     button_render();
-    button[3].text_color = 0x00ffffff;
     glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,menuTexture);
 	glBegin(GL_QUADS); 
@@ -75,8 +73,8 @@ void gamemenu(void)
 	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
 	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
 	glEnd();
-    glBindTexture(GL_TEXTURE_2D, 0);
     glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 //Button will be drawn onto the menu 
@@ -99,9 +97,9 @@ void button_init(void)
 	strcpy(button[0].text, "Start");
 	button[0].down = 0;
 	button[0].click = 0;
-	button[0].color[0] = 0.4f;
-	button[0].color[1] = 0.4f;
-	button[0].color[2] = 0.7f;
+	button[0].color[0] = 0.0f;
+	button[0].color[1] = 0.0f;
+	button[0].color[2] = 0.0f;
 	button[0].dcolor[0] = button[0].color[0] * 0.5f;
 	button[0].dcolor[1] = button[0].color[1] * 0.5f;
 	button[0].dcolor[2] = button[0].color[2] * 0.5f;
@@ -218,7 +216,6 @@ void button_render(void)
 			ggprint16(&(button[i].r), 0, button[i].text_color, button[i].text);
 
 	}
-
 	/*for (int i =0; i < MAXBUTTONS; i++) {
 	std::string text = " ";
 	ggprint16(&(button[i].r), 0, 0x000FFFF000, text.c_str());
@@ -232,13 +229,9 @@ void check_button(XEvent *e)
 {
 	static int savex = 0;
 	static int savey = 0;
-	int x = e->xbutton.x;
-	int y = e->xbutton.y;;
-	int i;
+	int x,y,i; 
 	int lbutton=0;
 	int rbutton=0;
-	//y is backward
-	y = g.yres - y;
 	//when mouse button is release
 	if (e->type == ButtonRelease) {
 		mouse_click(2);
@@ -254,15 +247,20 @@ void check_button(XEvent *e)
 			rbutton = 1;
 		}
 	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = g.yres-y;
 	//check to see if mouse move either in x or y direction
 	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 		savex=e->xbutton.x;
 		savey=e->xbutton.y;
 
 	}
-	else if (x == savex && y == savey)
+	if (x == savex && y == savey)
 		return;
 
+	savex=x;
+	savey=y;
 	for (i=0; i<MAXBUTTONS; i++) {
 		button[i].over=0;
 		button[i].down=0;
@@ -282,13 +280,10 @@ void check_button(XEvent *e)
 
 }
 
-static int startgame = 1;
 //Will excuted when one of the state holds true
 void mouse_click(int action)
 {
 
-	if(startgame)
-	{
 		if (action == 1) {
 			//center of menu
 			for (int i=0; i<MAXBUTTONS; i++) {
@@ -298,23 +293,26 @@ void mouse_click(int action)
 					if (i == 0) {
 						//start the game
 						startgame = 0;
+						break;
 					} 
 					if (i == 1) {
 						//show high score
-						high_score = true;
+						system("firefox http://www.army.mil/article/181742/dont_ruin_the_game_by_drinking_driving");
+						break;
 					}
 					if (i == 2) {
 						//show credits
-						credits = true;
+						credits = 0;
+						break;
 					}
 					if (i == 3) {
 						//Exit the game
 						done = 1;
+						break;
 					}
 				}
 			}
 		}
-	}
 }
 
 

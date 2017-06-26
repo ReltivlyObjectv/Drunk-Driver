@@ -31,15 +31,14 @@
 Ppmimage *menuImage = NULL;
 GLuint menuTexture;
 //---------------------------------------
-
 Ppmimage *inCarPic = NULL;
 GLuint inCarTextures;
-
 //X Windows variables
 Display *dpy;
 Window win;
 GLXContext glc;
 
+int startgame = 1;
 void init(void);
 void initXWindows(void);
 void init_opengl(void);
@@ -52,7 +51,6 @@ void physics(void);
 void render(void);
 
 //Turned menu off so it doesn't break program -- Christian
-static int startgame = 0;
 Game g;
 
 int main(void)
@@ -156,7 +154,6 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
-    button_init();
 	ControlManager::movingLeft = 
 		ControlManager::movingRight = 
 		ControlManager::slowingDown = 
@@ -355,7 +352,7 @@ void physics(void)
 void render(void)
 {
     //if startgame holds true pop up menu
-    if (startgame) {
+    if (startgame == 1) {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, g.xres, g.yres);
 	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
