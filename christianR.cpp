@@ -108,17 +108,81 @@ void ControlManager::moveForward(Game& g)
 double ControlManager::calculateSwerveModifier(Game& g)
 {
 	static bool currentlySwerving = false;
+	static int inebLevel = g.getInebriationLevel();
 	if (hittingObject) {
 		//Cannot use tires in the air
 		currentlySwerving = false;
 		return 0.0;
 	}
-	int inebLevel = g.getInebriationLevel();
+	if (currentlySwerving) {
+		//Don't interrupt current swerve upon higher drunkenness
+		//printf("Already swerving\n");
+	} else {
+		//No swerve in progress; update value
+		if (inebLevel != g.getInebriationLevel()) {
+			printf("Disregarding previous level: %d\n", inebLevel);
+			inebLevel = g.getInebriationLevel();
+			printf("Recording new level: %d\n", inebLevel);
+		}
+	}
 	switch (inebLevel) {
 		case 1:
+			//Random jerking movements
+			//printf("Calculating swerve for: %d\n", inebLevel);
+			static double progress = 0;
+			static bool backwards = false;
+			if (currentlySwerving) {
+				if (progress >= 4.5) {
+					//swerve is over
+					progress = 0;
+					currentlySwerving = false;
+					return 0;
+				} else {
+					//continue swerve
+					progress += .1;
+					if (backwards) {
+						return -1 * (sin(progress) / 30);
+					} else {
+						return sin(progress) / 30;
+					}
+				}
+			} else {
+				//Random chance to start swerve
+				int randNum = rand() % 1000;
+				//printf("Rand num: %d\n", randNum);
+				if (randNum < 5) {
+					currentlySwerving = true;
+					if (rand() % 2 == 1) {
+						//printf("Start swerving to the right\n");
+						backwards = false;
+					} else {
+						//printf("Start swerving to the left\n");
+						backwards = true;
+					}
+				} else {
+					//printf("Won't start swerving\n");
+				}
+				return 0;
+			}
+			break;
+		case 2:
+			//Consistent bobbing and weaving
 			return sin(g.cameraPosition[2] / 6) / 30;
 			break;
+		/*
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		*/
+		case 6:
+			//No modifier; you are dead
+			return 0;
+			break;
 		default:
+			//No modifier
 			return 0;
 			break;
 	}
@@ -343,8 +407,8 @@ void drawDebugInfo(Game& g)
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//Vertical position
-	sprintf(buffer, "Road Position (Vertical): %.3f", g.cameraPosition[1]);
-	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	//sprintf(buffer, "Road Position (Vertical): %.3f", g.cameraPosition[1]);
+	//ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//Inebriation Level
 	sprintf(buffer, "Drunkness Level: %d", g.getInebriationLevel());
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
