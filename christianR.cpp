@@ -107,14 +107,21 @@ void ControlManager::moveForward(Game& g)
 }
 double ControlManager::calculateSwerveModifier(Game& g)
 {
-	if(hittingObject){
+	static bool currentlySwerving = false;
+	if (hittingObject) {
 		//Cannot use tires in the air
-		return 0.0;
-	}else if (g.getInebriationLevel() == 0) {
+		currentlySwerving = false;
 		return 0.0;
 	}
-	double inebriationLevelModifier = (1 + (g.getInebriationLevel() / 3));
-	return .001 * 5 * sin(g.cameraPosition[2] * 0.25)  * inebriationLevelModifier;
+	int inebLevel = g.getInebriationLevel();
+	switch (inebLevel) {
+		case 1:
+			return sin(g.cameraPosition[2] / 6) / 30;
+			break;
+		default:
+			return 0;
+			break;
+	}
 }
 void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
@@ -122,48 +129,48 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 		case XK_Right:
 		case XK_d:
 			if (isPress) {
-//				printf("Key is pressed: %s (%d)\n", "Right", key);
+				//printf("Key is pressed: %s (%d)\n", "Right", key);
 			} else {
-//				printf("Key released: %s (%d)\n", "Right", key);
+				//printf("Key released: %s (%d)\n", "Right", key);
 			}
 			ControlManager::movingRight = isPress;
 			break;
 		case XK_Left:
 		case XK_a:
 			if (isPress) {
-//				printf("Key is pressed: %s (%d)\n", "Left", key);
+				//printf("Key is pressed: %s (%d)\n", "Left", key);
 			} else {
-//				printf("Key released: %s (%d)\n", "Left", key);
+				//printf("Key released: %s (%d)\n", "Left", key);
 			}
 			ControlManager::movingLeft = isPress;
 			break;
 		case XK_Up:
 		case XK_w:
 			if (isPress) {
-//				printf("Key is pressed: %s (%d)\n", "Speed Up", key);
-//				printf("Speeding Up. Velocity: %.5f\n", g.speed);
+				//printf("Key is pressed: %s (%d)\n", "Speed Up", key);
+				//printf("Speeding Up. Velocity: %.5f\n", g.speed);
 			} else {
-//				printf("Key released: %s (%d)\n", "Speed Up", key);
+				//printf("Key released: %s (%d)\n", "Speed Up", key);
 			}
 			ControlManager::speedingUp = isPress;
 			break;
 		case XK_Down:
 		case XK_s:
 			if (isPress) {
-//				printf("Key is pressed: %s (%d)\n", "Slow Down", key);
-//				printf("Slowing Down. Velocity: %.5f\n", g.speed);
+				//printf("Key is pressed: %s (%d)\n", "Slow Down", key);
+				//printf("Slowing Down. Velocity: %.5f\n", g.speed);
 			} else {
 			
-//				printf("Key is released: %s (%d)\n", "Slow Down", key);
+				//printf("Key is released: %s (%d)\n", "Slow Down", key);
 			}
 			ControlManager::slowingDown = isPress;
 			break;
 		case XK_h:
 			if (isPress) {
-//				printf("Key is pressed: %s (%d)\n", "Hit Animation", key);
+				//printf("Key is pressed: %s (%d)\n", "Hit Animation", key);
 				ControlManager::playAnimationHit();
 			} else {
-				printf("Key released: %s (%d)\n", "Hit Animation", key);
+				//printf("Key released: %s (%d)\n", "Hit Animation", key);
 			}
 			break;
 		case XK_j:
@@ -174,10 +181,10 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 					g.minimumBAC += BAC_PER_BEER * .33;
 					g.cooldownDrink = COOLDOWN_DRINK;
 				} else {
-//					printf("Key is pressed: %s (%d)\n", "Cannot drink (cooldown)", key);
+					//printf("Key is pressed: %s (%d)\n", "Cannot drink (cooldown)", key);
 				}
 			} else {
-//				printf("Key is released: %s (%d)\n", "Drinking button", key);
+				//printf("Key is released: %s (%d)\n", "Drinking button", key);
 			}
 			break;
 		case XK_Escape:
@@ -237,9 +244,9 @@ double Game::getDistanceMiles()
 }
 int Game::getInebriationLevel()
 {
-	if(bloodAlcoholContent < 0.04){
+	if(bloodAlcoholContent < 0.04) {
 		return 0;
-	} else if(bloodAlcoholContent < 0.08){
+	} else if(bloodAlcoholContent < 0.08) {
 		return 1;
 	} else if (bloodAlcoholContent < .1) {
 		return 2;
@@ -253,7 +260,8 @@ int Game::getInebriationLevel()
 		return 6;
 	}
 }
-std::string Game::getInebriationDescription() {
+std::string Game::getInebriationDescription()
+{
 	std::string desc;
 	switch (getInebriationLevel()) {
 		case 0:
