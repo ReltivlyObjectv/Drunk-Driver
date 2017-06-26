@@ -105,13 +105,7 @@ void ControlManager::moveForward(Game& g)
 double ControlManager::calculateSwerveModifier(Game& g)
 {
 	double inebriationLevelModifier = (1 + (g.inebriationLevel / 3));
-	//printf("%f\n", g.cameraPosition[0]);
-	//g.cameraPosition[0] += sin(g.cameraPosition[2] / 4) * 
-	//calculateSwerveModifier(g.inebriationLevel);	
-	/*
-	 *  * .05;
-	 */
-	return 0.05 * sin(g.cameraPosition[2] / 4.0)  * inebriationLevelModifier;
+	return 0.05 * sin(g.cameraPosition[2] * 0.25)  * inebriationLevelModifier;
 }
 void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
@@ -186,12 +180,7 @@ void ControlManager::displayHitAnimation(Game& g)
 		
 		//g.cameraPosition[1] = CAMERA_HEIGHT + (sin(progress) / 2);
 		g.up[1] = -0.2 * sin(progress);
-		if (progress < 1) {
-			g.cameraPosition[1] = sin(progress);
-		}
-		if (progress > 2) {
-			g.cameraPosition[1] = sin(progress);
-		}
+		g.cameraPosition[1] = CAMERA_HEIGHT + (sin(progress) * .65);
 	}
 }
 double Game::getMPH()
