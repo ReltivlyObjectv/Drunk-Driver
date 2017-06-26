@@ -49,6 +49,7 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
+int startgame = 1;
 Game g;
 
 int main(void)
@@ -65,6 +66,8 @@ int main(void)
 			check_resize(&e);
 			check_mouse(&e);
 			check_keys(&e);
+			//check to see if mouse clicked correctly
+			check_button(&e);
 		}
 		physics();
 		render();
@@ -156,7 +159,7 @@ void init(void)
 void init_opengl(void)
 {
 	//OpenGL initialization
-	glClearColor(0.0f, 0.4f, 0.5f, 0.0f);
+	glClearColor(0.0f, 0.4f, 0.5f, 1.0f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
@@ -174,15 +177,16 @@ void init_opengl(void)
 	//Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+	//Alex Menu Image 
 	menuImage	= ppm6GetImage("./images/menu.ppm");
 	glGenTextures(1 , &menuTexture);
-	//init_textures();
 	glBindTexture(GL_TEXTURE_2D, menuTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3,
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
             menuImage->width, menuImage->height,
-            0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	 
+            0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
+	//End of Menu Image
 }
 
 void check_resize(XEvent *e)
@@ -333,41 +337,55 @@ void physics(void)
 
 void render(void)
 {
-	Rect r;
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	//
-	//3D mode
-	glMatrixMode(GL_PROJECTION); glLoadIdentity();
-	gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//for documentation...
-	gluLookAt(
-		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
-		g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
-		0, 1, 0);
-	//
-	drawStreet(g);
-	//
-	//
-	//
-	//
-	//switch to 2D mode
-	//
-	glViewport(0, 0, g.xres, g.yres);
-	glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
-	glMatrixMode (GL_PROJECTION); glLoadIdentity();
-	gluOrtho2D(0, g.xres, 0, g.yres);
-	glPushAttrib(GL_ENABLE_BIT);
-	glDisable(GL_LIGHTING);
-	//glDisable(GL_DEPTH_TEST);
-	//glDisable(GL_CULL_FACE);
-	r.bot = g.yres - 20;
-	r.left = 10;
-	r.center = 0;
-	ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
-	drawDebugInfo(g);
-	glPopAttrib();
+    //if startgame holds true pop up menu
+    if (startgame) {
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        glViewport(0, 0, g.xres, g.yres);
+	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+	    glMatrixMode (GL_PROJECTION); glLoadIdentity();
+	    gluOrtho2D(0, g.xres, 0, g.yres);
+	    glPushAttrib(GL_ENABLE_BIT);
+	    glDisable(GL_LIGHTING);
+
+        gamemenu();
+        glPopAttrib();
+    } else {
+	    Rect r;
+	    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	    //
+	    //3D mode
+	    glMatrixMode(GL_PROJECTION); glLoadIdentity();
+	    gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
+	    glMatrixMode(GL_MODELVIEW);
+	    glLoadIdentity();
+	    //for documentation...
+	    gluLookAt(
+		    g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
+		    g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
+		    0, 1, 0);
+	    //
+	    drawStreet(g);
+	    //
+	    //
+	    //
+	    //
+	    //switch to 2D mode
+	    //
+	    glViewport(0, 0, g.xres, g.yres);
+	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+	    glMatrixMode (GL_PROJECTION); glLoadIdentity();
+	    gluOrtho2D(0, g.xres, 0, g.yres);
+	    glPushAttrib(GL_ENABLE_BIT);
+	    glDisable(GL_LIGHTING);
+	    //glDisable(GL_DEPTH_TEST);
+	    //glDisable(GL_CULL_FACE);
+	    r.bot = g.yres - 20;
+	    r.left = 10;
+	    r.center = 0;
+	    ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
+	    drawDebugInfo(g);
+	    glPopAttrib();
+    }
 }
 
 void drawStreet(Game& g)
@@ -429,4 +447,5 @@ void drawStreet(Game& g)
 	//float lightPosition = *g.lightPosition;
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
 }
+
 
