@@ -50,13 +50,12 @@ void physics(void);
 void render(void);
 
 //Turned menu off so it doesn't break program -- Christian
-int startgame = 0;
+static int startgame = 0;
 Game g;
 
 int main(void)
 {
 	printf("Loading Drunk Driver\n");
-	//init();
 	initXWindows();
 	init_opengl();
 	init();
@@ -154,6 +153,7 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
+    button_init();
 	ControlManager::movingLeft = 
 		ControlManager::movingRight = 
 		ControlManager::slowingDown = 
