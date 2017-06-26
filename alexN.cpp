@@ -14,19 +14,25 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
  *	     then clean up codes to K&R.
  */
 
-//Will fix the include on Saturday
 #include <string.h>
 #include "fonts.h"
 #include "log.h"
 #include "ppm.h"
 #include "game.h"
-#include <iostream>
 
+//-------------------------------------------------
+//Button width
+#define BUTTON_W 0
+//Button height
+#define BUTTON_H 0
+//Button bottom
+#define BUTTON_B 400
+//4 buttons Start, High Score, Credits, Exit
+#define MAXBUTTONS 4
+//------------------------------------------------
 
 int game = 1;
 int done = 0;
-//4 buttons Start, High Score, Credits, Exit
-#define MAXBUTTONS 4
 
 //button click from bship framework
 typedef struct t_button {
@@ -42,17 +48,17 @@ typedef struct t_button {
 }Button;
 
 Button button[MAXBUTTONS];
+
+//----------------------------------------------
 void mouse_click(int action);
 void check_button(XEvent *e);
-
-
 extern Game g;
 extern GLuint menuTexture;
-//initalize buttons in its own function
 void button_init(void);
 void button_render(void);
 bool high_score = false;
 bool credits = false;
+//---------------------------------------------
 
 //Start Menu
 void gamemenu(void)
@@ -72,13 +78,6 @@ void gamemenu(void)
     glBindTexture(GL_TEXTURE_2D, 0);
     glPopMatrix();
 }
-
-//Button width
-#define BUTTON_W 100
-//Button height
-#define BUTTON_H 50
-//Button bottom
-#define BUTTON_B 500
 
 //Button will be drawn onto the menu 
 void button_init(void)
@@ -175,7 +174,7 @@ void button_init(void)
 	button[3].dcolor[0] = button[3].color[0] * 0.5f;
 	button[3].dcolor[1] = button[3].color[1] * 0.5f;
 	button[3].dcolor[2] = button[3].color[2] * 0.5f;
-	button[3].text_color = 0x0000ffff;
+	button[3].text_color = 0x00ffffff;
 }
 
 //Render the buttons
@@ -186,7 +185,7 @@ void button_render(void)
 	for (int i = 0; i < MAXBUTTONS; i++) {
 		if (button[i].over) {
 			//create the highlight color of button
-			glColor3f(0.5f, 0.0f, 1.0f);
+			glColor3f(1.5f, 0.0f, 1.0f);
 			//draw a highlight around the button
 			glLineWidth(2);
 			glBegin(GL_LINE_LOOP);
