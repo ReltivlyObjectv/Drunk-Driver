@@ -50,7 +50,7 @@ void physics(void);
 void render(void);
 
 //Turned menu off so it doesn't break program -- Christian
-static int startgame = 1;
+static int startgame = 0;
 Game g;
 
 int main(void)
