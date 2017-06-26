@@ -1,196 +1,227 @@
 /*Author: Alexander Nguyen
   Modify by: Alexander Nguyen
-  Date:6/17/2017
+Date:6/17/2017
 
-  Purpose: Create a start menu that will have Start, High Score, Credits and Exit
+Purpose: Create a start menu that will have Start, High Score, Credits and Exit
  */
 
 /* 6/17/17 : Borrow some definition and function from bship and moditify it
- * 6/21/17 : add ppm image of menu, start button init function move check mouse
- * 6/22/17 :Move check mouse back and add the function to it to extend check mouse
- *
- *
- *
+ * 6/21/17 : Add ppm image of menu, start button init function move check mouse
+ * 6/22/17 : Move check mouse back and add the function to it to extend check mouse
+ * 6/24/17 : Created and update check_button and initalize function in check_mouse
+ *	     Finish button_init and button_render, will be adding addition 
+ *           Game over menu/screen function, will be moving #include and definition 
+ *	     then clean up codes to K&R.
  */
 
-//Will fix the include on Saturday
 #include <string.h>
 #include "fonts.h"
 #include "log.h"
 #include "ppm.h"
 #include "game.h"
 
+//-------------------------------------------------
+//Button width
+#define BUTTON_W 0
+//Button height
+#define BUTTON_H 0
+//Button bottom
+#define BUTTON_B 400
+//4 buttons Start, High Score, Credits, Exit
+#define MAXBUTTONS 4
+//------------------------------------------------
 
 int game = 1;
-int startgame = 1;
 int done = 0;
-#define MAXBUTTONS 8
 
 //button click from bship framework
 typedef struct t_button {
-    Rect r;
-    char text[32];
-    int over;
-    int down;
-    int mouse[2];
-    float color[3];
-    float dcolor[3];
-    int click;
-    unsigned int text_color;
+	Rect r;
+	char text[32];
+	int over;
+	int down;
+	int mouse[2];
+	float color[3];
+	float dcolor[3];
+	int click;
+	unsigned int text_color;
 }Button;
-int nbuttons=0;
 
 Button button[MAXBUTTONS];
-void gamemenu(void);
+
+//----------------------------------------------
 void mouse_click(int action);
 void check_button(XEvent *e);
-
-
 extern Game g;
 extern GLuint menuTexture;
-//initalize buttons in its own function
 void button_init(void);
 void button_render(void);
 bool high_score = false;
 bool credits = false;
+//---------------------------------------------
 
 //Start Menu
 void gamemenu(void)
 {
+    button_init();  // this can be safely recalled with new changes
+                    // also needs to be called on each resize anyways...
+	button_render();
 
     glPushMatrix();
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClearDepth(1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glEnable(GL_COLOR_MATERIAL);
-    glShadeModel(GL_SMOOTH);
-    glDisable(GL_LIGHTING);
-    glBindTexture(GL_TEXTURE_2D,menuTexture);
-    glBegin(GL_QUADS); 
-    glTexCoord2f(0.0f,0.0f); glVertex2i(0,0); 
-    glTexCoord2f(0.0f,5.0f); glVertex2i(0,g.yres);
-    glTexCoord2f(50.0f,5.0f); glVertex2i(g.xres,g.yres);
-    glTexCoord2f(5.0f,0.0f); glVertex2i(g.xres,0);
-  
-    glEnd();
+	glBindTexture(GL_TEXTURE_2D,menuTexture);
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres); 
+	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
+	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
+	glEnd();
     glBindTexture(GL_TEXTURE_2D, 0);
     glPopMatrix();
-    if(game) {	
-    	button_init();
-    }
-    button_render();
-  
 }
 
-//Will modify once menu is up and running
+//Button will be drawn onto the menu 
 void button_init(void)
 {
-    //add button function to initiate
+	//add button function to initiate
 	//Start button
-	button[nbuttons].r.width = 100;
-	button[nbuttons].r.height = 50;
-	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
-	button[nbuttons].r.bot = 500;
-	button[nbuttons].r.right = 
-		button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = 
-		button[nbuttons].r.bot + button[nbuttons].r.height;
-	button[nbuttons].r.centerx = 
-		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = 
-		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Start");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.0f;
-	button[nbuttons].color[2] = 0.0f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x0000ffff;
-	nbuttons++;
+	button[0].r.width = BUTTON_W;
+	button[0].r.height = BUTTON_H;
+	button[0].r.left = g.xres/2 - button[0].r.width/2;
+	button[0].r.bot = BUTTON_B;
+	button[0].r.right = 
+		button[0].r.left + button[0].r.width;
+	button[0].r.top = 
+		button[0].r.bot + button[0].r.height;
+	button[0].r.centerx = 
+		(button[0].r.left + button[0].r.right) / 2;
+	button[0].r.centery = 
+		(button[0].r.bot + button[0].r.top) / 2;
+	strcpy(button[0].text, "Start");
+	button[0].down = 0;
+	button[0].click = 0;
+	button[0].color[0] = 0.0f;
+	button[0].color[1] = 0.0f;
+	button[0].color[2] = 0.0f;
+	button[0].dcolor[0] = button[0].color[0] * 0.5f;
+	button[0].dcolor[1] = button[0].color[1] * 0.5f;
+	button[0].dcolor[2] = button[0].color[2] * 0.5f;
+	button[0].text_color = 0x0000ffff;
 	//High Score button
-	button[nbuttons].r.width = 300;
-	button[nbuttons].r.height = 50;
-	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
-	button[nbuttons].r.bot = 400;
-	button[nbuttons].r.right = 
-		button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = 
-		button[nbuttons].r.bot + button[nbuttons].r.height;
-	button[nbuttons].r.centerx = 
-		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = 
-		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "High Score");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.0f;
-	button[nbuttons].color[2] = 0.0f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x0000ffff;
-	nbuttons++;
+	button[1].r.width = (BUTTON_W + 200);
+	button[1].r.height = BUTTON_H;
+	button[1].r.left = g.xres/2 - button[1].r.width/2;
+	button[1].r.bot = (BUTTON_B - 100);
+	button[1].r.right = 
+		button[1].r.left + button[1].r.width;
+	button[1].r.top = 
+		button[1].r.bot + button[1].r.height;
+	button[1].r.centerx = 
+		(button[1].r.left + button[1].r.right) / 2;
+	button[1].r.centery = 
+		(button[1].r.bot + button[1].r.top) / 2;
+	strcpy(button[1].text, "High Score");
+	button[1].down = 0;
+	button[1].click = 0;
+	button[1].color[0] = 0.0f;
+	button[1].color[1] = 0.0f;
+	button[1].color[2] = 0.0f;
+	button[1].dcolor[0] = button[1].color[0] * 0.5f;
+	button[1].dcolor[1] = button[1].color[1] * 0.5f;
+	button[1].dcolor[2] = button[1].color[2] * 0.5f;
+	button[1].text_color = 0x0000ffff;
 	//Credits button
-	button[nbuttons].r.width = 150;
-	button[nbuttons].r.height = 50;
-	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
-	button[nbuttons].r.bot = 300;
-	button[nbuttons].r.right = 
-		button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = 
-		button[nbuttons].r.bot + button[nbuttons].r.height;
-	button[nbuttons].r.centerx = 
-		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = 
-		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Credits");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.0f;
-	button[nbuttons].color[2] = 0.0f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x0000ffff;
-	nbuttons++;
+	button[2].r.width = (BUTTON_W + 50);
+	button[2].r.height = BUTTON_H;
+	button[2].r.left = g.xres/2 - button[2].r.width/2;
+	button[2].r.bot = (BUTTON_B - 200);
+	button[2].r.right = 
+		button[2].r.left + button[2].r.width;
+	button[2].r.top = 
+		button[2].r.bot + button[2].r.height;
+	button[2].r.centerx = 
+		(button[2].r.left + button[2].r.right) / 2;
+	button[2].r.centery = 
+		(button[2].r.bot + button[2].r.top) / 2;
+	strcpy(button[2].text, "Credits");
+	button[2].down = 0;
+	button[2].click = 0;
+	button[2].color[0] = 0.0f;
+	button[2].color[1] = 0.0f;
+	button[2].color[2] = 0.0f;
+	button[2].dcolor[0] = button[2].color[0] * 0.5f;
+	button[2].dcolor[1] = button[2].color[1] * 0.5f;
+	button[2].dcolor[2] = button[2].color[2] * 0.5f;
+	button[2].text_color = 0x0000ffff;
 	//Quit button
-	button[nbuttons].r.width = 100;
-	button[nbuttons].r.height = 50;
-	button[nbuttons].r.left = g.xres/2 - button[nbuttons].r.width/2;
-	button[nbuttons].r.bot = 200;
-	button[nbuttons].r.right = 
-		button[nbuttons].r.left + button[nbuttons].r.width;
-	button[nbuttons].r.top = 
-		button[nbuttons].r.bot + button[nbuttons].r.height;
-	button[nbuttons].r.centerx = 
-		(button[nbuttons].r.left + button[nbuttons].r.right) / 2;
-	button[nbuttons].r.centery = 
-		(button[nbuttons].r.bot + button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Exit");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.0f;
-	button[nbuttons].color[2] = 0.0f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x0000ffff;
-	nbuttons++;
+	button[3].r.width = BUTTON_W;
+	button[3].r.height = BUTTON_H;
+	button[3].r.left = g.xres/2 - button[3].r.width/2;
+	button[3].r.bot = (BUTTON_B - 300);
+	button[3].r.right = 
+		button[3].r.left + button[3].r.width;
+	button[3].r.top = 
+		button[3].r.bot + button[3].r.height;
+	button[3].r.centerx = 
+		(button[3].r.left + button[3].r.right) / 2;
+	button[3].r.centery = 
+		(button[3].r.bot + button[3].r.top) / 2;
+	strcpy(button[3].text, "Exit");
+	button[3].down = 0;
+	button[3].click = 0;
+	button[3].color[0] = 0.0f;
+	button[3].color[1] = 0.0f;
+	button[3].color[2] = 0.0f;
+	button[3].dcolor[0] = button[3].color[0] * 0.5f;
+	button[3].dcolor[1] = button[3].color[1] * 0.5f;
+	button[3].dcolor[2] = button[3].color[2] * 0.5f;
+	button[3].text_color = 0x00ffffff;
 }
 
+//Render the buttons
 void button_render(void)
 {
-    //add render function to render button
+	//add render function to render button
+	Rect r;
+	for (int i = 0; i < MAXBUTTONS; i++) {
+		if (button[i].over) {
+			//create the highlight color of button
+			glColor3f(1.5f, 0.0f, 1.0f);
+			//draw a highlight around the button
+			glLineWidth(2);
+			glBegin(GL_LINE_LOOP);
+			glVertex2i(button[i].r.left-2,  button[i].r.bot-2);
+			glVertex2i(button[i].r.left-2,  button[i].r.top+2);
+			glVertex2i(button[i].r.right+2, button[i].r.top+2);
+			glVertex2i(button[i].r.right+2, button[i].r.bot-2);
+			glVertex2i(button[i].r.left-2,  button[i].r.bot-2);
+			glEnd();
+			glLineWidth(1);
+		}
+        glBegin(GL_QUADS);
+		if (button[i].down) {
+			glColor3fv(button[i].dcolor);
+		} else {
+			glColor3fv(button[i].color);
+		}
+		glVertex2i(button[i].r.left,  button[i].r.bot);
+		glVertex2i(button[i].r.left,  button[i].r.top);
+		glVertex2i(button[i].r.right, button[i].r.top);
+		glVertex2i(button[i].r.right, button[i].r.bot);
+		glEnd();
+		r.left = button[i].r.centerx;
+		r.bot  = button[i].r.centery-8;
+		r.center = 1;
+		if (button[i].down) {
+			ggprint16(&r, 0, button[i].text_color, "Pressed!");
+		} else {
+			ggprint16(&r, 0, button[i].text_color, button[i].text);
+		}
+	}
+
 }
 
 
-//move check mouse from car.cpp to this .cpp
+//Created a check button to check to see if mouse will click
 void check_button(XEvent *e)
 {
 	static int savex = 0;
@@ -200,21 +231,40 @@ void check_button(XEvent *e)
 	int i;
 	int lbutton=0;
 	int rbutton=0;
-
+	//y is backward
+	y = g.yres - y;
+	//when mouse button is release
+	if (e->type == ButtonRelease) {
+		mouse_click(2);
+		return;
+	}
+	if (e->type == ButtonPress) {
+		//when mouse left button is pressed
+		if (e->xbutton.button == 1) {
+			lbutton = 1;
+		}
+		//when mouse right button is pressed
+		if (e->xbutton.button == 3) {
+			rbutton = 1;
+		}
+	}
+	//check to see if mouse move either in x or y direction
 	if (savex != e->xbutton.x || savey != e->xbutton.y) {
-	savex=e->xbutton.x;
-	savey=e->xbutton.y;
+		savex=e->xbutton.x;
+		savey=e->xbutton.y;
 
 	}
-	for (i=0; i<nbuttons; i++) {
+	else if (x == savex && y == savey)
+		return;
+
+	for (i=0; i<MAXBUTTONS; i++) {
 		button[i].over=0;
 		button[i].down=0;
 
-
 		if (x >= button[i].r.left &&
-			x <= button[i].r.right &&
-			y >= button[i].r.bot &&
-			y <= button[i].r.top) {
+				x <= button[i].r.right &&
+				y >= button[i].r.bot &&
+				y <= button[i].r.top) {
 			button[i].over=1;
 			break;
 		}
@@ -225,32 +275,40 @@ void check_button(XEvent *e)
 		mouse_click(2);
 
 }
+
+//Will excuted when one of the state holds true
 void mouse_click(int action)
 {
- 
-    if (action == 1) {
-      //center of menu
-      for (int i=0; i<nbuttons; i++) {
-        button[i].down = 1;
-        button[i].click = 1;
-        if (i == 0) {
-          //start the game
-          startgame = 0;
-        } 
-        if (i == 1) {
-	  //show high score
-          high_score = true;
-        }
-        if (i == 2) {
-	  //show credits
-          credits = true;
-        }
-        if (i == 3) {
-          //Exit the game
-          done = 1;
-        }
-      }
-    }  
+
+int startgame = 1;
+	if(startgame)
+	{
+		if (action == 1) {
+			//center of menu
+			for (int i=0; i<MAXBUTTONS; i++) {
+				if (button[i].over) {
+					button[i].down = 1;
+					button[i].click = 1;
+					if (i == 0) {
+						//start the game
+						startgame = 0;
+					} 
+					if (i == 1) {
+						//show high score
+						high_score = true;
+					}
+					if (i == 2) {
+						//show credits
+						credits = true;
+					}
+					if (i == 3) {
+						//Exit the game
+						done = 1;
+					}
+				}
+			}
+		}
+	}
 }
 
-      
+
