@@ -5,6 +5,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <string>
+#include <stdlib.h>
 #include "ppm.h"
 
 void box (float , float , float );
@@ -78,6 +79,7 @@ class Game {
 void drawStreet(Game& g);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
+unsigned char *buildAlphaData(Ppmimage *img);
 
 class ControlManager {
 	public:
@@ -95,15 +97,17 @@ class ControlManager {
 //This is a parent class to be used by all road obstacles as children classes
 class RoadObstacle {
 	public:
-		RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc, int frameWidth=1, int frameHeight=1);
+		RoadObstacle(double roadPosLR, double roadPosDistance);
+		static void init(std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		bool isCameraInside(Game& g);
 		void render(Game& g);
 		virtual void triggerHitEffects();
 	private:
+		static int frameColumns, frameRows;
+		static std::string spriteLocation;
+		static Ppmimage* sprite;
+		static GLuint texture;
 		double roadPositionLR, roadPositionDistance;
-		int frameColumns, frameRows;
-		std::string spriteLocation;
-		Ppmimage sprite;
 		double calculateWidth();
 		double calculateHeight();
 };

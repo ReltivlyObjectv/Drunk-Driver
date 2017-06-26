@@ -25,9 +25,16 @@
 #include <ctime>
 #include <string>
 #include <sstream>
+#include <unistd.h>
 #include "game.h"
 #include "fonts.h"
 #include "ppm.h"
+
+#ifdef __APPLE__
+#else
+#include <malloc.h>
+#endif
+
 #define BASIC_MOVEMENT 0.1
 #define MAX_MOVEMENT 1
 #define MIN_MOVEMENT 0.1
@@ -43,6 +50,14 @@ bool ControlManager::movingLeft,
      ControlManager::slowingDown,
      ControlManager::speedingUp, 
      ControlManager::hittingObject;
+
+int RoadObstacle::frameRows,
+    RoadObstacle::frameColumns;
+
+std::string RoadObstacle::spriteLocation;
+Ppmimage* RoadObstacle::sprite;
+GLuint RoadObstacle::texture;
+
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
@@ -175,13 +190,26 @@ double Game::getMPH()
 double Game::getDistanceMiles(){
 	return distanceTraveled / SPEED_TO_MPH_MULT / FPS;
 }
-RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance, std::string spriteLoc, int frameWidth, int frameHeight) 
+RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
 {
 	roadPositionLR = roadPosLR;
 	roadPositionDistance = roadPosDistance;
+}
+void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
+{
 	spriteLocation = spriteLoc;
 	frameColumns = frameWidth;
 	frameRows = frameHeight;
+	sprite = ppm6GetImage(spriteLocation.c_str());
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	unsigned char *texData = buildAlphaData(sprite);	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
+		GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	free(texData);
+	unlink(spriteLocation.c_str());
 }
 bool RoadObstacle::isCameraInside(Game& g)
 {
@@ -211,13 +239,14 @@ void RoadObstacle::render(Game& g)
 		return;
 	}
 	printf("An obstacle can be seen on the road\n");
-	/*
 	//Object is within renderable space
 	double width = calculateWidth();
 	double height = calculateHeight();
-	//Ppmimage sprite;
-	glBindTexture(GL_TEXTURE_2D, sprite);
+	printf("unfinished%f%f", width, height);
+	//Ppmimage sprite => Part of class; no definition needed
+	/*
 	//
+	glBindTexture(GL_TEXTURE_2D, sprite);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.0f);
 	glColor4ub(255,255,255,255);
@@ -240,6 +269,11 @@ void RoadObstacle::render(Game& g)
 	*/
 }
 double RoadObstacle::calculateWidth(){
+	//TODO
+	return 0.0;
+}
+double RoadObstacle::calculateHeight(){
+	//TODO
 	return 0.0;
 }
 void drawDebugInfo(Game& g)
@@ -268,4 +302,34 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x0000FF00, "A/Left - Speed Up");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "D/Right - Turn Right");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "H - Hit Animation Test");
+}
+//From walk.cpp
+unsigned char *buildAlphaData(Ppmimage *img)
+{
+	//add 4th component to RGB stream...
+	int i;
+	unsigned char *newdata, *ptr;
+	unsigned char *data = (unsigned char *)img->data;
+	newdata = (unsigned char *)malloc(img->width * img->height * 4);
+	ptr = newdata;
+	unsigned char a,b,c;
+	//use the first pixel in the image as the transparent color.
+	unsigned char t0 = *(data+0);
+	unsigned char t1 = *(data+1);
+	unsigned char t2 = *(data+2);
+	for (i=0; i<img->width * img->height * 3; i+=3) {
+		a = *(data+0);
+		b = *(data+1);
+		c = *(data+2);
+		*(ptr+0) = a;
+		*(ptr+1) = b;
+		*(ptr+2) = c;
+		*(ptr+3) = 1;
+		if (a==t0 && b==t1 && c==t2)
+			*(ptr+3) = 0;
+		//-----------------------------------------------
+		ptr += 4;
+		data += 3;
+	}
+	return newdata;
 }
