@@ -231,12 +231,12 @@ void RoadObstacle::render(Game& g)
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.0f);
 	glColor4ub(255,255,255,255);
-	//Assumes one row for frames right now
+	int frameCount = frameRows * frameColumns
 	static int frame = 0;
 	if (frame >= frameCount)
 		frame = 0;;
-	int ix = frame % frameCount;
-	int iy = 0;
+	int ix = frame % frameRows;
+	int iy = frame % frameColumns;
 	float tx = (float)ix / frameCount;
 	float ty = (float)iy / 1.0;
 	glBegin(GL_QUADS);
