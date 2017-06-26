@@ -1,11 +1,12 @@
 //Dave Rezac
-//editing in the github window
+//cpp files for Drunk Driving game
+//Summer 2017
 
 #include <iostream>
 #include "game.h"
 #include "fonts.h"
 #include <GL/gl.h>
-//#include <GL/glx.h>
+#include <GL/glx.h>
 #include <GL/glu.h>
 #include "ppm.h"
 
@@ -15,17 +16,60 @@ using namespace std;
 
 Ppmimage *inCarImage=NULL;
 GLuint inCarTexture;
-int w=0, h=0;
+int displayDash=1;
+//int w=0, h=0;
 //void initOpengl(void);
 
 //overlay in car view onto animated screen
 void showInCar()
 {
+	glBindTexture(GL_TEXTURE_2D, inCarTexture);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
+		glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
+	glEnd();
 	
 }
   
 void initOpengl(void)
 {
+	//OpenGL initialization
+	glViewport(0, 0, g.xres, g.yres);
+	//Initialize matrices
+	glMatrixMode(GL_PROJECTION); glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+	//This sets 2D mode (no perspective)
+	glOrtho(0, g.xres, 0, g.yres, -1, 1);
+	//
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_FOG);
+	glDisable(GL_CULL_FACE);
+	//
+	//Clear the screen
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	//glClear(GL_COLOR_BUFFER_BIT);
+	//Do this to allow fonts
+	glEnable(GL_TEXTURE_2D);
+	initialize_fonts();
+	//
+	//load the images file into a ppm structure.
+	//
+	inCarImage = ppm6GetImage("inCarPic.ppm");
+	glBindTexture(GL_TEXTURE_2D, inCarTexture);
+	//
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3,inCarImage->width, 
+		inCarImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
+		inCarImage->data);
+		
+}
+
+//////////////////////////////////Start here
+/*
 	//OpenGL initialization
 	glViewport(0, 0, g.xres, g.yres);
 	//Initialize matrices
@@ -72,6 +116,8 @@ void initOpengl(void)
 		GL_RGB, GL_UNSIGNED_BYTE, inCarImage->data);
 	//-------------------------------------------------------------------------
 	//
+*/
+////////////////////////////End here
 	//silhouette
 	//this is similar to a sprite graphic
 	//
@@ -139,4 +185,4 @@ void initOpengl(void)
 	//GL_RGB, GL_UNSIGNED_BYTE, bigfootImage->data);
 	*/
 	//-------------------------------------------------------------------------
-}
+//}
