@@ -82,18 +82,18 @@ void ControlManager::moveForward(Game& g)
 	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
 	displayHitAnimation(g);
-	if (movingLeft) {
+	if (movingLeft && !hittingObject) {
 		g.cameraPosition[0] -= 0.1;
 	}
-	if (movingRight) {
+	if (movingRight && !hittingObject) {
 		g.cameraPosition[0] += 0.1;
 	}
-	if (speedingUp) {
+	if (speedingUp && !hittingObject) {
 		if (g.speed < MAX_MOVEMENT) {
 			g.speed += .001;
 		}
 	}
-	if (slowingDown) {
+	if (slowingDown && !hittingObject) {
 		if (g.speed > MIN_MOVEMENT) {
 			g.speed -= .005;
 		}
@@ -104,6 +104,10 @@ void ControlManager::moveForward(Game& g)
 }
 double ControlManager::calculateSwerveModifier(Game& g)
 {
+	if(hittingObject){
+		//Cannot use tires in the air
+		return 0.0;
+	}
 	double inebriationLevelModifier = (1 + (g.inebriationLevel / 3));
 	return 0.05 * sin(g.cameraPosition[2] * 0.25)  * inebriationLevelModifier;
 }
