@@ -85,6 +85,7 @@ class Game {
 		double getDistanceMiles();
 		void updateCooldowns();
 		int getInebriationLevel();
+		std::string getInebriationDescription();
 };
 void showInCar(void);
 void drawStreet(Game& g);

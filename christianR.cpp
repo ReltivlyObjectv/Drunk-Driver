@@ -44,7 +44,7 @@
 #define OBSTACLE_DEPTH 5
 #define OBSTACLE_WIDTH 5
 #define CAMERA_HEIGHT 1
-#define COOLDOWN_DRINK 100
+#define COOLDOWN_DRINK 50
 #define COOLDOWN_BAC .000008
 #define BAC_PER_BEER .025
 
@@ -237,19 +237,50 @@ double Game::getDistanceMiles()
 }
 int Game::getInebriationLevel()
 {
-	if(bloodAlcoholContent < 0.08){
+	if(bloodAlcoholContent < 0.04){
 		return 0;
-	} else if (bloodAlcoholContent < .1) {
+	} else if(bloodAlcoholContent < 0.08){
 		return 1;
-	} else if (bloodAlcoholContent < .14) {
+	} else if (bloodAlcoholContent < .1) {
 		return 2;
-	} else if (bloodAlcoholContent < .2) {
+	} else if (bloodAlcoholContent < .14) {
 		return 3;
-	} else if (bloodAlcoholContent < .3) {
+	} else if (bloodAlcoholContent < .2) {
 		return 4;
-	} else {
+	} else if (bloodAlcoholContent < .3) {
 		return 5;
+	} else {
+		return 6;
 	}
+}
+std::string Game::getInebriationDescription() {
+	std::string desc;
+	switch (getInebriationLevel()) {
+		case 0:
+			desc = "Sober";
+			break;
+		case 1:
+			desc = "Buzzed";
+			break;
+		case 2:
+			desc = "Legally Drunk";
+			break;
+		case 3:
+			desc = "90's Drunk";
+			break;
+		case 4:
+			desc = "Fucked Up";
+			break;
+		case 5:
+			desc = "Blackout Drunk";
+			break;
+		case 6:
+			desc = "Dead";
+			break;
+		default:
+			desc = "Error";
+	}
+	return desc;
 }
 void Game::updateCooldowns()
 {
@@ -308,6 +339,9 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//Inebriation Level
 	sprintf(buffer, "Drunkness Level: %d", g.getInebriationLevel());
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	//Inebriation Level
+	sprintf(buffer, "You are: %s", g.getInebriationDescription().c_str());
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//BAC
 	sprintf(buffer, "BAC: %.3f", g.bloodAlcoholContent);
