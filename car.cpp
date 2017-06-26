@@ -73,6 +73,7 @@ int main(void)
 		}
 		physics();
 		render();
+		g.updateCooldowns();
 		glXSwapBuffers(dpy, win);
 	}
 	cleanupXWindows();
