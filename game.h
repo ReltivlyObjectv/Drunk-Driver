@@ -83,7 +83,7 @@ class Game {
 		double getMPH();
 		double getDistanceMiles();
 };
-
+void showInCar(void);
 void drawStreet(Game& g);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
