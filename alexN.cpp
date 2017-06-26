@@ -30,7 +30,6 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 #define MAXBUTTONS 4
 //------------------------------------------------
 extern int startgame;
-static int done = 0;
 
 //button click from bship framework
 typedef struct t_button {
@@ -307,8 +306,7 @@ void mouse_click(int action)
 					}
 					if (i == 3) {
 						//Exit the game
-						done = 1;
-						break;
+						g.done = 1;
 					}
 				}
 			}
