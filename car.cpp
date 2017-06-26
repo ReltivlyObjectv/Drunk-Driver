@@ -32,6 +32,8 @@ Ppmimage *menuImage = NULL;
 GLuint menuTexture;
 //---------------------------------------
 
+Ppmimage *inCarPic = NULL;
+GLuint inCarTextures;
 
 //X Windows variables
 Display *dpy;
@@ -188,6 +190,16 @@ void init_opengl(void)
             menuImage->width, menuImage->height,
             0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
 	//End of Menu Image
+	//Dave show car dash
+	inCarPic = ppm6GetImage("./images/inCarPic.ppm");
+	glGenTextures(1 , &inCarTextures);
+	glBindTexture(GL_TEXTURE_2D, inCarTextures);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+            inCarPic->width, inCarPic->height,
+            0, GL_RGB, GL_UNSIGNED_BYTE, inCarPic->data);	
+	//Ppmimage *inCarImage=NULL;
 }
 
 void check_resize(XEvent *e)
@@ -367,7 +379,8 @@ void render(void)
 	    //
 	    drawStreet(g);
 	    //
-	    //
+	    //show car dash
+	    showInCar();
 	    //
 	    //
 	    //switch to 2D mode
