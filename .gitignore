@@ -7,3 +7,9 @@ car
 libggfonts.a
 
 fonttex.o
+
+car
+
+fonts.o
+
+libggfonts.a
