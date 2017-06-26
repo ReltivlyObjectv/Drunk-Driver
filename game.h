@@ -92,6 +92,8 @@ unsigned char *buildAlphaData(Ppmimage *img);
 //Alex's Function
 void check_button(XEvent *e);
 void gamemenu(void);
+void button_init(void);
+void button_render(void);
 //
 void box (float , float , float );
 void initobstacle(Game& g);
