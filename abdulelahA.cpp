@@ -249,3 +249,13 @@ void RoadObstacle::render(Game& g)
 	//TODO
 	*/
 }
+double RoadObstacle::calculateWidth()
+{
+	//TODO
+	return 0.0;
+}
+double RoadObstacle::calculateHeight()
+{
+	//TODO
+	return 0.0;
+}
