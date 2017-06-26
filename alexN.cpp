@@ -22,9 +22,9 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 
 //-------------------------------------------------
 //Button width
-#define BUTTON_W 0
+#define BUTTON_W 5
 //Button height
-#define BUTTON_H 0
+#define BUTTON_H 5
 //Button bottom
 #define BUTTON_B 400
 //4 buttons Start, High Score, Credits, Exit
@@ -66,6 +66,7 @@ void gamemenu(void)
 
     button_init(); 
     button_render();
+    button[3].text_color = 0x00ffffff;
     glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,menuTexture);
 	glBegin(GL_QUADS); 
@@ -180,7 +181,6 @@ void button_init(void)
 void button_render(void)
 {
 	//add render function to render button
-	Rect r;
 	for (int i = 0; i < MAXBUTTONS; i++) {
 		if (button[i].over) {
 			//create the highlight color of button
@@ -207,15 +207,22 @@ void button_render(void)
 		glVertex2i(button[i].r.right, button[i].r.top);
 		glVertex2i(button[i].r.right, button[i].r.bot);
 		glEnd();
-		r.left = button[i].r.centerx;
-		r.bot  = button[i].r.centery-8;
-		r.center = 1;
-		if (button[i].down) {
-			ggprint16(&r, 0, button[i].text_color, "Pressed!");
-		} else {
-			ggprint16(&r, 0, button[i].text_color, button[i].text);
-		}
+		button[i].r.left = button[i].r.centerx;
+		button[i].r.bot  = button[i].r.centery-8;
+		button[i].r.center = 1;
 	}
+	for (int i = 0; i < MAXBUTTONS; i++) {
+		if (button[i].down) {
+			ggprint16(&(button[i].r), 0, button[i].text_color, "Pressed!");
+		} else 
+			ggprint16(&(button[i].r), 0, button[i].text_color, button[i].text);
+
+	}
+
+	/*for (int i =0; i < MAXBUTTONS; i++) {
+	std::string text = " ";
+	ggprint16(&(button[i].r), 0, 0x000FFFF000, text.c_str());
+	}*/
 
 }
 
