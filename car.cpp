@@ -49,7 +49,8 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
-int startgame = 1;
+//Turned menu off so it doesn't break program -- Christian
+int startgame = 0;
 Game g;
 
 int main(void)
