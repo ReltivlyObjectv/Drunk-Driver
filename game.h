@@ -51,8 +51,8 @@ class Game {
 	public:
 		int xres, yres;
 		int done;
-		int inebriationLevel;
-		double speed, distanceTraveled;
+		double speed, distanceTraveled, bloodAlcoholContent, minimumBAC;
+		int cooldownDrink;
 		Flt aspectRatio;
 		Vec cameraPosition, up;
 		GLfloat lightPosition[4];
@@ -78,10 +78,13 @@ class Game {
 			done = 0;
 			speed = 0.1;
 			distanceTraveled = 0;
-			inebriationLevel = 3;
+			bloodAlcoholContent = minimumBAC = 0;
+			cooldownDrink = 0;
 		}
 		double getMPH();
 		double getDistanceMiles();
+		void updateCooldowns();
+		int getInebriationLevel();
 };
 void showInCar(void);
 void drawStreet(Game& g);
