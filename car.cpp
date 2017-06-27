@@ -353,6 +353,7 @@ void render(void)
 {
 	//if startgame holds true pop up menu
 	if (startgame == 1) {
+		glDisable(GL_DEPTH_TEST);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glViewport(0, 0, g.xres, g.yres);
 		glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
@@ -363,6 +364,7 @@ void render(void)
 
 		gamemenu();
 		glPopAttrib();
+		glEnable(GL_DEPTH_TEST);
 	} else {
 		Rect r;
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
