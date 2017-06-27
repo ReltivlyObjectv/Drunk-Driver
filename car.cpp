@@ -105,9 +105,9 @@ void initXWindows(void)
 	//http://www.talisman.org/opengl-1.1/Reference/glXChooseVisual.html
 	Window root;
 	GLint att[] = { GLX_RGBA,
-					GLX_STENCIL_SIZE, 2,
-					GLX_DEPTH_SIZE, 24,
-					GLX_DOUBLEBUFFER, None };
+		GLX_STENCIL_SIZE, 2,
+		GLX_DEPTH_SIZE, 24,
+		GLX_DOUBLEBUFFER, None };
 	//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
 	//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
 	//XVisualInfo *vi;
@@ -128,13 +128,13 @@ void initXWindows(void)
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-	                 StructureNotifyMask | SubstructureNotifyMask |
-			 ButtonPressMask | ButtonReleaseMask | 
-			 PointerMotionMask | StructureNotifyMask |
-			 SubstructureNotifyMask;
+		StructureNotifyMask | SubstructureNotifyMask |
+		ButtonPressMask | ButtonReleaseMask | 
+		PointerMotionMask | StructureNotifyMask |
+		SubstructureNotifyMask;
 	win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
-							vi->depth, InputOutput, vi->visual,
-							CWColormap | CWEventMask, &swa);
+			vi->depth, InputOutput, vi->visual,
+			CWColormap | CWEventMask, &swa);
 	set_title();
 	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
@@ -186,20 +186,20 @@ void init_opengl(void)
 	glGenTextures(1 , &menuTexture);
 	glBindTexture(GL_TEXTURE_2D, menuTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-            menuImage->width, menuImage->height,
-            0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			menuImage->width, menuImage->height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
 	//End of Menu Image
 	//Dave show car dash
 	inCarPic = ppm6GetImage("./images/inCarPic.ppm");
 	glGenTextures(1 , &inCarTextures);
 	glBindTexture(GL_TEXTURE_2D, inCarTextures);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-            inCarPic->width, inCarPic->height,
-            0, GL_RGB, GL_UNSIGNED_BYTE, inCarPic->data);	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			inCarPic->width, inCarPic->height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, inCarPic->data);	
 	//Ppmimage *inCarImage=NULL;
 }
 
@@ -351,56 +351,58 @@ void physics(void)
 
 void render(void)
 {
-    //if startgame holds true pop up menu
-    if (startgame == 1) {
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glViewport(0, 0, g.xres, g.yres);
-	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
-	    glMatrixMode (GL_PROJECTION); glLoadIdentity();
-	    gluOrtho2D(0, g.xres, 0, g.yres);
-	    glPushAttrib(GL_ENABLE_BIT);
-	    glDisable(GL_LIGHTING);
+	//if startgame holds true pop up menu
+	if (startgame == 1) {
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glViewport(0, 0, g.xres, g.yres);
+		glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+		glMatrixMode (GL_PROJECTION); glLoadIdentity();
+		gluOrtho2D(0, g.xres, 0, g.yres);
+		glPushAttrib(GL_ENABLE_BIT);
+		glDisable(GL_LIGHTING);
 
-        gamemenu();
-        glPopAttrib();
-    } else {
-	    Rect r;
-	    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	    //
-	    //3D mode
-	    glMatrixMode(GL_PROJECTION); glLoadIdentity();
-	    gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
-	    glMatrixMode(GL_MODELVIEW);
-	    glLoadIdentity();
-	    //for documentation...
-	    gluLookAt(
-		    g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
-		    g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
-		    0, 1, 0);
-	    //
-	    drawStreet(g);
-	    //
-	    //show car dash
-	    showInCar();
-	    //
-	    //
-	    //switch to 2D mode
-	    //
-	    glViewport(0, 0, g.xres, g.yres);
-	    glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
-	    glMatrixMode (GL_PROJECTION); glLoadIdentity();
-	    gluOrtho2D(0, g.xres, 0, g.yres);
-	    glPushAttrib(GL_ENABLE_BIT);
-	    glDisable(GL_LIGHTING);
-	    //glDisable(GL_DEPTH_TEST);
-	    //glDisable(GL_CULL_FACE);
-	    r.bot = g.yres - 20;
-	    r.left = 10;
-	    r.center = 0;
-	    ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
-	    drawDebugInfo(g);
-	    glPopAttrib();
-    }
+		gamemenu();
+		glPopAttrib();
+	} else {
+		Rect r;
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		//
+		//3D mode
+		glMatrixMode(GL_PROJECTION); glLoadIdentity();
+		gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		//for documentation...
+		gluLookAt(
+				g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
+				g.cameraPosition[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-1.0,
+				0, 1, 0);
+		//
+		drawStreet(g);
+		//
+		//show car dash
+		showInCar();
+		//
+		//
+		//switch to 2D mode
+		//
+		glViewport(0, 0, g.xres, g.yres);
+		glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+		glMatrixMode (GL_PROJECTION); glLoadIdentity();
+		gluOrtho2D(0, g.xres, 0, g.yres);
+		glPushAttrib(GL_ENABLE_BIT);
+		glDisable(GL_LIGHTING);
+		//glDisable(GL_DEPTH_TEST);
+		//glDisable(GL_CULL_FACE);
+		r.bot = g.yres - 20;
+		r.left = 10;
+		r.center = 0;
+		ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
+		drawDebugInfo(g);
+		glPopAttrib();
+		//Blur if need be
+		blurScreen();
+	}
 }
 
 void drawStreet(Game& g)
