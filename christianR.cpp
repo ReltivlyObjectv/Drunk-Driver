@@ -41,7 +41,7 @@
 #define MIN_MOVEMENT 0.1
 #define ROAD_WIDTH 4
 #define SPEED_TO_MPH_MULT 100
-#define FPS 35
+#define FPS 50
 #define OBSTACLE_DEPTH 5
 #define OBSTACLE_WIDTH 5
 #define CAMERA_HEIGHT 1
@@ -133,7 +133,7 @@ double ControlManager::calculateSwerveModifier(Game& g)
 			static double progress = 0;
 			static bool backwards = false;
 			if (currentlySwerving) {
-				if (progress >= 4.5) {
+				if (progress >= (3/2) * PI) {
 					//swerve is over
 					progress = 0;
 					currentlySwerving = false;
@@ -179,8 +179,10 @@ double ControlManager::calculateSwerveModifier(Game& g)
 			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
 		case 5:
-			//TODO Blackout instead of blur
-			blurScreen(3);
+			//Random blackouts
+			if (int randNum = rand() % 1000 < 5) {
+				blackoutScreen(g, randNum);
+			}
 			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
 		case 6:
@@ -398,20 +400,56 @@ void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
 }
+void blackoutScreen(Game& g, float secs)
+{
+	//Progress starts at 0 and ends at Pi;
+	static double progress = 0;
+	static double seconds = 1;
+	static bool finished = true;
+	static double progressPerCall;
+	
+	if (progress >= PI) {
+		//Free the function up for further use
+		finished = true;
+		progress = 0;
+		return;
+	} else if (!finished) {
+		//Continue blackout
+		glPushMatrix();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4f(0.0, 0.0, 0.0, sin(progress));
+		glTranslated(g.xres, g.yres, 0);
+		glBegin(GL_QUADS);
+		glVertex2i(-g.xres, -g.yres);
+		glVertex2i(-g.xres, g.yres);
+		glVertex2i(g.xres, g.yres);
+		glVertex2i(g.xres, -g.yres);
+		glEnd();
+		glDisable(GL_BLEND);
+		glPopMatrix();
+		progress += progressPerCall;
+		return;
+	} else if (secs > 0) {
+		//Start new blur
+		progressPerCall = PI / (seconds * FPS);
+		finished = false;
+		seconds = secs;
+		return;
+	}
+}
 void blurScreen(float secs)
 {
 	//Progress starts at 0 and ends at 1;
 	static double progress = 0;
 	static double seconds = 1;
 	static bool finished = true;
-	double progressPerCall = 1 / (seconds * FPS);
+	static double progressPerCall;
 
-	if (progress >= 1) {
+	if (progress >= PI) {
 		//Free the function up for further use
-		//TODO Reset viewport
 		finished = true;
 		progress = 0;
-		//printf("Finished with blur\n");
 		return;
 	} else if (!finished) {
 		//Continue blur
@@ -421,20 +459,12 @@ void blurScreen(float secs)
 		return;
 	} else if (secs > 0) {
 		//Start new blur
+		progressPerCall = PI / (seconds * FPS);
 		finished = false;
 		seconds = secs;
 		//printf("Starting blur\n");
 		return;
 	}
-	/*
-	GLfloat alpha;
-	glEnable(GL_BLEND);
-	glDisable(GL_DEPTH_TEST);
-	for(alpha=1.0; alpha>0.0; alpha -=0.05) {
-		//glClear color buffer to black
-		glColor4f(1.0, 1.0, 1.0, alpha);
-	}
-	*/
 }
 void drawDebugInfo(Game& g)
 {
