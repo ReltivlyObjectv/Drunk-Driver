@@ -21,9 +21,9 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 #include "game.h"
 //-------------------------------------------------
 //Button width
-#define BUTTON_W 5
+#define BUTTON_W 50
 //Button height
-#define BUTTON_H 5
+#define BUTTON_H 50
 //Button bottom
 #define BUTTON_B 400
 //4 buttons Start, High Score, Credits, Exit
@@ -60,11 +60,7 @@ static int credits = 1;
 //Start Menu
 void gamemenu(void)
 {
-
-
-    button_init(); 
-    button_render();
-    glPushMatrix();
+	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,menuTexture);
 	glBegin(GL_QUADS); 
 	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres); 
@@ -72,8 +68,14 @@ void gamemenu(void)
 	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
 	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
 	glEnd();
-    glPopMatrix();
-    glBindTexture(GL_TEXTURE_2D, 0);
+	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	button_init();
+	button_render();
+
+
+	 
 }
 
 //Button will be drawn onto the menu 
@@ -81,7 +83,7 @@ void button_init(void)
 {
 	//add button function to initiate
 	//Start button
-    	button[0].r.width = BUTTON_W;
+	button[0].r.width = BUTTON_W;
 	button[0].r.height = BUTTON_H;
 	button[0].r.left = g.xres/2 - button[0].r.width/2;
 	button[0].r.bot = BUTTON_B;
@@ -193,7 +195,7 @@ void button_render(void)
 			glEnd();
 			glLineWidth(1);
 		}
-        glBegin(GL_QUADS);
+		glBegin(GL_QUADS);
 		if (button[i].down) {
 			glColor3fv(button[i].dcolor);
 		} else {
@@ -204,22 +206,16 @@ void button_render(void)
 		glVertex2i(button[i].r.right, button[i].r.top);
 		glVertex2i(button[i].r.right, button[i].r.bot);
 		glEnd();
-		button[i].r.left = button[i].r.centerx;
-		button[i].r.bot  = button[i].r.centery-8;
-		button[i].r.center = 1;
-	}
-	for (int i = 0; i < MAXBUTTONS; i++) {
+		Rect r;
+		r.left = button[i].r.centerx;
+		r.bot  = button[i].r.centery-8;
+		r.center = 1;
 		if (button[i].down) {
-			ggprint16(&(button[i].r), 0, button[i].text_color, "Pressed!");
-		} else 
-			ggprint16(&(button[i].r), 0, button[i].text_color, button[i].text);
-
-	}
-	/*for (int i =0; i < MAXBUTTONS; i++) {
-	std::string text = " ";
-	ggprint16(&(button[i].r), 0, 0x000FFFF000, text.c_str());
-	}*/
-
+			ggprint16(&r, 0, button[i].text_color, "Pressed!");
+		} else {
+			ggprint16(&r, 0, button[i].text_color, button[i].text);
+		}
+	} 	
 }
 
 
@@ -283,34 +279,34 @@ void check_button(XEvent *e)
 void mouse_click(int action)
 {
 
-		if (action == 1) {
-			//center of menu
-			for (int i=0; i<MAXBUTTONS; i++) {
-				if (button[i].over) {
-					button[i].down = 1;
-					button[i].click = 1;
-					if (i == 0) {
-						//start the game
-						startgame = 0;
-						break;
-					} 
-					if (i == 1) {
-						//show high score
-						system("firefox http://www.army.mil/article/181742/dont_ruin_the_game_by_drinking_driving");
-						break;
-					}
-					if (i == 2) {
-						//show credits
-						credits = 0;
-						break;
-					}
-					if (i == 3) {
-						//Exit the game
-						g.done = 1;
-					}
+	if (action == 1) {
+		//center of menu
+		for (int i=0; i<MAXBUTTONS; i++) {
+			if (button[i].over) {
+				button[i].down = 1;
+				button[i].click = 1;
+				if (i == 0) {
+					//start the game
+					startgame = 0;
+					break;
+				} 
+				if (i == 1) {
+					//show high score
+					system("firefox http://www.army.mil/article/181742/dont_ruin_the_game_by_drinking_driving");
+					break;
+				}
+				if (i == 2) {
+					//show credits
+					credits = 0;
+					break;
+				}
+				if (i == 3) {
+					//Exit the game
+					g.done = 1;
 				}
 			}
 		}
+	}
 }
 
 
