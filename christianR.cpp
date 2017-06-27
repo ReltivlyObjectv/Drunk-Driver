@@ -61,8 +61,6 @@ std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
 GLuint RoadObstacle::texture;
 
-void blurScreen(float secs=-1);
-
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
@@ -109,7 +107,6 @@ void ControlManager::moveForward(Game& g)
 }
 double ControlManager::calculateSwerveModifier(Game& g)
 {
-	blurScreen();
 	static bool currentlySwerving = false;
 	static int inebLevel = g.getInebriationLevel();
 	if (hittingObject) {
