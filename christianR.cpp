@@ -19,6 +19,7 @@
 //---virtual functions
 //-Other Changes
 //--Added debug info screen to display important variables
+//--Added function to blur the screen for a period of time
 
 #include <math.h>
 #include <stdio.h>
@@ -177,12 +178,19 @@ double ControlManager::calculateSwerveModifier(Game& g)
 			blurScreen(2);
 			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
-		/*
 		case 5:
+			//TODO Blackout instead of blur
+			blurScreen(3);
+			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
-		*/
 		case 6:
-			//No modifier; you are dead
+			//Crash into side; you are dead
+			static bool right = (rand() % 2 == 1) ? true : false;
+			if (right) {
+				return 0.5;
+			} else {
+				return -0.5;
+			}
 			return 0;
 			break;
 		default:
@@ -412,6 +420,7 @@ void blurScreen(float secs)
 		//printf("Continuing blur: %f\n", progress);
 		return;
 	} else if (secs > 0) {
+		//Start new blur
 		finished = false;
 		seconds = secs;
 		//printf("Starting blur\n");
