@@ -61,6 +61,8 @@ std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
 GLuint RoadObstacle::texture;
 
+void blurScreen(float secs=-1);
+
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
@@ -107,6 +109,7 @@ void ControlManager::moveForward(Game& g)
 }
 double ControlManager::calculateSwerveModifier(Game& g)
 {
+	blurScreen();
 	static bool currentlySwerving = false;
 	static int inebLevel = g.getInebriationLevel();
 	if (hittingObject) {
@@ -169,11 +172,15 @@ double ControlManager::calculateSwerveModifier(Game& g)
 			//Consistent bobbing and weaving
 			return sin(g.cameraPosition[2] / 6) / 30;
 			break;
-		/*
 		case 3:
+			//Consistent bobbing and weaving and fade to black
+			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
 		case 4:
+			blurScreen(2);
+			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
+		/*
 		case 5:
 			break;
 		*/
@@ -385,6 +392,43 @@ bool RoadObstacle::isCameraInside(Game& g)
 void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
+}
+void blurScreen(float secs)
+{
+	//Progress starts at 0 and ends at 1;
+	static double progress = 0;
+	static double seconds = 1;
+	static bool finished = true;
+	double progressPerCall = 1 / (seconds * FPS);
+
+	if (progress >= 1) {
+		//Free the function up for further use
+		//TODO Reset viewport
+		finished = true;
+		progress = 0;
+		//printf("Finished with blur\n");
+		return;
+	} else if (!finished) {
+		//Continue blur
+		//TODO
+		progress += progressPerCall;
+		//printf("Continuing blur: %f\n", progress);
+		return;
+	} else if (secs > 0) {
+		finished = false;
+		seconds = secs;
+		//printf("Starting blur\n");
+		return;
+	}
+	/*
+	GLfloat alpha;
+	glEnable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+	for(alpha=1.0; alpha>0.0; alpha -=0.05) {
+		//glClear color buffer to black
+		glColor4f(1.0, 1.0, 1.0, alpha);
+	}
+	*/
 }
 void drawDebugInfo(Game& g)
 {
