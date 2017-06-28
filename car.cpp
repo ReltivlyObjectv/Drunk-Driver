@@ -402,9 +402,8 @@ void render(void)
 		ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
 		drawDebugInfo(g);
 		glPopAttrib();
-		//Blur and blackout if need be
+		//Blackout if need be
 		blackoutScreen(g);
-		blurScreen();
 	}
 }
 

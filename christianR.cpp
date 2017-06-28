@@ -175,12 +175,15 @@ double ControlManager::calculateSwerveModifier(Game& g)
 			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
 		case 4:
-			blurScreen(2);
+			//Random blackouts
+			if (int randNum = rand() % 1000 < 5) {
+				blackoutScreen(g, randNum);
+			}
 			return sin(g.cameraPosition[2] / 4.5) / 30;
 			break;
 		case 5:
-			//Random blackouts
-			if (int randNum = rand() % 1000 < 5) {
+			//Longer blackouts
+			if (int randNum = rand() % 1000 < 8) {
 				blackoutScreen(g, randNum);
 			}
 			return sin(g.cameraPosition[2] / 4.5) / 30;
@@ -435,34 +438,6 @@ void blackoutScreen(Game& g, float secs)
 		progressPerCall = PI / (seconds * FPS);
 		finished = false;
 		seconds = secs;
-		return;
-	}
-}
-void blurScreen(float secs)
-{
-	//Progress starts at 0 and ends at 1;
-	static double progress = 0;
-	static double seconds = 1;
-	static bool finished = true;
-	static double progressPerCall;
-
-	if (progress >= PI) {
-		//Free the function up for further use
-		finished = true;
-		progress = 0;
-		return;
-	} else if (!finished) {
-		//Continue blur
-		//TODO
-		progress += progressPerCall;
-		//printf("Continuing blur: %f\n", progress);
-		return;
-	} else if (secs > 0) {
-		//Start new blur
-		progressPerCall = PI / (seconds * FPS);
-		finished = false;
-		seconds = secs;
-		//printf("Starting blur\n");
 		return;
 	}
 }
