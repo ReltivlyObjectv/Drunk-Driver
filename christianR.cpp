@@ -103,9 +103,9 @@ void ControlManager::moveForward(Game& g)
 	g.cameraPosition[0] += totalTurning;
 	//Pivot Camera
 	if (!hittingObject) {
-		if (movingLeft) {
+		if (totalTurning < 0) {
 			g.up[0] += TURN_SPEED;
-		} else if (movingRight) {
+		} else if (totalTurning > 0) {
 			g.up[0] -= TURN_SPEED;
 		} else {
 			if (g.up[0] > 0) {
@@ -260,18 +260,18 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 			ControlManager::slowingDown = isPress;
 			break;
 		case XK_h:
-			if (isPress) {
+			if (isPress && g.gameState == UNPAUSED) {
 				ControlManager::playAnimationHit();
 			}
 			break;
 		case XK_j:
-			if (isPress) {
+			if (isPress && g.gameState == UNPAUSED) {
 				if (g.cooldownDrink == 0) {
 					printf("Key is pressed: %s (%d)\n", "Drinking a nice, cold bev", key);
 					g.bloodAlcoholContent += BAC_PER_BEER;
 					g.minimumBAC += BAC_PER_BEER * .33;
 					g.cooldownDrink = COOLDOWN_DRINK;
-				}			} else {
+				}			
 			}
 			break;
 		case XK_p:
