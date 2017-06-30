@@ -50,6 +50,7 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
+
 //Turned menu off so it doesn't break program -- Christian
 Game g;
 
