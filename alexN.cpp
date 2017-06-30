@@ -341,5 +341,21 @@ void game_pause(void)
 	ggprint16(&r, 16, 0, "Press P again to unpause");
 	pause = false;
     }
-	
+	//---------------------------------------------------------
+//Game Over Screen
+void Game_over(void)
+{
+        glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D,gameoverTexture);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
+        glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
+        glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+        glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
+        glEnd();
+        glPopMatrix();
+        glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
 }
