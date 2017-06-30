@@ -48,6 +48,8 @@
 #define COOLDOWN_DRINK 50
 #define COOLDOWN_BAC .000008
 #define BAC_PER_BEER .025
+#define TURN_MAX 3
+#define TURN_SPEED 0.1
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -62,7 +64,7 @@ std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
 GLuint RoadObstacle::texture;
 
-void ControlManager::applyDrunkSwerve(Game& g)
+double ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
 		if (ControlManager::movingLeft) {
@@ -76,7 +78,7 @@ void ControlManager::applyDrunkSwerve(Game& g)
 		}else {
 
 		}
-	g.cameraPosition[0] += swerveMovement;
+	return swerveMovement;
 
 }
 void ControlManager::moveForward(Game& g)
@@ -86,12 +88,19 @@ void ControlManager::moveForward(Game& g)
 	g.distanceTraveled += g.speed;
 	g.lightPosition[2] = g.cameraPosition[2];
 	displayHitAnimation(g);
+	//Turn
+	double totalTurning = 0;
 	if (movingLeft && !hittingObject) {
-		g.cameraPosition[0] -= 0.1;
+		totalTurning -= 0.1;
 	}
 	if (movingRight && !hittingObject) {
-		g.cameraPosition[0] += 0.1;
+		totalTurning += 0.1;
 	}
+	totalTurning += ControlManager::applyDrunkSwerve(g);
+	g.cameraPosition[0] += totalTurning;
+	//Pivot Camera
+	//g.up[2] = .3;
+	//Speed
 	if (speedingUp && !hittingObject) {
 		if (g.speed < MAX_MOVEMENT) {
 			g.speed += .001;
@@ -209,49 +218,23 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 	switch (key) {
 		case XK_Right:
 		case XK_d:
-			if (isPress) {
-				//printf("Key is pressed: %s (%d)\n", "Right", key);
-			} else {
-				//printf("Key released: %s (%d)\n", "Right", key);
-			}
 			ControlManager::movingRight = isPress;
 			break;
 		case XK_Left:
 		case XK_a:
-			if (isPress) {
-				//printf("Key is pressed: %s (%d)\n", "Left", key);
-			} else {
-				//printf("Key released: %s (%d)\n", "Left", key);
-			}
 			ControlManager::movingLeft = isPress;
 			break;
 		case XK_Up:
 		case XK_w:
-			if (isPress) {
-				//printf("Key is pressed: %s (%d)\n", "Speed Up", key);
-				//printf("Speeding Up. Velocity: %.5f\n", g.speed);
-			} else {
-				//printf("Key released: %s (%d)\n", "Speed Up", key);
-			}
 			ControlManager::speedingUp = isPress;
 			break;
 		case XK_Down:
 		case XK_s:
-			if (isPress) {
-				//printf("Key is pressed: %s (%d)\n", "Slow Down", key);
-				//printf("Slowing Down. Velocity: %.5f\n", g.speed);
-			} else {
-			
-				//printf("Key is released: %s (%d)\n", "Slow Down", key);
-			}
 			ControlManager::slowingDown = isPress;
 			break;
 		case XK_h:
 			if (isPress) {
-				//printf("Key is pressed: %s (%d)\n", "Hit Animation", key);
 				ControlManager::playAnimationHit();
-			} else {
-				//printf("Key released: %s (%d)\n", "Hit Animation", key);
 			}
 			break;
 		case XK_j:
@@ -261,11 +244,7 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 					g.bloodAlcoholContent += BAC_PER_BEER;
 					g.minimumBAC += BAC_PER_BEER * .33;
 					g.cooldownDrink = COOLDOWN_DRINK;
-				} else {
-					//printf("Key is pressed: %s (%d)\n", "Cannot drink (cooldown)", key);
-				}
-			} else {
-				//printf("Key is released: %s (%d)\n", "Drinking button", key);
+				}			} else {
 			}
 			break;
 		case XK_Escape:

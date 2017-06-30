@@ -70,7 +70,7 @@ class Game {
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
 			up[0] = 0;
 			up[1] = 0;
-			up[2] = 0;
+			up[2] = 1;
 			MakeVector(0.0, 1.0, 8.0, cameraPosition);
 			//light is up high, right a little, toward a little
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
@@ -107,7 +107,7 @@ class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;
 		static void applyControls(Game& g, int key, bool isPress);
-		static void applyDrunkSwerve(Game& g);
+		static double applyDrunkSwerve(Game& g);
 		static void moveForward(Game& g);
 		static void checkBounds(Game& g);
 		static double calculateSwerveModifier(Game& g);
