@@ -345,7 +345,6 @@ void trans_vector(Matrix mat, const Vec in, Vec out)
 
 void physics(void)
 {
-	ControlManager::applyDrunkSwerve(g);
 	ControlManager::moveForward(g);
 	ControlManager::checkBounds(g);
 }
