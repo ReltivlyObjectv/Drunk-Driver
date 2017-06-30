@@ -89,7 +89,6 @@ class Game {
 };
 void showInCar(void);
 void drawStreet(Game& g);
-void blurScreen(float secs=-1);
 void blackoutScreen(Game& g, float secs=-1);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
