@@ -99,30 +99,31 @@ void ControlManager::moveForward(Game& g)
 	totalTurning += ControlManager::applyDrunkSwerve(g);
 	g.cameraPosition[0] += totalTurning;
 	//Pivot Camera
-	if (movingLeft) {
-		g.up[0] += TURN_SPEED;
-	} else if (movingRight) {
-		g.up[0] -= TURN_SPEED;
-	} else {
-		if (g.up[0] > 0) {
-			g.up[0] -= TURN_SPEED;
-			if (g.up[0] < 0) {
-				g.up[0] = 0;
-			}
-		} else if (g.up[0] < 0) {
+	if (!hittingObject) {
+		if (movingLeft) {
 			g.up[0] += TURN_SPEED;
+		} else if (movingRight) {
+			g.up[0] -= TURN_SPEED;
+		} else {
 			if (g.up[0] > 0) {
-				g.up[0] = 0;
+				g.up[0] -= TURN_SPEED / 2;
+				if (g.up[0] < 0) {
+					g.up[0] = 0;
+				}
+			} else if (g.up[0] < 0) {
+				g.up[0] += TURN_SPEED / 2;
+				if (g.up[0] > 0) {
+					g.up[0] = 0;
+				}
 			}
 		}
+		if (g.up[0] > TURN_MAX) {
+			g.up[0] = TURN_MAX;
+		}
+		if (g.up[0] < -TURN_MAX) {
+			g.up[0] = -TURN_MAX;
+		}
 	}
-	if (g.up[0] > TURN_MAX) {
-		g.up[0] = TURN_MAX;
-	}
-	if (g.up[0] < -TURN_MAX) {
-		g.up[0] = -TURN_MAX;
-	}
-
 	//Speed
 	if (speedingUp && !hittingObject) {
 		if (g.speed < MAX_MOVEMENT) {
