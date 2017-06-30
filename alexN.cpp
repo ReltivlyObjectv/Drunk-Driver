@@ -51,6 +51,7 @@ void mouse_click(int action);
 void check_button(XEvent *e);
 extern Game g;
 extern GLuint menuTexture;
+extern GLuint gameoverTexture;
 void button_init(void);
 void button_render(void);
 bool pause = false;
@@ -72,10 +73,9 @@ void gamemenu(void)
 	glEnd();
 	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
-
 	button_init();
 	button_render();
-
+	
 
 	 
 }
@@ -341,7 +341,8 @@ void game_pause(void)
 	ggprint16(&r, 16, 0, "Press P again to unpause");
 	pause = false;
     }
-	//---------------------------------------------------------
+}
+//---------------------------------------------------------
 //Game Over Screen
 void Game_over(void)
 {
@@ -355,7 +356,7 @@ void Game_over(void)
         glEnd();
         glPopMatrix();
         glBindTexture(GL_TEXTURE_2D, 0);
-}
+
 
 
 }
