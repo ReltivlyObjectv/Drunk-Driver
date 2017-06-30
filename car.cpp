@@ -416,6 +416,9 @@ void render(void)
 		glPopAttrib();
 		//Blackout if need be
 		blackoutScreen(g);
+		if (g.gameState == PAUSED) {
+			drawPauseMenu();
+		}
 	}
 }
 

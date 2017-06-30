@@ -462,6 +462,10 @@ void blackoutScreen(Game& g, float secs)
 		return;
 	}
 }
+void drawPauseMenu()
+{
+	
+}
 void drawDebugInfo(Game& g)
 {
 	Rect debugStats;
