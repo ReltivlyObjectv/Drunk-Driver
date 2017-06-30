@@ -48,8 +48,8 @@
 #define COOLDOWN_DRINK 50
 #define COOLDOWN_BAC .000008
 #define BAC_PER_BEER .025
-#define TURN_MAX 0.5
-#define TURN_SPEED 0.03
+#define TURN_MAX 0.1
+#define TURN_SPEED 0.01
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -101,9 +101,20 @@ void ControlManager::moveForward(Game& g)
 	//Pivot Camera
 	if (movingLeft) {
 		g.up[0] += TURN_SPEED;
-	}
-	if (movingRight) {
+	} else if (movingRight) {
 		g.up[0] -= TURN_SPEED;
+	} else {
+		if (g.up[0] > 0) {
+			g.up[0] -= TURN_SPEED;
+			if (g.up[0] < 0) {
+				g.up[0] = 0;
+			}
+		} else if (g.up[0] < 0) {
+			g.up[0] += TURN_SPEED;
+			if (g.up[0] > 0) {
+				g.up[0] = 0;
+			}
+		}
 	}
 	if (g.up[0] > TURN_MAX) {
 		g.up[0] = TURN_MAX;
@@ -111,6 +122,7 @@ void ControlManager::moveForward(Game& g)
 	if (g.up[0] < -TURN_MAX) {
 		g.up[0] = -TURN_MAX;
 	}
+
 	//Speed
 	if (speedingUp && !hittingObject) {
 		if (g.speed < MAX_MOVEMENT) {
