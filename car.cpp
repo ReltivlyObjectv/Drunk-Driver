@@ -30,6 +30,9 @@
 //Alex start menu images
 Ppmimage *menuImage = NULL;
 GLuint menuTexture;
+Ppmimage *gameoverImage = NULL;
+GLuint gameoverTexture;
+
 //---------------------------------------
 Ppmimage *inCarPic = NULL;
 GLuint inCarTextures;
@@ -192,6 +195,15 @@ void init_opengl(void)
 			menuImage->width, menuImage->height,
 			0, GL_RGB, GL_UNSIGNED_BYTE, menuImage->data);	
 	//End of Menu Image
+	 //Alex's Game Over Image
+        gameoverImage   = ppm6GetImage("./images/gameover.ppm");
+        glGenTextures(1 , &gameoverTexture);
+        glBindTexture(GL_TEXTURE_2D, menuTexture);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                        gameoverImage->width, gameoverImage->height,
+                        0, GL_RGB, GL_UNSIGNED_BYTE, gameoverImage->data);
 	//Dave show car dash
 	inCarPic = ppm6GetImage("./images/inCarPic.ppm");
 	glGenTextures(1 , &inCarTextures);
