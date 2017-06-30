@@ -48,7 +48,6 @@
 #define COOLDOWN_DRINK 50
 #define COOLDOWN_BAC .000008
 #define BAC_PER_BEER .025
-
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
      ControlManager::slowingDown,
@@ -61,7 +60,6 @@ int RoadObstacle::frameRows,
 std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
 GLuint RoadObstacle::texture;
-
 void ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
