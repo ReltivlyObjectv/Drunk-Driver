@@ -83,6 +83,9 @@ double ControlManager::applyDrunkSwerve(Game& g)
 }
 void ControlManager::moveForward(Game& g)
 {
+	if (g.gameState == PAUSED) {
+		return;
+	}
 	//TODO Two Headlights as light source
 	g.cameraPosition[2] -= g.speed;
 	g.distanceTraveled += g.speed;
@@ -271,6 +274,15 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 				}			} else {
 			}
 			break;
+		case XK_p:
+			if (isPress) {
+				if (g.gameState == PAUSED) {
+					g.gameState = UNPAUSED;
+				} else if (g.gameState == UNPAUSED) {
+					g.gameState = PAUSED;
+				}
+			}
+			break;
 		case XK_Escape:
 			printf("Key is pressed: %s (%d)\n", "Escape", key);
 			g.done = 1;
@@ -279,6 +291,9 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 }
 void ControlManager::checkBounds(Game& g)
 {
+	if (g.gameState == PAUSED) {
+		return;
+	}
 	if (g.cameraPosition[0] > ROAD_WIDTH) {
 		g.cameraPosition[0] = ROAD_WIDTH;
 	}
@@ -376,6 +391,9 @@ std::string Game::getInebriationDescription()
 }
 void Game::updateCooldowns()
 {
+	if (gameState == PAUSED) {
+		return;
+	}
 	//Called every frame -- reduces each cooldown by one
 	if (cooldownDrink > 0) {
 		cooldownDrink--;
@@ -489,4 +507,5 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x0000FF00, "D/Right - Turn Right");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "H - Hit Animation Test");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "J - Drink a beer");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "P - Pause");
 }

@@ -47,8 +47,14 @@ typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
+enum GameStates {
+	PAUSED,
+	UNPAUSED
+};
+
 class Game {
 	public:
+		int gameState;
 		int xres, yres;
 		int done;
 		double speed, distanceTraveled, bloodAlcoholContent, minimumBAC;
@@ -65,6 +71,7 @@ class Game {
 		//
 		Game() {
 			//constructor
+			gameState = UNPAUSED;
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
