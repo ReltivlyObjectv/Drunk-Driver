@@ -53,8 +53,10 @@ extern Game g;
 extern GLuint menuTexture;
 void button_init(void);
 void button_render(void);
-//static int high_score = 1;
+bool pause = false;
 static int credits = 1;
+void game_pause(void);
+static bool menu = true;
 //---------------------------------------------
 
 //Start Menu
@@ -278,7 +280,8 @@ void check_button(XEvent *e)
 //Will excuted when one of the state holds true
 void mouse_click(int action)
 {
-
+    if(menu) {
+	menu = false;
 	if (action == 1) {
 		//center of menu
 		for (int i=0; i<MAXBUTTONS; i++) {
@@ -307,6 +310,36 @@ void mouse_click(int action)
 			}
 		}
 	}
+	}
 }
 
+void game_pause(void)
+{
+    double h = 100.0;
+    double w = 200.0;
+    glPushMatrix();
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(0.0, 0.0, 0.0, 0.8);
+    glTranslated(g.xres/2, g.yres/2, 0);
+    glBegin(GL_QUADS);
+    glVertex2i(-w, -h);
+    glVertex2i(-w,  h);
+    glVertex2i( w,  h);
+    glVertex2i( w, -h);
+    glEnd();
+    glDisable(GL_BLEND);
+    glPopMatrix();
 
+    Rect r;
+    r.bot = g.yres/2 + 150;
+    r.left = g.xres/2;
+    r.center= 1;
+    ggprint16(&r, 16, 0, "Pause Screen.");
+
+    if (pause) {
+	ggprint16(&r, 16, 0, "Press P again to unpause");
+	pause = false;
+    }
+	
+}
