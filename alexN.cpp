@@ -53,9 +53,9 @@ extern GLuint gameoverTexture;
 void button_init(void);
 void button_render(void);
 bool pause = false;
-static int credits = 1;
+int credits = 1;
 void game_pause(void);
-static bool menu = true;
+bool menu = false;
 void game_over(void);
 //---------------------------------------------
 //Button will be drawn onto the menu 
@@ -258,7 +258,7 @@ void check_button(XEvent *e)
 //Will excuted when one of the state holds true
 void mouse_click(int action)
 {
-	if(menu) {
+	if(!menu) {
 		if (action == 1) {
 			//center of menu
 			for (int i=0; i<MAXBUTTONS; i++) {
@@ -267,7 +267,8 @@ void mouse_click(int action)
 					button[i].click = 1;
 					if (i == 0) {
 						//start the game
-						startgame = 0;
+						startgame = false;
+						menu = true;
 						break;
 					} 
 					if (i == 1) {
