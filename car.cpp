@@ -41,6 +41,7 @@ Display *dpy;
 Window win;
 GLXContext glc;
 
+int dead = 0;
 int startgame = 1;
 void init(void);
 void initXWindows(void);
@@ -198,7 +199,7 @@ void init_opengl(void)
 	 //Alex's Game Over Image
         gameoverImage   = ppm6GetImage("./images/gameover.ppm");
         glGenTextures(1 , &gameoverTexture);
-        glBindTexture(GL_TEXTURE_2D, menuTexture);
+        glBindTexture(GL_TEXTURE_2D, gameoverTexture);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
@@ -373,11 +374,15 @@ void render(void)
 		gluOrtho2D(0, g.xres, 0, g.yres);
 		glPushAttrib(GL_ENABLE_BIT);
 		glDisable(GL_LIGHTING);
-
-		gamemenu();
+		gamemenu();	
+		if(dead == 1) {
+			game_over();
+			dead = 0;
+		}
 		glPopAttrib();
 		glEnable(GL_DEPTH_TEST);
 	} else {
+		startgame = 0;
 		Rect r;
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//
