@@ -417,7 +417,7 @@ void render(void)
 		//Blackout if need be
 		blackoutScreen(g);
 		if (g.gameState == PAUSED) {
-			drawPauseMenu();
+			drawPauseMenu(g);
 		}
 	}
 }
