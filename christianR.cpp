@@ -426,6 +426,9 @@ void RoadObstacle::triggerHitEffects()
 }
 void blackoutScreen(Game& g, float secs)
 {
+	if (g.gameState == PAUSED) {
+		return;
+	}
 	//Progress starts at 0 and ends at Pi;
 	static double progress = 0;
 	static double seconds = 1;
@@ -462,9 +465,24 @@ void blackoutScreen(Game& g, float secs)
 		return;
 	}
 }
-void drawPauseMenu()
+void drawPauseMenu(Game& g)
 {
-	
+	glPushMatrix();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(0,0,0,0.25);
+	glTranslated(g.xres, g.yres, 0);
+	glBegin(GL_QUADS);
+	double w = g.xres;
+	double h = g.yres;
+	glBegin(GL_QUADS);
+	glVertex2i(-w,-h);
+	glVertex2i(-w, h);
+	glVertex2i( w, h);
+	glVertex2i( w,-h);
+	glEnd();
+	glDisable(GL_BLEND);
+	glPopMatrix();
 }
 void drawDebugInfo(Game& g)
 {
