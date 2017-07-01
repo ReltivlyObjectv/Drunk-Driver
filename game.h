@@ -47,8 +47,17 @@ typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
+enum GameStates {
+	//TODO implement MENU and GAMEOVER instead of globals
+	MENU,
+	PAUSED,
+	UNPAUSED,
+	GAMEOVER
+};
+
 class Game {
 	public:
+		int gameState;
 		int xres, yres;
 		int done;
 		double speed, distanceTraveled, bloodAlcoholContent, minimumBAC;
@@ -65,6 +74,7 @@ class Game {
 		//
 		Game() {
 			//constructor
+			gameState = UNPAUSED;
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
@@ -89,6 +99,7 @@ class Game {
 };
 void showInCar(void);
 void drawStreet(Game& g);
+void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);

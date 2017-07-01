@@ -83,6 +83,9 @@ double ControlManager::applyDrunkSwerve(Game& g)
 }
 void ControlManager::moveForward(Game& g)
 {
+	if (g.gameState == PAUSED) {
+		return;
+	}
 	//TODO Two Headlights as light source
 	g.cameraPosition[2] -= g.speed;
 	g.distanceTraveled += g.speed;
@@ -100,9 +103,9 @@ void ControlManager::moveForward(Game& g)
 	g.cameraPosition[0] += totalTurning;
 	//Pivot Camera
 	if (!hittingObject) {
-		if (movingLeft) {
+		if (totalTurning < 0) {
 			g.up[0] += TURN_SPEED;
-		} else if (movingRight) {
+		} else if (totalTurning > 0) {
 			g.up[0] -= TURN_SPEED;
 		} else {
 			if (g.up[0] > 0) {
@@ -257,18 +260,27 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 			ControlManager::slowingDown = isPress;
 			break;
 		case XK_h:
-			if (isPress) {
+			if (isPress && g.gameState == UNPAUSED) {
 				ControlManager::playAnimationHit();
 			}
 			break;
 		case XK_j:
-			if (isPress) {
+			if (isPress && g.gameState == UNPAUSED) {
 				if (g.cooldownDrink == 0) {
 					printf("Key is pressed: %s (%d)\n", "Drinking a nice, cold bev", key);
 					g.bloodAlcoholContent += BAC_PER_BEER;
 					g.minimumBAC += BAC_PER_BEER * .33;
 					g.cooldownDrink = COOLDOWN_DRINK;
-				}			} else {
+				}			
+			}
+			break;
+		case XK_p:
+			if (isPress) {
+				if (g.gameState == PAUSED) {
+					g.gameState = UNPAUSED;
+				} else if (g.gameState == UNPAUSED) {
+					g.gameState = PAUSED;
+				}
 			}
 			break;
 		case XK_Escape:
@@ -279,6 +291,9 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 }
 void ControlManager::checkBounds(Game& g)
 {
+	if (g.gameState == PAUSED) {
+		return;
+	}
 	if (g.cameraPosition[0] > ROAD_WIDTH) {
 		g.cameraPosition[0] = ROAD_WIDTH;
 	}
@@ -376,6 +391,9 @@ std::string Game::getInebriationDescription()
 }
 void Game::updateCooldowns()
 {
+	if (gameState == PAUSED) {
+		return;
+	}
 	//Called every frame -- reduces each cooldown by one
 	if (cooldownDrink > 0) {
 		cooldownDrink--;
@@ -408,6 +426,9 @@ void RoadObstacle::triggerHitEffects()
 }
 void blackoutScreen(Game& g, float secs)
 {
+	if (g.gameState == PAUSED) {
+		return;
+	}
 	//Progress starts at 0 and ends at Pi;
 	static double progress = 0;
 	static double seconds = 1;
@@ -443,6 +464,25 @@ void blackoutScreen(Game& g, float secs)
 		seconds = secs;
 		return;
 	}
+}
+void drawPauseMenu(Game& g)
+{
+	glPushMatrix();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(0,0,0,0.25);
+	glTranslated(g.xres, g.yres, 0);
+	glBegin(GL_QUADS);
+	double w = g.xres;
+	double h = g.yres;
+	glBegin(GL_QUADS);
+	glVertex2i(-w,-h);
+	glVertex2i(-w, h);
+	glVertex2i( w, h);
+	glVertex2i( w,-h);
+	glEnd();
+	glDisable(GL_BLEND);
+	glPopMatrix();
 }
 void drawDebugInfo(Game& g)
 {
@@ -489,4 +529,5 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x0000FF00, "D/Right - Turn Right");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "H - Hit Animation Test");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "J - Drink a beer");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "P - Pause");
 }
