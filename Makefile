@@ -13,6 +13,7 @@ carmac: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGSMAC) -o car -stdlib=libc++ -I/usr/X11R6/include -L/usr/X11R6/lib -framework OpenGL -framework Cocoa 
 
 macsymlink:
+	#This is used to create a symlink to a required library that is likely already on your system
 	ln -s /usr/local/Cellar/wxmac/3.0.0.0/lib/libwx_osx_cocoau-3.0.0.0.0.dylib /usr/local/lib/
 
 clean:
