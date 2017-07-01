@@ -9,9 +9,7 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
  * 6/21/17 : Add ppm image of menu, start button init function move check mouse
  * 6/22/17 : Move check mouse back and add the function to it to extend check mouse
  * 6/24/17 : Created and update check_button and initalize function in check_mouse
- *	     Finish button_init and button_render, will be adding addition 
- *           Game over menu/screen function, will be moving #include and definition 
- *	     then clean up codes to K&R.
+ *6/30/17 : Fix menu bug, added pause menu and gameover menu
  */
 
 #include <string.h>
@@ -58,28 +56,8 @@ bool pause = false;
 static int credits = 1;
 void game_pause(void);
 static bool menu = true;
+void game_over(void);
 //---------------------------------------------
-
-//Start Menu
-void gamemenu(void)
-{
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D,menuTexture);
-	glBegin(GL_QUADS); 
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres); 
-	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
-	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
-	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
-	glEnd();
-	glPopMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	button_init();
-	button_render();
-	
-
-	 
-}
-
 //Button will be drawn onto the menu 
 void button_init(void)
 {
@@ -280,83 +258,98 @@ void check_button(XEvent *e)
 //Will excuted when one of the state holds true
 void mouse_click(int action)
 {
-    if(menu) {
-	menu = false;
-	if (action == 1) {
-		//center of menu
-		for (int i=0; i<MAXBUTTONS; i++) {
-			if (button[i].over) {
-				button[i].down = 1;
-				button[i].click = 1;
-				if (i == 0) {
-					//start the game
-					startgame = 0;
-					break;
-				} 
-				if (i == 1) {
-					//show high score
-					system("firefox http://www.army.mil/article/181742/dont_ruin_the_game_by_drinking_driving");
-					break;
-				}
-				if (i == 2) {
-					//show credits
-					credits = 0;
-					break;
-				}
-				if (i == 3) {
-					//Exit the game
-					g.done = 1;
+	if(menu) {
+		if (action == 1) {
+			//center of menu
+			for (int i=0; i<MAXBUTTONS; i++) {
+				if (button[i].over) {
+					button[i].down = 1;
+					button[i].click = 1;
+					if (i == 0) {
+						//start the game
+						startgame = 0;
+						break;
+					} 
+					if (i == 1) {
+						//show high score
+						system("firefox http://www.army.mil/article/181742/dont_ruin_the_game_by_drinking_driving");
+						break;
+					}
+					if (i == 2) {
+						//show credits
+						credits = 0;
+						break;
+					}
+					if (i == 3) {
+						//Exit the game
+						g.done = 1;
+					}
 				}
 			}
 		}
-	}
 	}
 }
 
 void game_pause(void)
 {
-    double h = 100.0;
-    double w = 200.0;
-    glPushMatrix();
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(0.0, 0.0, 0.0, 0.8);
-    glTranslated(g.xres/2, g.yres/2, 0);
-    glBegin(GL_QUADS);
-    glVertex2i(-w, -h);
-    glVertex2i(-w,  h);
-    glVertex2i( w,  h);
-    glVertex2i( w, -h);
-    glEnd();
-    glDisable(GL_BLEND);
-    glPopMatrix();
+	double h = 100.0;
+	double w = 200.0;
+	glPushMatrix();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(0.0, 0.0, 0.0, 0.8);
+	glTranslated(g.xres/2, g.yres/2, 0);
+	glBegin(GL_QUADS);
+	glVertex2i(-w, -h);
+	glVertex2i(-w,  h);
+	glVertex2i( w,  h);
+	glVertex2i( w, -h);
+	glEnd();
+	glDisable(GL_BLEND);
+	glPopMatrix();
 
-    Rect r;
-    r.bot = g.yres/2 + 150;
-    r.left = g.xres/2;
-    r.center= 1;
-    ggprint16(&r, 16, 0, "Pause Screen.");
+	Rect r;
+	r.bot = g.yres/2 + 150;
+	r.left = g.xres/2;
+	r.center= 1;
+	ggprint16(&r, 16, 0, "Pause Screen.");
 
-    if (pause) {
-	ggprint16(&r, 16, 0, "Press P again to unpause");
-	pause = false;
-    }
+	if (pause) {
+		ggprint16(&r, 16, 0, "Press P again to unpause");
+		pause = false;
+	}
 }
 //---------------------------------------------------------
 //Game Over Screen
-void Game_over(void)
+void game_over()
 {
-        glPushMatrix();
-        glBindTexture(GL_TEXTURE_2D,gameoverTexture);
-        glBegin(GL_QUADS);
-        glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
-        glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
-        glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
-        glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
-        glEnd();
-        glPopMatrix();
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D,gameoverTexture);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
+	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
+	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
+	glEnd();
+	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 }
+//Start Menu
+void gamemenu(void)
+{
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D,menuTexture);
+	glBegin(GL_QUADS); 
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres); 
+	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
+	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
+	glEnd();
+	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	button_init();
+	button_render();
+}
+
+
