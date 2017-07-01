@@ -42,7 +42,7 @@ Window win;
 GLXContext glc;
 
 int dead = 0;
-int startgame = 1;
+bool startgame = true;
 void init(void);
 void initXWindows(void);
 void init_opengl(void);
@@ -365,7 +365,7 @@ void physics(void)
 void render(void)
 {
 	//if startgame holds true pop up menu
-	if (startgame == 1) {
+	if (startgame) {
 		glDisable(GL_DEPTH_TEST);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glViewport(0, 0, g.xres, g.yres);
@@ -381,8 +381,7 @@ void render(void)
 		}
 		glPopAttrib();
 		glEnable(GL_DEPTH_TEST);
-	} else {
-		startgame = 0;
+	} else if (!startgame) {
 		Rect r;
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//
