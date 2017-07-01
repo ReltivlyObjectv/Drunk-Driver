@@ -48,8 +48,11 @@ typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
 enum GameStates {
+	//TODO implement MENU and GAMEOVER instead of globals
+	MENU,
 	PAUSED,
-	UNPAUSED
+	UNPAUSED,
+	GAMEOVER
 };
 
 class Game {
@@ -96,10 +99,10 @@ class Game {
 };
 void showInCar(void);
 void drawStreet(Game& g);
+void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
-void drawPauseMenu();
 unsigned char *buildAlphaData(Ppmimage *img);
 
 //Alex's Function
