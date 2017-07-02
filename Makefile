@@ -2,8 +2,10 @@ CFLAGS =     -pthread -Wall -Wextra -Werror
 LFLAGS =    -lrt -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 LFLAGSMAC = -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 
+#all is used to compile on Linux
 all: fonts.o fonttex.o staticLib car
 
+#mac is used to compile on OS X, after "make macsymlink" has been called, if needed
 mac: fontsmac.o fonttex.o staticLib carmac
 
 car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
