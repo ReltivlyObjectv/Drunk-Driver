@@ -13,3 +13,5 @@ car
 fonts.o
 
 libggfonts.a
+
+*.o
