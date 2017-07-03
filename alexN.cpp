@@ -13,6 +13,7 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
  */
 
 #include <string.h>
+#include <stdio.h>
 #include "fonts.h"
 #include "log.h"
 #include "ppm.h"
