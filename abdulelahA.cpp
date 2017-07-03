@@ -259,3 +259,8 @@ double RoadObstacle::calculateHeight()
 	//TODO
 	return 0.0;
 }
+void CatObstacle::triggerHitEffects()
+{
+	//TODO Add sound effects?
+	ControlManager::playAnimationHit();
+}
