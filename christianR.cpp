@@ -90,7 +90,7 @@ double ControlManager::applyDrunkSwerve(Game& g)
 }
 void ControlManager::moveForward(Game& g)
 {
-	if (g.gameState == PAUSED) {
+	if (g.gameState != UNPAUSED) {
 		return;
 	}
 	//TODO Two Headlights as light source
@@ -298,14 +298,20 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 }
 void ControlManager::checkBounds(Game& g)
 {
-	if (g.gameState == PAUSED) {
+	if (g.gameState != UNPAUSED) {
 		return;
 	}
 	if (g.cameraPosition[0] > ROAD_WIDTH) {
+		printf("Gameover!\n");
 		g.cameraPosition[0] = ROAD_WIDTH;
+		ControlManager::movingLeft = ControlManager::movingRight = false;
+		g.gameState = GAMEOVER;
 	}
 	if (g.cameraPosition[0] < -1 * ROAD_WIDTH) {
+		printf("Gameover!\n");
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
+		ControlManager::movingLeft = ControlManager::movingRight = false;
+		g.gameState = GAMEOVER;
 	}
 }
 void ControlManager::playAnimationHit()
