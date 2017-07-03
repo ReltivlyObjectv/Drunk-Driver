@@ -146,6 +146,10 @@ class RoadObstacle {
 		double calculateWidth();
 		double calculateHeight();
 };
+class CatObstacle {
+	public:
+		virtual void triggerHitEffects();
+};
 
 //----------------------------------------------------------------------------
 
