@@ -383,7 +383,7 @@ void render(void)
 		glPopAttrib();
 		glEnable(GL_DEPTH_TEST);
 	} else if (g.gameState == UNPAUSED || g.gameState == PAUSED) {
-		printf("Rendering Game...\n");
+		//printf("Rendering Game...\n");
 		Rect r;
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//
