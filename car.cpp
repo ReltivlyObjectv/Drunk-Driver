@@ -49,7 +49,7 @@ void init_opengl(void);
 //void init_textures(void);
 void cleanupXWindows(void);
 void check_resize(XEvent *e);
-void check_mouse(XEvent *e);
+void check_mouse(XEvent *e, Game& g);
 void check_keys(XEvent *e);
 void physics(void);
 void render(void);
@@ -69,10 +69,10 @@ int main(void)
 			XEvent e;
 			XNextEvent(dpy, &e);
 			check_resize(&e);
-			check_mouse(&e);
+			check_mouse(&e, g);
 			check_keys(&e);
 			//check to see if mouse clicked correctly
-			check_button(&e);
+			check_button(&e, g);
 		}
 		physics();
 		render();
@@ -244,7 +244,7 @@ Flt vecNormalize(Vec vec) {
 	return len;
 }
 
-void check_mouse(XEvent *e)
+void check_mouse(XEvent *e, Game& g)
 {
 	//Did the mouse move?
 	//Was a mouse button clicked?
@@ -267,7 +267,7 @@ void check_mouse(XEvent *e)
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
-	check_button(e);//Check to see if it works 
+	check_button(e, g);//Check to see if it works 
 }
 
 void check_keys(XEvent *e)
@@ -365,7 +365,8 @@ void physics(void)
 void render(void)
 {
 	//if startgame holds true pop up menu
-	if (startgame) {
+	if (g.gameState == MENU) {
+		//printf("Rendering Main Menu...\n");
 		glDisable(GL_DEPTH_TEST);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glViewport(0, 0, g.xres, g.yres);
@@ -374,14 +375,15 @@ void render(void)
 		gluOrtho2D(0, g.xres, 0, g.yres);
 		glPushAttrib(GL_ENABLE_BIT);
 		glDisable(GL_LIGHTING);
-		gamemenu();	
+		gamemenu();
 		if(dead == 1) {
 			game_over();
 			dead = 0;
 		}
 		glPopAttrib();
 		glEnable(GL_DEPTH_TEST);
-	} else if (!startgame) {
+	} else if (g.gameState == UNPAUSED || g.gameState == PAUSED) {
+		printf("Rendering Game...\n");
 		Rect r;
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//
