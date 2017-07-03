@@ -7,6 +7,8 @@
 #include <string>
 #include <stdlib.h>
 #include <cstring>
+#include <vector>
+#include "glm/glm.hpp"
 #include "ppm.h"
 
 void box (float , float , float );
@@ -61,7 +63,11 @@ class Object3d {
 		Object3d(std::string path, std::string texPath, double roadPosLR, double roadPosDistance);
 		bool isWorking();
 	private:
+		std::vector<glm::vec3> vertices, normals;
+		std::vector<glm::vec2> uvs;
 		GLuint loadBMP(std::string path);
+		void loadOBJ(std::string path);
+		GLuint texture;
 		bool working;
 		double roadPositionLR, roadPositionDistance;
 
