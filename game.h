@@ -45,16 +45,22 @@ void box (float , float , float );
 
 typedef float Flt;
 typedef Flt Vec[3];
-typedef Flt	Matrix[4][4];
+typedef Flt Matrix[4][4];
 
 enum GameStates {
-	//TODO implement MENU and GAMEOVER instead of globals
+	//TODO implement MENU and GAMEOVER into all functions instead of various globals
 	MENU,
 	PAUSED,
 	UNPAUSED,
 	GAMEOVER
 };
+class Object3d {
+	public:
+		Object3d(std::string path, double roadPosLR, double roadPosDistance);
+	private:
+		double roadPositionLR, roadPositionDistance;
 
+};
 class Game {
 	public:
 		int gameState;
