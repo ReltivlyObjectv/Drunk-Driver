@@ -52,6 +52,7 @@ enum GameStates {
 	MENU,
 	PAUSED,
 	UNPAUSED,
+	CREDITS,
 	GAMEOVER
 };
 class Object3d {
@@ -80,7 +81,7 @@ class Game {
 		//
 		Game() {
 			//constructor
-			gameState = UNPAUSED;
+			gameState = MENU;
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
@@ -112,7 +113,7 @@ void check_button(XEvent *e);
 unsigned char *buildAlphaData(Ppmimage *img);
 
 //Alex's Function
-void check_button(XEvent *e);
+void check_button(XEvent *e, Game& g);
 void gamemenu(void);
 void button_init(void);
 void button_render(void);
