@@ -50,15 +50,19 @@
 #define BAC_PER_BEER .025
 #define TURN_MAX 0.1
 #define TURN_SPEED 0.01
+#define SPEED_MOD_FASTER .001
+#define SPEED_MOD_SLOWER .005
+
+
 
 bool ControlManager::movingLeft,
-     ControlManager::movingRight,
-     ControlManager::slowingDown,
-     ControlManager::speedingUp, 
-     ControlManager::hittingObject;
+	ControlManager::movingRight,
+	ControlManager::slowingDown,
+	ControlManager::speedingUp, 
+	ControlManager::hittingObject;
 
 int RoadObstacle::frameRows,
-    RoadObstacle::frameColumns;
+	RoadObstacle::frameColumns;
 
 std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
@@ -71,11 +75,11 @@ double ControlManager::applyDrunkSwerve(Game& g)
 			if (swerveMovement < 0) {		
 				swerveMovement = -1 * BASIC_MOVEMENT / 2;
 			}
-		}else if (ControlManager::movingRight) {
+		} else if (ControlManager::movingRight) {
 			if (swerveMovement > 0) {		
 				swerveMovement =  BASIC_MOVEMENT / 2;
 			}
-		}else {
+		} else {
 
 		}
 	return swerveMovement;
@@ -130,12 +134,12 @@ void ControlManager::moveForward(Game& g)
 	//Speed
 	if (speedingUp && !hittingObject) {
 		if (g.speed < MAX_MOVEMENT) {
-			g.speed += .001;
+			g.speed += SPEED_MOD_FASTER;
 		}
 	}
 	if (slowingDown && !hittingObject) {
 		if (g.speed > MIN_MOVEMENT) {
-			g.speed -= .005;
+			g.speed -= SPEED_MOD_SLOWER;
 		}
 	}
 	if (g.cameraPosition[2] <= -100) {
@@ -423,6 +427,22 @@ bool RoadObstacle::isCameraInside(Game& g)
 void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
+}
+Object3d::Object3d(std::string path, double roadPosLR, double roadPosDistance)
+{
+	roadPositionLR = roadPosLR;
+	roadPositionDistance = roadPosDistance;
+	FILE* file = fopen(path.c_str(), "r");
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return;
+	}
+	//std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
+	//std::vector< glm::vec3 > temp_vertices;
+	//std::vector< glm::vec2 > temp_uvs;
+	//std::vector< glm::vec3 > temp_normals;
+	
+	//TODO load model
 }
 void blackoutScreen(Game& g, float secs)
 {
