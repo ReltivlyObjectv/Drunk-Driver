@@ -9,10 +9,13 @@ all: fonts.o fonttex.o staticLib car
 mac: fontsmac.o fonttex.o staticLib carmac
 
 car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
+	@echo "Compiling game (Linux)"
 	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGS) -o car
 
 carmac: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
-	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGSMAC) -o car -stdlib=libc++ -I/usr/X11R6/include -L/usr/X11R6/lib -framework OpenGL -framework Cocoa 
+	@echo "Compiling game (OS X)"
+	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGSMAC) -o car \
+		-stdlib=libc++ -I/usr/X11R6/include -L/usr/X11R6/lib -framework OpenGL -framework Cocoa 
 
 macsymlink:
 	#This is used to create a symlink to a required library that is likely already on your system
@@ -24,15 +27,19 @@ clean:
 	rm -f *.a
 
 fonts.o: fonts.cpp fonts.h defs.h
-	g++ -c -Wall -Wextra fonts.cpp
+	@echo "Compiling fonts (Linux)"
+	@g++ -c -Wall -Wextra fonts.cpp
 
 fontsmac.o: fonts.cpp fonts.h defs.h
-	g++ -c -Wall -Wextra fonts.cpp -I/opt/X11/include
+	@echo "Compiling fonts (OS X)"
+	@g++ -c -Wall -Wextra fonts.cpp -I/opt/X11/include
 
 fonttex.o: fonttex.cpp
-	g++ -c -Wall -Wextra fonttex.cpp
+	@echo "Compiling font: textures (Universal)"
+	@g++ -c -Wall -Wextra fonttex.cpp
 
 staticLib: fonts.o fonttex.o
-	ar -cvq libggfonts.a fonts.o fonttex.o
-	rm libggfonts.a
-	ar -cvq libggfonts.a fonts.o fonttex.o
+	@echo "Compiling font: staticLib (Universal)"
+	@ar -cvq libggfonts.a fonts.o fonttex.o
+	@rm libggfonts.a
+	@ar -cvq libggfonts.a fonts.o fonttex.o
