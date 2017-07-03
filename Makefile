@@ -27,7 +27,7 @@ fonts.o: fonts.cpp fonts.h defs.h
 	g++ -c -Wall -Wextra fonts.cpp
 
 fontsmac.o: fonts.cpp fonts.h defs.h
-	g++ -c -Wall -Wextra fonts.cpp -I/opt/X11/include -L/opt/X11/lib -lGL -lX11
+	g++ -c -Wall -Wextra fonts.cpp -I/opt/X11/include
 
 fonttex.o: fonttex.cpp
 	g++ -c -Wall -Wextra fonttex.cpp
