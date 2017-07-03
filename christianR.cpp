@@ -428,21 +428,88 @@ void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
 }
-Object3d::Object3d(std::string path, double roadPosLR, double roadPosDistance)
+GLuint Object3d::loadBMP(std::string path)
+{
+	//Done with the assistance of http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/
+	//Data read from the header of the BMP file
+	// Each BMP file begins by a 54-bytes header
+	unsigned char header[54];
+	// Position in the file where the actual data begins
+	unsigned int dataPos;
+	unsigned int width, height;
+	//Image size is = width*height*3
+	unsigned int imageSize;
+	// Actual RGB data
+	unsigned char* data;
+	// Open the file
+	FILE* file = fopen(path.c_str(),"rb");
+	if (!file) {
+		printf("Texture could not be opened: %s\n", path.c_str());
+		working = false;
+		return 0;
+	}
+	//If not 54 bytes read : problem
+	if (fread(header, 1, 54, file) != 54) { 
+		printf("Not a correct BMP file\n");
+		working = false;
+		return 0;
+	}
+	//Since BMP always starts with 'BM', check if correct type
+	if (header[0]!='B' || header[1]!='M'){
+		printf("Not a correct BMP file\n");
+		working = false;
+		return 0;
+	}
+	//Now we can read the size of the image, the location of the data in the file, etc
+	// Read ints from the byte array
+	dataPos = *(int*)&(header[0x0A]);
+	imageSize = *(int*)&(header[0x22]);
+	width = *(int*)&(header[0x12]);
+	height = *(int*)&(header[0x16]);
+	// Some BMP files are misformatted, guess missing information
+	if (imageSize==0) {
+		// 3 : one byte for each Red, Green and Blue component
+		imageSize=width*height*3; 
+	}
+	if (dataPos==0) {
+		// The BMP header is done that way
+		dataPos=54; 
+	}
+	//Now that we know the size of the image, we can allocate some memory to read the image into, and read
+	// Create a buffer
+	data = new unsigned char [imageSize];
+	// Read the actual data from the file into the buffer
+	fread(data,1,imageSize,file);
+	//Everything is in memory now, the file can be closed
+	fclose(file);
+	// Create one OpenGL texture
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	return textureID;
+}
+Object3d::Object3d(std::string path, std::string texPath, double roadPosLR, double roadPosDistance)
 {
 	roadPositionLR = roadPosLR;
 	roadPositionDistance = roadPosDistance;
 	FILE* file = fopen(path.c_str(), "r");
 	if (file == NULL) {
-		printf("Impossible to open the file !\n");
+		working = false;
+		printf("File could not be found!\n");
 		return;
 	}
-	//std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
-	//std::vector< glm::vec3 > temp_vertices;
-	//std::vector< glm::vec2 > temp_uvs;
-	//std::vector< glm::vec3 > temp_normals;
-	
+	GLuint texture = loadBMP(texPath);
+	printf("printing to prevent warnings until function finished: %u\n", texture);
 	//TODO load model
+}
+bool Object3d::isWorking()
+{
+	return working;
 }
 void blackoutScreen(Game& g, float secs)
 {

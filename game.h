@@ -55,10 +55,14 @@ enum GameStates {
 	CREDITS,
 	GAMEOVER
 };
+//Object3d is an object to be rendered on the side of the road (outside playable area)
 class Object3d {
 	public:
-		Object3d(std::string path, double roadPosLR, double roadPosDistance);
+		Object3d(std::string path, std::string texPath, double roadPosLR, double roadPosDistance);
+		bool isWorking();
 	private:
+		GLuint loadBMP(std::string path);
+		bool working;
 		double roadPositionLR, roadPositionDistance;
 
 };
