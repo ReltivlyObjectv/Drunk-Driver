@@ -44,7 +44,7 @@ typedef struct t_button {
 }Button;
 
 Button button[MAXBUTTONS];
-
+Button button2[2];
 //----------------------------------------------
 void mouse_click(int action, Game& g);
 void check_button(XEvent *e);
@@ -53,11 +53,11 @@ extern GLuint menuTexture;
 extern GLuint gameoverTexture;
 void button_init(void);
 void button_render(void);
-//bool pause = false;
-//int credits = 1;
 void game_pause(void);
-//bool menu = false;
 void game_over(void);
+void gameover_init(void);
+void gameover_click(int action, Game& g);
+
 //---------------------------------------------
 //Button will be drawn onto the menu 
 void button_init(void)
@@ -327,21 +327,6 @@ void game_pause(void)
 	}
 }
 //---------------------------------------------------------
-//Game Over Screen
-void game_over()
-{
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D,gameoverTexture);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
-	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
-	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
-	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
-	glEnd();
-	glPopMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-}
 //Start Menu
 void gamemenu(void)
 {
@@ -358,5 +343,47 @@ void gamemenu(void)
 	button_init();
 	button_render();
 }
+//Game Over Screen
+void game_over()
+{
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D,gameoverTexture);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
+	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
+	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
+	glEnd();
+	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	gameover_init();
+	button_render();
 
+}
+
+void gameover_click(int action, Game& g)
+{
+    if (g.gameState == GAMEOVER) {
+        if (action == 1) {
+            int i =0;
+            for (i=0; i<2; i++) {
+                if (button2[i].over) {
+                    button2[i].down = 1;
+                    button2[i].click = 1;
+                    if (i==0) {
+                        //bring back to game menu
+                    }
+                    if (i ==1) {
+                        g.done = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void gameover_init()
+{
+ //Add button
+}
 
