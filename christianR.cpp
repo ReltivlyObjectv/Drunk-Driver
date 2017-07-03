@@ -510,7 +510,7 @@ void Object3d::loadOBJ(std::string path)
 		working = false;
 		return;
 	}
-	while(true){
+	while (true) {
 		char lineHeader[256];
 		// read the first word of the line
 		int res = fscanf(file, "%s", lineHeader);
@@ -529,14 +529,14 @@ void Object3d::loadOBJ(std::string path)
 				glm::vec3 normal;
 				fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
 				temp_normals.push_back(normal);
-			} else if (strcmp(lineHeader, "f") == 0){
+			} else if (strcmp(lineHeader, "f") == 0) {
 				std::string vertex1, vertex2, vertex3;
 				unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
 				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", 
 						&vertexIndex[0], &uvIndex[0], &normalIndex[0], 
 						&vertexIndex[1], &uvIndex[1], &normalIndex[1], 
 						&vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-				if (matches != 9){
+				if (matches != 9) {
 					printf("File can't be read by simple parser: %s\n", path.c_str());
 					working = false;
 					return;
