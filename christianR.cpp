@@ -519,15 +519,15 @@ void Object3d::loadOBJ(std::string path)
 		} else {
 			if (strcmp(lineHeader, "v") == 0) {
 				glm::vec3 vertex;
-				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z );
+				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 				temp_vertices.push_back(vertex);
-			} else if (strcmp( lineHeader, "vt") == 0) {
+			} else if (strcmp(lineHeader, "vt") == 0) {
 				glm::vec2 uv;
 				fscanf(file, "%f %f\n", &uv.x, &uv.y);
 				temp_uvs.push_back(uv);
 			} else if (strcmp(lineHeader, "vn") == 0) {
 				glm::vec3 normal;
-				fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
+				fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
 				temp_normals.push_back(normal);
 			} else if (strcmp(lineHeader, "f") == 0) {
 				std::string vertex1, vertex2, vertex3;
@@ -635,8 +635,8 @@ void drawPauseMenu(Game& g)
 	glBegin(GL_QUADS);
 	glVertex2i(-w,-h);
 	glVertex2i(-w, h);
-	glVertex2i( w, h);
-	glVertex2i( w,-h);
+	glVertex2i(w, h);
+	glVertex2i(w,-h);
 	glEnd();
 	glDisable(GL_BLEND);
 	glPopMatrix();
