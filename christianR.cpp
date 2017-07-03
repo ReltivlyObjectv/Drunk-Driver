@@ -350,9 +350,9 @@ double Game::getDistanceMiles()
 }
 int Game::getInebriationLevel()
 {
-	if(bloodAlcoholContent < 0.04) {
+	if (bloodAlcoholContent < 0.04) {
 		return 0;
-	} else if(bloodAlcoholContent < 0.08) {
+	} else if (bloodAlcoholContent < 0.08) {
 		return 1;
 	} else if (bloodAlcoholContent < .1) {
 		return 2;
@@ -458,7 +458,7 @@ GLuint Object3d::loadBMP(std::string path)
 		return 0;
 	}
 	//Since BMP always starts with 'BM', check if correct type
-	if (header[0]!='B' || header[1]!='M'){
+	if (header[0]!='B' || header[1]!='M') {
 		printf("Not a correct BMP file\n");
 		working = false;
 		return 0;
