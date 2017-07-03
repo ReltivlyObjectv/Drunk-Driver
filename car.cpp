@@ -376,7 +376,7 @@ void render(void)
 		glPushAttrib(GL_ENABLE_BIT);
 		glDisable(GL_LIGHTING);
 		gamemenu();
-		if(dead == 1) {
+		if (dead == 1) {
 			game_over();
 			dead = 0;
 		}
