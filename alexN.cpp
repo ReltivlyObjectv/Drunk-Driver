@@ -45,17 +45,17 @@ typedef struct t_button {
 Button button[MAXBUTTONS];
 
 //----------------------------------------------
-void mouse_click(int action);
+void mouse_click(int action, Game& g);
 void check_button(XEvent *e);
 extern Game g;
 extern GLuint menuTexture;
 extern GLuint gameoverTexture;
 void button_init(void);
 void button_render(void);
-bool pause = false;
-int credits = 1;
+//bool pause = false;
+//int credits = 1;
 void game_pause(void);
-bool menu = false;
+//bool menu = false;
 void game_over(void);
 //---------------------------------------------
 //Button will be drawn onto the menu 
@@ -200,7 +200,7 @@ void button_render(void)
 
 
 //Created a check button to check to see if mouse will click
-void check_button(XEvent *e)
+void check_button(XEvent *e, Game& g)
 {
 	static int savex = 0;
 	static int savey = 0;
@@ -209,7 +209,7 @@ void check_button(XEvent *e)
 	int rbutton=0;
 	//when mouse button is release
 	if (e->type == ButtonRelease) {
-		mouse_click(2);
+		mouse_click(2, g);
 		return;
 	}
 	if (e->type == ButtonPress) {
@@ -249,16 +249,17 @@ void check_button(XEvent *e)
 		}
 	}
 	if (lbutton)
-		mouse_click(1);
+		mouse_click(1, g);
 	if (rbutton)
-		mouse_click(2);
+		mouse_click(2, g);
 
 }
 
 //Will excuted when one of the state holds true
-void mouse_click(int action)
+void mouse_click(int action, Game& g)
 {
-	if(!menu) {
+	//if(!menu) {
+	if (g.gameState == MENU) {
 		if (action == 1) {
 			//center of menu
 			for (int i=0; i<MAXBUTTONS; i++) {
@@ -267,8 +268,10 @@ void mouse_click(int action)
 					button[i].click = 1;
 					if (i == 0) {
 						//start the game
-						startgame = false;
-						menu = true;
+						//startgame = false;
+						//menu = true;
+						printf("Starting game...\n");
+						g.gameState = UNPAUSED;
 						break;
 					} 
 					if (i == 1) {
@@ -278,7 +281,9 @@ void mouse_click(int action)
 					}
 					if (i == 2) {
 						//show credits
-						credits = 0;
+						//credits = 0;
+						//TODO Uncomment below line once credits is implemented
+						//g.gameState = CREDITS;
 						break;
 					}
 					if (i == 3) {
@@ -315,9 +320,9 @@ void game_pause(void)
 	r.center= 1;
 	ggprint16(&r, 16, 0, "Pause Screen.");
 
-	if (pause) {
+	if (g.gameState == PAUSED) {
 		ggprint16(&r, 16, 0, "Press P again to unpause");
-		pause = false;
+		//pause = false;
 	}
 }
 //---------------------------------------------------------
