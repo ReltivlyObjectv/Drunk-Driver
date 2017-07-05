@@ -284,7 +284,7 @@ void mouse_click(int action, Game& g)
 						//show credits
 						//credits = 0;
 						//TODO Uncomment below line once credits is implemented
-						//g.gameState = CREDITS;
+						g.gameState = CREDITS;
 						break;
 					}
 					if (i == 3) {
