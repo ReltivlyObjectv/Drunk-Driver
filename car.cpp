@@ -427,6 +427,18 @@ void render(void)
 		} else if (g.gameState == GAMEOVER) {
 			game_over();
 		}
+	} else if (g.gameState == CREDITS) {
+	    	static Rect r;
+		static bool hasShown = false;
+		if (!hasShown) {
+			r.bot = g.yres - 20;
+			r.left = 0;
+			r.center = 0;
+			hasShown = true;
+		} else {
+			r.center--;
+		}
+		ggprint8b(&r, 16, 0x0000FF00, "Credits go here");
 	}
 }
 
