@@ -88,6 +88,9 @@ void initOpengl(void)
   headers from cppconn/ and mysql_driver.h + mysql_util.h
   (and mysql_connection.h). This will reduce your build time!
 */
+
+
+/*
 #include "mysql_connection.h"
 
 #include <cppconn/driver.h>
@@ -109,20 +112,20 @@ try {
   sql::Statement *stmt;
   sql::ResultSet *res;
 
-  /* Create a connection */
+  // Create a connection
   driver = get_driver_instance();
   con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
-  /* Connect to the MySQL test database */
+  // Connect to the MySQL test database
   con->setSchema("test");
 
   stmt = con->createStatement();
   res = stmt->executeQuery("SELECT 'Hello World!' AS _message"); // replace with your statement
   while (res->next()) {
     cout << "\t... MySQL replies: ";
-    /* Access column data by alias or column name */
+    // Access column data by alias or column name
     cout << res->getString("_message") << endl;
     cout << "\t... MySQL says it again: ";
-    /* Access column fata by numeric offset, 1 is the first column */
+    // Access column fata by numeric offset, 1 is the first column
     cout << res->getString(1) << endl;
   }
   delete res;
@@ -142,6 +145,9 @@ cout << endl;
 
 return EXIT_SUCCESS;
 }
+
+*/
+
 //end of database connection
 //go back and set up for school database
 
