@@ -428,6 +428,52 @@ void gameover_init()
 	button2[1].dcolor[1] = button2[1].color[1] * 0.5f;
 	button2[1].dcolor[2] = button2[1].color[2] * 0.5f;
 	button2[1].text_color = 0x00ffffff;
+ 	//Menu
+	button[0].r.width = BUTTON_W;
+	button[0].r.height = BUTTON_H;
+	button[0].r.left = g.xres/2 - button[0].r.width/2;
+	button[0].r.bot = BUTTON_B;
+	button[0].r.right = 
+		button[0].r.left + button[0].r.width;
+	button[0].r.top = 
+		button[0].r.bot + button[0].r.height;
+	button[0].r.centerx = 
+		(button[0].r.left + button[0].r.right) / 2;
+	button[0].r.centery = 
+		(button[0].r.bot + button[0].r.top) / 2;
+	strcpy(button[0].text, "Menu");
+	button[0].down = 0;
+	button[0].click = 0;
+	button[0].color[0] = 0.0f;
+	button[0].color[1] = 0.0f;
+	button[0].color[2] = 0.0f;
+	button[0].dcolor[0] = button[0].color[0] * 0.5f;
+	button[0].dcolor[1] = button[0].color[1] * 0.5f;
+	button[0].dcolor[2] = button[0].color[2] * 0.5f;
+	button[0].text_color = 0x00ffffff;
+	//Quit
+	button[1].r.width = (BUTTON_W);
+	button[1].r.height = BUTTON_H;
+	button[1].r.left = g.xres/2 - button[1].r.width/2;
+	button[1].r.bot = (BUTTON_B - 100);
+	button[1].r.right = 
+		button[1].r.left + button[1].r.width;
+	button[1].r.top = 
+		button[1].r.bot + button[1].r.height;
+	button[1].r.centerx = 
+		(button[1].r.left + button[1].r.right) / 2;
+	button[1].r.centery = 
+		(button[1].r.bot + button[1].r.top) / 2;
+	strcpy(button[1].text, "Quit");
+	button[1].down = 0;
+	button[1].click = 0;
+	button[1].color[0] = 0.0f;
+	button[1].color[1] = 0.0f;
+	button[1].color[2] = 0.0f;
+	button[1].dcolor[0] = button[1].color[0] * 0.5f;
+	button[1].dcolor[1] = button[1].color[1] * 0.5f;
+	button[1].dcolor[2] = button[1].color[2] * 0.5f;
+	button[1].text_color = 0x00ffffff;
 }
 void game_credits(void) 
 {
