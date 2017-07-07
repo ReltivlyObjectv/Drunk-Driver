@@ -425,7 +425,17 @@ void render(void)
 		if (g.gameState == PAUSED) {
 			drawPauseMenu(g);
 		} else if (g.gameState == GAMEOVER) {
+			glDisable(GL_DEPTH_TEST);
+			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+			glViewport(0, 0, g.xres, g.yres);
+			glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+			glMatrixMode (GL_PROJECTION); glLoadIdentity();
+			gluOrtho2D(0, g.xres, 0, g.yres);
+			glPushAttrib(GL_ENABLE_BIT);
+			glDisable(GL_LIGHTING);	
 			game_over();
+			glPopAttrib();
+			glEnable(GL_DEPTH_TEST);
 		}
 	} else if (g.gameState == CREDITS) {
 			game_credits();
