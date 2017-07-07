@@ -439,7 +439,7 @@ void render(void)
 		}
 	} else if (g.gameState == CREDITS) {
 			game_credits();
-		}
+	}
 }
 
 void drawStreet(Game& g)
