@@ -50,7 +50,6 @@ typedef Flt Vec[3];
 typedef Flt Matrix[4][4];
 
 enum GameStates {
-	//TODO implement MENU and GAMEOVER into all functions instead of various globals
 	MENU,
 	PAUSED,
 	UNPAUSED,
@@ -60,20 +59,20 @@ enum GameStates {
 //Object3d is an object to be rendered on the side of the road (outside playable area)
 class Object3d {
 	public:
-		Object3d(std::string path, std::string texPath, double roadPosLR, double roadPosDistance);
+		Object3d(std::string path, double roadPosLR, double roadPosDistance);
+		void render();
 		bool isWorking();
 	private:
-		std::vector<glm::vec3> vertices, normals;
-		std::vector<glm::vec2> uvs;
-		GLuint loadBMP(std::string path);
+		std::vector<glm::vec3> vertices;
 		void loadOBJ(std::string path);
-		GLuint texture;
+		//GLuint texture;
 		bool working;
 		double roadPositionLR, roadPositionDistance;
 
 };
 class Game {
 	public:
+		std::vector<Object3d*> roadsideObjects;
 		int gameState;
 		int xres, yres;
 		int done;
@@ -113,8 +112,10 @@ class Game {
 		void updateCooldowns();
 		int getInebriationLevel();
 		std::string getInebriationDescription();
+		void renderAllRoadside();
 };
 void showInCar(void);
+void loadRoadside(Game& g);
 void drawStreet(Game& g);
 void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
