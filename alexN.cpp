@@ -385,7 +385,8 @@ void gameover_click(int action, Game& g)
 
 void gameover_init()
 {
- 	button[0].r.width = BUTTON_W;
+ 	//Menu
+	button[0].r.width = BUTTON_W;
 	button[0].r.height = BUTTON_H;
 	button[0].r.left = g.xres/2 - button[0].r.width/2;
 	button[0].r.bot = BUTTON_B;
@@ -407,8 +408,8 @@ void gameover_init()
 	button[0].dcolor[1] = button[0].color[1] * 0.5f;
 	button[0].dcolor[2] = button[0].color[2] * 0.5f;
 	button[0].text_color = 0x00ffffff;
-	//High Score button
-	button[1].r.width = (BUTTON_W:);
+	//Quit
+	button[1].r.width = (BUTTON_W);
 	button[1].r.height = BUTTON_H;
 	button[1].r.left = g.xres/2 - button[1].r.width/2;
 	button[1].r.bot = (BUTTON_B - 100);
