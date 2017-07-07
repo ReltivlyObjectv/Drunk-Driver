@@ -1,7 +1,6 @@
 /*Author: Alexander Nguyen
   Modify by: Alexander Nguyen
 Date:6/17/2017
-
 Purpose: Create a start menu that will have Start, High Score, Credits and Exit
  */
 
@@ -349,15 +348,15 @@ void game_over()
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D,gameoverTexture);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
 	glTexCoord2f(0.0f,1.0f); glVertex2i(0,0);
-	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
+	glTexCoord2f(0.0f,0.0f); glVertex2i(0,g.yres);
 	glTexCoord2f(1.0f,0.0f); glVertex2i(g.xres,g.yres);
+	glTexCoord2f(1.0f,1.0f); glVertex2i(g.xres,0);
 	glEnd();
 	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	gameover_init();
-	button_render();
+//	button_render();
 
 }
 
@@ -372,6 +371,7 @@ void gameover_click(int action, Game& g)
                     button2[i].click = 1;
                     if (i==0) {
                         //bring back to game menu
+			gamemenu();
                     }
                     if (i ==1) {
                         g.done = 1;
@@ -384,7 +384,50 @@ void gameover_click(int action, Game& g)
 
 void gameover_init()
 {
- //Add button
+ 	button2[0].r.width = BUTTON_W;
+	button2[0].r.height = BUTTON_H;
+	button2[0].r.left = g.xres/2 - button[0].r.width/2;
+	button2[0].r.bot = BUTTON_B;
+	button2[0].r.right = 
+		button2[0].r.left + button2[0].r.width;
+	button2[0].r.top = 
+		button2[0].r.bot + button2[0].r.height;
+	button2[0].r.centerx = 
+		(button2[0].r.left + button2[0].r.right) / 2;
+	button2[0].r.centery = 
+		(button2[0].r.bot + button2[0].r.top) / 2;
+	strcpy(button2[0].text, "Menu");
+	button2[0].down = 0;
+	button2[0].click = 0;
+	button2[0].color[0] = 0.0f;
+	button2[0].color[1] = 0.0f;
+	button2[0].color[2] = 0.0f;
+	button2[0].dcolor[0] = button2[0].color[0] * 0.5f;
+	button2[0].dcolor[1] = button2[0].color[1] * 0.5f;
+	button2[0].dcolor[2] = button2[0].color[2] * 0.5f;
+	button2[0].text_color = 0x00ffffff;
+	button2[1].r.width = (BUTTON_W);
+	button2[1].r.height = BUTTON_H;
+	button2[1].r.left = g.xres/2 - button2[1].r.width/2;
+	button2[1].r.bot = (BUTTON_B - 100);
+	button2[1].r.right = 
+		button2[1].r.left + button2[1].r.width;
+	button2[1].r.top = 
+		button2[1].r.bot + button2[1].r.height;
+	button2[1].r.centerx = 
+		(button2[1].r.left + button2[1].r.right) / 2;
+	button2[1].r.centery = 
+		(button2[1].r.bot + button2[1].r.top) / 2;
+	strcpy(button2[1].text, "Quit");
+	button2[1].down = 0;
+	button2[1].click = 0;
+	button2[1].color[0] = 0.0f;
+	button2[1].color[1] = 0.0f;
+	button2[1].color[2] = 0.0f;
+	button2[1].dcolor[0] = button2[1].color[0] * 0.5f;
+	button2[1].dcolor[1] = button2[1].color[1] * 0.5f;
+	button2[1].dcolor[2] = button2[1].color[2] * 0.5f;
+	button2[1].text_color = 0x00ffffff;
 }
 void game_credits(void) 
 {
@@ -406,3 +449,4 @@ void game_credits(void)
 	glPopAttrib();
 	glEnable(GL_DEPTH_TEST);
 }
+
