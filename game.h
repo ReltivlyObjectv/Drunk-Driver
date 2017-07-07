@@ -104,6 +104,7 @@ void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e);
+void game_credits();
 unsigned char *buildAlphaData(Ppmimage *img);
 
 //Alex's Function
