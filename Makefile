@@ -10,7 +10,7 @@ mac: fontsmac.o fonttex.o staticLib carmac
 
 car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	@echo "Compiling game (Linux)"
-	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGS) -o car
+	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGS) -o car -D DEBUG
 
 carmac: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	@echo "Compiling game (OS X)"
