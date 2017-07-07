@@ -56,23 +56,8 @@ enum GameStates {
 	CREDITS,
 	GAMEOVER
 };
-//Object3d is an object to be rendered on the side of the road (outside playable area)
-class Object3d {
-	public:
-		Object3d(std::string path, double roadPosLR, double roadPosDistance);
-		void render();
-		bool isWorking();
-	private:
-		std::vector<glm::vec3> vertices;
-		void loadOBJ(std::string path);
-		//GLuint texture;
-		bool working;
-		double roadPositionLR, roadPositionDistance;
-
-};
 class Game {
 	public:
-		std::vector<Object3d*> roadsideObjects;
 		int gameState;
 		int xres, yres;
 		int done;
@@ -115,7 +100,6 @@ class Game {
 		void renderAllRoadside();
 };
 void showInCar(void);
-void loadRoadside(Game& g);
 void drawStreet(Game& g);
 void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
