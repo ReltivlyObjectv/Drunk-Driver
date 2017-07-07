@@ -15,7 +15,7 @@ car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 carmac: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	@echo "Compiling game (OS X)"
 	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGSMAC) -o car \
-		-stdlib=libc++ -I/usr/X11R6/include -L/usr/X11R6/lib -framework OpenGL -framework Cocoa 
+		-stdlib=libc++ -I/usr/X11R6/include -L/usr/X11R6/lib -framework OpenGL -framework Cocoa -D DEBUG
 
 macsymlink:
 	#This is used to create a symlink to a required library that is likely already on your system
