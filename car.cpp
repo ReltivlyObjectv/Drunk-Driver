@@ -163,7 +163,6 @@ void init(void)
 		ControlManager::movingRight = 
 		ControlManager::slowingDown = 
 		ControlManager::speedingUp = false;
-	loadRoadside(g);
 }
 
 void init_opengl(void)
@@ -400,7 +399,6 @@ void render(void)
 				0, 1, 0);
 		//
 		drawStreet(g);
-		g.renderAllRoadside();
 		//
 		//show car dash
 		showInCar();
