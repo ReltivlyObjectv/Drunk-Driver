@@ -57,7 +57,7 @@ void game_pause(void);
 void game_over(void);
 void gameover_init(void);
 void gameover_click(int action, Game& g);
-
+void game_credits(void);
 //---------------------------------------------
 //Button will be drawn onto the menu 
 void button_init(void)
@@ -386,4 +386,23 @@ void gameover_init()
 {
  //Add button
 }
-
+void game_credits(void) 
+{
+	static bool hasShown = false;
+	static Rect r;
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_LIGHTING);
+	if (!hasShown) {
+		r.bot = g.yres - 20;
+		r.left = 0;
+		r.center = 0;
+		hasShown = true;
+	} else {
+		r.center--;
+	}
+	ggprint8b(&r, 16, 0x0000FF00, "Credits go here");
+	glPopAttrib();
+	glEnable(GL_DEPTH_TEST);
+}
