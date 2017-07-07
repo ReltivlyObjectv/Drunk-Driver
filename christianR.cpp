@@ -415,11 +415,6 @@ void Game::updateCooldowns()
 		bloodAlcoholContent -= COOLDOWN_BAC;
 	}
 }
-void Game::renderAllRoadside(){
-	for (std::vector<Object3d*>::iterator it = roadsideObjects.begin(); it != roadsideObjects.end(); ++it) {
-		(*it)->render();
-	}
-}
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
 {
 	roadPositionLR = roadPosLR;
@@ -441,85 +436,6 @@ bool RoadObstacle::isCameraInside(Game& g)
 void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
-}
-void Object3d::loadOBJ(std::string path)
-{
-	//Done with the assistance of http://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading/
-	printf("Loading model: %s\n", path.c_str());
-	std::vector<unsigned int> vertexIndices;
-	std::vector<glm::vec3> temp_vertices;
-	FILE* file = fopen(path.c_str(), "r");
-	if (file == NULL) {
-		printf("Model could not be opened: %s\n", path.c_str());
-		working = false;
-		return;
-	}
-	int linesRead = 0;
-	while (true) {
-		linesRead++;
-		char lineHeader[256];
-		// read the first word of the line
-		int res = fscanf(file, "%s", lineHeader);
-		if (res == EOF) {
-			// EOF = End Of File. Quit the loop.
-			break;
-		} else {
-			if (strcmp(lineHeader, "v") == 0) {
-				glm::vec3 vertex;
-				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-				temp_vertices.push_back(vertex);
-			}
-		}
-	}
-	printf("finished loading model\n");
-	for (unsigned int i=0; i<vertexIndices.size(); i++) {
-		unsigned int vertexIndex = vertexIndices[i];
-		glm::vec3 vertex = temp_vertices[vertexIndex-1];
-		vertices.push_back(vertex);
-	}
-	printf("finished storing vertices\n");
-	printf("finished storing model\n");
-}
-Object3d::Object3d(std::string path, double roadPosLR, double roadPosDistance)
-{
-	working = true;
-	roadPositionLR = roadPosLR;
-	roadPositionDistance = roadPosDistance;
-	//texture = loadBMP(texPath);
-	loadOBJ(path);
-	static bool hasPrinted = false;
-	if (!hasPrinted && !working) {
-		hasPrinted = true;
-		printf("Object is not working: %s\n", path.c_str());
-	}
-}
-bool Object3d::isWorking()
-{
-	return working;
-}
-void Object3d::render()
-{
-	//if (g.cameraPosition[2] > roadPositionDistance) {
-		//Car has passed the object; do not need to render
-	//	return;
-	if (!working) {
-		//Model was not loaded correctly
-		return;
-	}
-	//glColor3f(0.8f, 0.8f, 0.2f);
-	glPushMatrix();
-	glTranslatef(roadPositionLR, -0.5f, (float)-roadPositionDistance);
-	//glNormal3f( 0.0f, 1.0f, 0.0f); 
-	for (std::vector<glm::vec3>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
-		glVertex3f( (*it)[0], (*it)[1], (*it)[2]); 
-	}
-	glPopMatrix();
-}
-void loadRoadside(Game& g)
-{
-	//Load People
-	Object3d* person = new Object3d("objs/person.obj", 0, 20);
-	g.roadsideObjects.push_back(person);
 }
 void blackoutScreen(Game& g, float secs)
 {
