@@ -29,7 +29,6 @@
 #include <unistd.h>
 #include <vector>
 
-#include "glm/glm.hpp"
 #include "game.h"
 #include "fonts.h"
 #include "ppm.h"
