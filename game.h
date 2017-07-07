@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <cstring>
 #include <vector>
-#include "glm/glm.hpp"
 #include "ppm.h"
 
 void box (float , float , float );
