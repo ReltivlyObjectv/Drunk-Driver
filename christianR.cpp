@@ -496,6 +496,7 @@ void drawPauseMenu(Game& g)
 	glDisable(GL_BLEND);
 	glPopMatrix();
 }
+#ifdef DEBUG
 void drawDebugInfo(Game& g)
 {
 	Rect debugStats;
@@ -543,3 +544,4 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x0000FF00, "J - Drink a beer");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "P - Pause");
 }
+#endif
