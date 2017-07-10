@@ -26,6 +26,7 @@ Purpose: Create a start menu that will have Start, High Score, Credits and Exit
 #define BUTTON_B 400
 //4 buttons Start, High Score, Credits, Exit
 #define MAXBUTTONS 4
+#define GAMEOVER_BUTTONS 2
 //------------------------------------------------
 extern int startgame;
 
@@ -43,7 +44,7 @@ typedef struct t_button {
 }Button;
 
 Button button[MAXBUTTONS];
-Button button2[MAXBUTTONS];
+Button button2[GAMEOVER_BUTTONS];
 //----------------------------------------------
 void mouse_click(int action, Game& g);
 void check_button(XEvent *e);
@@ -366,13 +367,14 @@ void gameover_click(int action, Game& g)
     if (g.gameState == GAMEOVER) {
         if (action == 1) {
             int i =0;
-            for (i=0; i<MAXBUTTONS; i++) {
+            for (i=0; i<GAMEOVER_BUTTONS; i++) {
                 if (button2[i].over) {
                     button2[i].down = 1;
                     button2[i].click = 1;
                     if (i==0) {
                         //bring back to game menu
-			gamemenu();
+			g.gameState = MENU;
+			break;
                     }
                     if (i ==1) {
                         g.done = 1;
@@ -435,7 +437,7 @@ void gameover_init()
 void gameover_render(void) 
 {
 	//add render function to render button
-	for (int i = 0; i < MAXBUTTONS; i++) {
+	for (int i = 0; i < GAMEOVER_BUTTONS; i++) {
 		if (button2[i].over) {
 			//create the highlight color of button
 			glColor3f(1.5f, 0.0f, 1.0f);
