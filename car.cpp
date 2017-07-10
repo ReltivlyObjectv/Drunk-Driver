@@ -59,6 +59,11 @@ Game g;
 
 int main(void)
 {
+	//Convert images
+	system("convert ./images/menu.jpg ./images/menu.ppm");
+	system("convert ./images/inCarPic.png ./images/inCarPic.ppm");
+	system("convert ./images/gameover.jpg ./images/gameover.ppm");
+	//Start game
 	printf("Loading Drunk Driver\n");
 	initXWindows();
 	init_opengl();
