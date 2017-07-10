@@ -43,7 +43,7 @@ typedef struct t_button {
 }Button;
 
 Button button[MAXBUTTONS];
-Button button2[2];
+Button button2[MAXBUTTONS];
 //----------------------------------------------
 void mouse_click(int action, Game& g);
 void check_button(XEvent *e);
@@ -366,7 +366,7 @@ void gameover_click(int action, Game& g)
     if (g.gameState == GAMEOVER) {
         if (action == 1) {
             int i =0;
-            for (i=0; i<2; i++) {
+            for (i=0; i<MAXBUTTONS; i++) {
                 if (button2[i].over) {
                     button2[i].down = 1;
                     button2[i].click = 1;
@@ -388,7 +388,7 @@ void gameover_init()
  	button2[0].r.width = BUTTON_W;
 	button2[0].r.height = BUTTON_H;
 	button2[0].r.left = g.xres/2 - button2[0].r.width/2;
-	button2[0].r.bot = BUTTON_B;
+	button2[0].r.bot = BUTTON_B - 200;
 	button2[0].r.right = 
 		button2[0].r.left + button2[0].r.width;
 	button2[0].r.top = 
@@ -411,7 +411,7 @@ void gameover_init()
 	button2[1].r.width = (BUTTON_W);
 	button2[1].r.height = BUTTON_H;
 	button2[1].r.left = g.xres/2 - button2[1].r.width/2;
-	button2[1].r.bot = (BUTTON_B - 100);
+	button2[1].r.bot = (BUTTON_B - 275);
 	button2[1].r.right = 
 		button2[1].r.left + button2[1].r.width;
 	button2[1].r.top = 
@@ -435,7 +435,7 @@ void gameover_init()
 void gameover_render(void) 
 {
 	//add render function to render button
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < MAXBUTTONS; i++) {
 		if (button2[i].over) {
 			//create the highlight color of button
 			glColor3f(1.5f, 0.0f, 1.0f);

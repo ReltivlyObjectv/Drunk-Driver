@@ -41,7 +41,6 @@ Display *dpy;
 Window win;
 GLXContext glc;
 
-int dead = 0;
 bool startgame = true;
 void init(void);
 void initXWindows(void);
@@ -376,10 +375,6 @@ void render(void)
 		glPushAttrib(GL_ENABLE_BIT);
 		glDisable(GL_LIGHTING);
 		gamemenu();
-		if (dead == 1) {
-			game_over();
-			dead = 0;
-		}
 		glPopAttrib();
 		glEnable(GL_DEPTH_TEST);
 	} else if (g.gameState == UNPAUSED || g.gameState == PAUSED || g.gameState == GAMEOVER) {
