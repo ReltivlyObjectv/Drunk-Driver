@@ -72,6 +72,7 @@ int main(void)
 			check_keys(&e);
 			//check to see if mouse clicked correctly
 			check_button(&e, g);
+			check_button2(&e, g);
 		}
 		physics();
 		render();
@@ -266,7 +267,8 @@ void check_mouse(XEvent *e, Game& g)
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
-	check_button(e, g);//Check to see if it works 
+	check_button(e, g);
+        check_button2(e, g);	
 }
 
 void check_keys(XEvent *e)
