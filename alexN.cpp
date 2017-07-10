@@ -47,7 +47,8 @@ Button button[MAXBUTTONS];
 Button button2[GAMEOVER_BUTTONS];
 //----------------------------------------------
 void mouse_click(int action, Game& g);
-void check_button(XEvent *e);
+void check_button(XEvent *e,Game& g);
+void check_button2(XEvent *e,Game& g);
 extern Game g;
 extern GLuint menuTexture;
 extern GLuint gameoverTexture;
@@ -376,7 +377,7 @@ void gameover_click(int action, Game& g)
 			g.gameState = MENU;
 			break;
                     }
-                    if (i ==1) {
+                    if (i==1) {
                         g.done = 1;
                     }
                 }
@@ -473,6 +474,60 @@ void gameover_render(void)
 			ggprint16(&r, 0, button2[i].text_color, button2[i].text);
 		}
 	} 
+}
+void check_button2(XEvent *e, Game& g)
+{
+	static int savex = 0;
+	static int savey = 0;
+	int x,y,i; 
+	int lbutton=0;
+	int rbutton=0;
+	//when mouse button is release
+	if (e->type == ButtonRelease) {
+		mouse_click(2, g);
+		return;
+	}
+	if (e->type == ButtonPress) {
+		//when mouse left button is pressed
+		if (e->xbutton.button == 1) {
+			lbutton = 1;
+		}
+		//when mouse right button is pressed
+		if (e->xbutton.button == 3) {
+			rbutton = 1;
+		}
+	}
+	x = e->xbutton.x;
+	y = e->xbutton.y;
+	y = g.yres-y;
+	//check to see if mouse move either in x or y direction
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
+		savex=e->xbutton.x;
+		savey=e->xbutton.y;
+
+	}
+	if (x == savex && y == savey)
+		return;
+
+	savex=x;
+	savey=y;
+	for (i=0; i<GAMEOVER_BUTTONS; i++) {
+		button2[i].over=0;
+		button2[i].down=0;
+
+		if (x >= button2[i].r.left &&
+				x <= button2[i].r.right &&
+				y >= button2[i].r.bot &&
+				y <= button2[i].r.top) {
+			button2[i].over=1;
+			break;
+		}
+	}
+	if (lbutton)
+		mouse_click(1, g);
+	if (rbutton)
+		mouse_click(2, g);
+
 }
 
 void game_credits(void) 
