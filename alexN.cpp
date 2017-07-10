@@ -296,6 +296,9 @@ void mouse_click(int action, Game& g)
 				}
 			}
 		}
+	} else if (g.gameState == GAMEOVER) {
+		gameover_click(action, g);
+		
 	}
 }
 

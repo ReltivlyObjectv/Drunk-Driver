@@ -76,8 +76,8 @@ int main(void)
 			check_mouse(&e, g);
 			check_keys(&e);
 			//check to see if mouse clicked correctly
-			check_button(&e, g);
-			check_button2(&e, g);
+			//check_button(&e, g);
+			//check_button2(&e, g);
 		}
 		physics();
 		render();
