@@ -103,7 +103,8 @@ void drawStreet(Game& g);
 void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
 void drawDebugInfo(Game& g);
-void check_button(XEvent *e);
+void check_button(XEvent *e, Game& g);
+void check_button2(XEvent *e, Game& g);
 void game_credits();
 unsigned char *buildAlphaData(Ppmimage *img);
 
