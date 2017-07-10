@@ -57,6 +57,7 @@ void game_over(void);
 void gameover_init(void);
 void gameover_click(int action, Game& g);
 void game_credits(void);
+void gameover_render(void);
 //---------------------------------------------
 //Button will be drawn onto the menu 
 void button_init(void)
@@ -356,7 +357,7 @@ void game_over()
 	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	gameover_init();
-//	button_render();
+	gameover_render();
 
 }
 
@@ -386,7 +387,7 @@ void gameover_init()
 {
  	button2[0].r.width = BUTTON_W;
 	button2[0].r.height = BUTTON_H;
-	button2[0].r.left = g.xres/2 - button[0].r.width/2;
+	button2[0].r.left = g.xres/2 - button2[0].r.width/2;
 	button2[0].r.bot = BUTTON_B;
 	button2[0].r.right = 
 		button2[0].r.left + button2[0].r.width;
@@ -406,6 +407,7 @@ void gameover_init()
 	button2[0].dcolor[1] = button2[0].color[1] * 0.5f;
 	button2[0].dcolor[2] = button2[0].color[2] * 0.5f;
 	button2[0].text_color = 0x00ffffff;
+
 	button2[1].r.width = (BUTTON_W);
 	button2[1].r.height = BUTTON_H;
 	button2[1].r.left = g.xres/2 - button2[1].r.width/2;
@@ -428,53 +430,49 @@ void gameover_init()
 	button2[1].dcolor[1] = button2[1].color[1] * 0.5f;
 	button2[1].dcolor[2] = button2[1].color[2] * 0.5f;
 	button2[1].text_color = 0x00ffffff;
- 	//Menu
-	button[0].r.width = BUTTON_W;
-	button[0].r.height = BUTTON_H;
-	button[0].r.left = g.xres/2 - button[0].r.width/2;
-	button[0].r.bot = BUTTON_B;
-	button[0].r.right = 
-		button[0].r.left + button[0].r.width;
-	button[0].r.top = 
-		button[0].r.bot + button[0].r.height;
-	button[0].r.centerx = 
-		(button[0].r.left + button[0].r.right) / 2;
-	button[0].r.centery = 
-		(button[0].r.bot + button[0].r.top) / 2;
-	strcpy(button[0].text, "Menu");
-	button[0].down = 0;
-	button[0].click = 0;
-	button[0].color[0] = 0.0f;
-	button[0].color[1] = 0.0f;
-	button[0].color[2] = 0.0f;
-	button[0].dcolor[0] = button[0].color[0] * 0.5f;
-	button[0].dcolor[1] = button[0].color[1] * 0.5f;
-	button[0].dcolor[2] = button[0].color[2] * 0.5f;
-	button[0].text_color = 0x00ffffff;
-	//Quit
-	button[1].r.width = (BUTTON_W);
-	button[1].r.height = BUTTON_H;
-	button[1].r.left = g.xres/2 - button[1].r.width/2;
-	button[1].r.bot = (BUTTON_B - 100);
-	button[1].r.right = 
-		button[1].r.left + button[1].r.width;
-	button[1].r.top = 
-		button[1].r.bot + button[1].r.height;
-	button[1].r.centerx = 
-		(button[1].r.left + button[1].r.right) / 2;
-	button[1].r.centery = 
-		(button[1].r.bot + button[1].r.top) / 2;
-	strcpy(button[1].text, "Quit");
-	button[1].down = 0;
-	button[1].click = 0;
-	button[1].color[0] = 0.0f;
-	button[1].color[1] = 0.0f;
-	button[1].color[2] = 0.0f;
-	button[1].dcolor[0] = button[1].color[0] * 0.5f;
-	button[1].dcolor[1] = button[1].color[1] * 0.5f;
-	button[1].dcolor[2] = button[1].color[2] * 0.5f;
-	button[1].text_color = 0x00ffffff;
 }
+
+void gameover_render(void) 
+{
+	//add render function to render button
+	for (int i = 0; i < 2; i++) {
+		if (button2[i].over) {
+			//create the highlight color of button
+			glColor3f(1.5f, 0.0f, 1.0f);
+			//draw a highlight around the button
+			glLineWidth(2);
+			glBegin(GL_LINE_LOOP);
+			glVertex2i(button2[i].r.left-2,  button2[i].r.bot-2);
+			glVertex2i(button2[i].r.left-2,  button2[i].r.top+2);
+			glVertex2i(button2[i].r.right+2, button2[i].r.top+2);
+			glVertex2i(button2[i].r.right+2, button2[i].r.bot-2);
+			glVertex2i(button2[i].r.left-2,  button2[i].r.bot-2);
+			glEnd();
+			glLineWidth(1);
+		}
+		glBegin(GL_QUADS);
+		if (button2[i].down) {
+			glColor3fv(button2[i].dcolor);
+		} else {
+			glColor3fv(button2[i].color);
+		}
+		glVertex2i(button2[i].r.left,  button2[i].r.bot);
+		glVertex2i(button2[i].r.left,  button2[i].r.top);
+		glVertex2i(button2[i].r.right, button2[i].r.top);
+		glVertex2i(button2[i].r.right, button2[i].r.bot);
+		glEnd();
+		Rect r;
+		r.left = button2[i].r.centerx;
+		r.bot  = button2[i].r.centery-8;
+		r.center = 1;
+		if (button2[i].down) {
+			ggprint16(&r, 0, button2[i].text_color, "Pressed!");
+		} else {
+			ggprint16(&r, 0, button2[i].text_color, button2[i].text);
+		}
+	} 
+}
+
 void game_credits(void) 
 {
 	static bool hasShown = false;
