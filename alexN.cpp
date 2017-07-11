@@ -378,6 +378,7 @@ void gameover_click(int action, Game& g)
                     if (i==0) {
                         //bring back to game menu
 			g.gameState = MENU;
+			ControlManager::reset(&g);
 			break;
                     }
                     if (i==1) {
