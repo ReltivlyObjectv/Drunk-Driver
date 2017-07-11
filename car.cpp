@@ -273,10 +273,10 @@ void check_mouse(XEvent *e, Game& g)
 		savey = e->xbutton.y;
 	}
 	if (g.gameState == MENU) {
-	check_button(e, g);
+		check_button(e, g);
 	}
 	if (g.gameState == GAMEOVER) {
-        check_button2(e, g);	
+        	check_button2(e, g);	
 	}
 }
 
@@ -511,3 +511,20 @@ void drawStreet(Game& g)
 }
 
 
+
+Game::Game() {
+	//constructor
+	gameState = MENU;
+	xres=640;
+	yres=480;
+	aspectRatio = (GLfloat)xres / (GLfloat)yres;
+	ControlManager::reset(this);
+	//up[0] = 0;
+	//up[1] = 0;
+	//up[2] = 1;
+	//MakeVector(0.0, 1.0, 8.0, cameraPosition);
+	//light is up high, right a little, toward a little
+	MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
+	lightPosition[3] = 1.0f;
+	done = 0;
+}
