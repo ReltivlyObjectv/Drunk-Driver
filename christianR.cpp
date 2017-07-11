@@ -446,7 +446,7 @@ bool RoadObstacle::isCameraInside(Game& g)
 {
 	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH
 			|| g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH
-	   ) {
+	) {
 		return false;
 	}
 	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH
