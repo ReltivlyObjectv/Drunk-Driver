@@ -72,25 +72,7 @@ class Game {
 		Ppmimage *obstacleImage;
 		double delay;
 		//
-		Game() {
-			//constructor
-			gameState = MENU;
-			xres=640;
-			yres=480;
-			aspectRatio = (GLfloat)xres / (GLfloat)yres;
-			up[0] = 0;
-			up[1] = 0;
-			up[2] = 1;
-			MakeVector(0.0, 1.0, 8.0, cameraPosition);
-			//light is up high, right a little, toward a little
-			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
-			lightPosition[3] = 1.0f;
-			done = 0;
-			speed = 0.1;
-			distanceTraveled = 0;
-			bloodAlcoholContent = minimumBAC = 0;
-			cooldownDrink = 0;
-		}
+		Game();
 		double getMPH();
 		double getDistanceMiles();
 		void updateCooldowns();
@@ -122,6 +104,7 @@ void obstacles(Game& g);
 class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;
+		static void reset(Game* g);
 		static void applyControls(Game& g, int key, bool isPress);
 		static double applyDrunkSwerve(Game& g);
 		static void moveForward(Game& g);
@@ -129,7 +112,7 @@ class ControlManager {
 		static double calculateSwerveModifier(Game& g);
 		static void playAnimationHit();
 	private:
-		static void displayHitAnimation(Game& g);
+		static void displayHitAnimation(Game& g, bool restart = false);
 };
 
 //This is a parent class to be used by all road obstacles as children classes
@@ -153,6 +136,7 @@ class CatObstacle {
 	public:
 		virtual void triggerHitEffects();
 };
+
 
 //----------------------------------------------------------------------------
 

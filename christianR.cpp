@@ -289,6 +289,9 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 				}
 			}
 			break;
+		case XK_r:
+			reset(&g);
+			break;
 		case XK_Escape:
 			printf("Key is pressed: %s (%d)\n", "Escape", key);
 			g.done = 1;
@@ -324,11 +327,15 @@ void ControlManager::playAnimationHit()
 		hittingObject = true;
 	}
 }
-void ControlManager::displayHitAnimation(Game& g)
+void ControlManager::displayHitAnimation(Game& g, bool restart)
 {
 	//Called every frame to display any hit animations
+	static double progress = 0.0;
+	if (restart) {
+		progress = 0;
+		hittingObject = false;
+	}
 	if (hittingObject) {
-		static double progress = 0.0;
 		if (progress >= 3) {
 			progress = 0.0;
 			hittingObject = false;
@@ -344,6 +351,22 @@ void ControlManager::displayHitAnimation(Game& g)
 		g.up[1] = -0.2 * sin(progress);
 		g.cameraPosition[1] = CAMERA_HEIGHT + (sin(progress) * .65);
 	}
+}
+void ControlManager::reset(Game* g)
+{
+	movingLeft = 
+		movingRight = 
+		slowingDown = 
+		speedingUp = false;
+	g->up[0] = 0;
+	g->up[1] = 0;
+	g->up[2] = 1;
+	MakeVector(0.0, 1.0, 8.0, g->cameraPosition);
+	g->speed = 0.1;
+	g->distanceTraveled = 0;
+	g->bloodAlcoholContent = g->minimumBAC = 0;
+	g->cooldownDrink = 0;
+	displayHitAnimation(*g, true);
 }
 double Game::getMPH()
 {
@@ -543,5 +566,6 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x0000FF00, "H - Hit Animation Test");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "J - Drink a beer");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "P - Pause");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "R - Restart");
 }
 #endif
