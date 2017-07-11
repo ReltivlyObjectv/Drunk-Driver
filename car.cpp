@@ -272,8 +272,12 @@ void check_mouse(XEvent *e, Game& g)
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
+	if (g.gameState == MENU) {
 	check_button(e, g);
+	}
+	if (g.gameState == GAMEOVER) {
         check_button2(e, g);	
+	}
 }
 
 void check_keys(XEvent *e)
