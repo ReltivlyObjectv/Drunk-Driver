@@ -58,13 +58,13 @@
 
 
 bool ControlManager::movingLeft,
-	ControlManager::movingRight,
-	ControlManager::slowingDown,
-	ControlManager::speedingUp, 
-	ControlManager::hittingObject;
+     ControlManager::movingRight,
+     ControlManager::slowingDown,
+     ControlManager::speedingUp, 
+     ControlManager::hittingObject;
 
 int RoadObstacle::frameRows,
-	RoadObstacle::frameColumns;
+    RoadObstacle::frameColumns;
 
 std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
@@ -73,17 +73,17 @@ GLuint RoadObstacle::texture;
 double ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
-		if (ControlManager::movingLeft) {
-			if (swerveMovement < 0) {		
-				swerveMovement = -1 * BASIC_MOVEMENT / 2;
-			}
-		} else if (ControlManager::movingRight) {
-			if (swerveMovement > 0) {		
-				swerveMovement =  BASIC_MOVEMENT / 2;
-			}
-		} else {
-
+	if (ControlManager::movingLeft) {
+		if (swerveMovement < 0) {		
+			swerveMovement = -1 * BASIC_MOVEMENT / 2;
 		}
+	} else if (ControlManager::movingRight) {
+		if (swerveMovement > 0) {		
+			swerveMovement =  BASIC_MOVEMENT / 2;
+		}
+	} else {
+
+	}
 	return swerveMovement;
 
 }
@@ -346,7 +346,7 @@ void ControlManager::displayHitAnimation(Game& g, bool restart)
 			g.cameraPosition[1] = CAMERA_HEIGHT * 1.5;
 		}
 		progress += .1;
-		
+
 		//g.cameraPosition[1] = CAMERA_HEIGHT + (sin(progress) / 2);
 		g.up[1] = -0.2 * sin(progress);
 		g.cameraPosition[1] = CAMERA_HEIGHT + (sin(progress) * .65);
@@ -445,12 +445,12 @@ RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance)
 bool RoadObstacle::isCameraInside(Game& g)
 {
 	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH
-	|| g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH
-	) {
+			|| g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH
+	   ) {
 		return false;
 	}
 	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH
-	|| g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
+			|| g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
 		return false;
 	}
 	return true;
@@ -469,7 +469,7 @@ void blackoutScreen(Game& g, float secs)
 	static double seconds = 1;
 	static bool finished = true;
 	static double progressPerCall;
-	
+
 	if (progress >= PI) {
 		//Free the function up for further use
 		finished = true;
