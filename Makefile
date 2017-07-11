@@ -25,6 +25,7 @@ clean:
 	rm -f car
 	rm -f *.o
 	rm -f *.a
+	rm -f images/*.ppm
 
 fonts.o: fonts.cpp fonts.h defs.h
 	@echo "Compiling fonts (Linux)"
