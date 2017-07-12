@@ -211,15 +211,7 @@ void init_opengl(void)
                         gameoverImage->width, gameoverImage->height,
                         0, GL_RGB, GL_UNSIGNED_BYTE, gameoverImage->data);
 	//Dave show car dash
-	inCarPic = ppm6GetImage("./images/inCarPic.ppm");
-	glGenTextures(1 , &inCarTextures);
-	glBindTexture(GL_TEXTURE_2D, inCarTextures);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-			inCarPic->width, inCarPic->height,
-			0, GL_RGB, GL_UNSIGNED_BYTE, inCarPic->data);	
-	//Ppmimage *inCarImage=NULL;
+	initCarPics();
 }
 
 void check_resize(XEvent *e)
@@ -406,8 +398,6 @@ void render(void)
 		//
 		drawStreet(g);
 		//
-		//show car dash
-		showInCar();
 		//
 		//
 		//switch to 2D mode
@@ -416,6 +406,8 @@ void render(void)
 		glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
 		glMatrixMode (GL_PROJECTION); glLoadIdentity();
 		gluOrtho2D(0, g.xres, 0, g.yres);
+		//show car dash
+		showInCar(g);
 		glPushAttrib(GL_ENABLE_BIT);
 		glDisable(GL_LIGHTING);
 		//glDisable(GL_DEPTH_TEST);
@@ -526,5 +518,6 @@ Game::Game() {
 	//light is up high, right a little, toward a little
 	MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 	lightPosition[3] = 1.0f;
+	inCarImage=NULL;
 	done = 0;
 }
