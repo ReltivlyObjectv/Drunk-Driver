@@ -79,8 +79,9 @@ class Game {
 		int getInebriationLevel();
 		std::string getInebriationDescription();
 		void renderAllRoadside();
+		Ppmimage *inCarImage;
 };
-void showInCar(void);
+void showInCar(Game& g);
 void drawStreet(Game& g);
 void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
@@ -89,6 +90,7 @@ void check_button(XEvent *e, Game& g);
 void check_button2(XEvent *e, Game& g);
 void game_credits();
 unsigned char *buildAlphaData(Ppmimage *img);
+void initCarPics();
 
 //Alex's Function
 void check_button(XEvent *e, Game& g);
