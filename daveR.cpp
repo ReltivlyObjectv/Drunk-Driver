@@ -21,17 +21,16 @@ extern Game g;
 
 using namespace std;
 
-Ppmimage *inCarImage=NULL;
 GLuint inCarTexture;
 int displayDash=1;
 //int w=0, h=0;
 //void initOpengl(void);
 
 //overlay in car view onto animated screen
-void showInCar(void)
+void showInCar(Game& g)
 {
     	//Next line added
-	glPushMatrix();
+        glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, inCarTexture);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
@@ -39,12 +38,21 @@ void showInCar(void)
 		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
 		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D, 0);
 	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
   
-void initOpengl(void)
+void initCarPics(void)
 {
+	g.inCarImage = ppm6GetImage("./images/inCarPic.ppm");
+	glGenTextures(1 , &inCarTexture);
+	glBindTexture(GL_TEXTURE_2D, inCarTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+			g.inCarImage->width, g.inCarImage->height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, g.inCarImage->data);	
+	//Ppmimage *inCarImage=NULL;
 	//OpenGL initialization
 	glViewport(0, 0, g.xres, g.yres);
 	//Initialize matrices
@@ -67,14 +75,14 @@ void initOpengl(void)
 	//
 	//load the images file into a ppm structure.
 	//
-	inCarImage = ppm6GetImage("inCarPic.ppm");
+	//g.inCarImage = ppm6GetImage("inCarPic.ppm");
 	glBindTexture(GL_TEXTURE_2D, inCarTexture);
 	//
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, 3,inCarImage->width, 
-		inCarImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
-		inCarImage->data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,g.inCarImage->width, 
+		g.inCarImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
+		g.inCarImage->data);
 		
 }
 
