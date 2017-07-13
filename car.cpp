@@ -41,7 +41,6 @@ Display *dpy;
 Window win;
 GLXContext glc;
 
-bool startgame = true;
 void init(void);
 void initXWindows(void);
 void init_opengl(void);
