@@ -536,6 +536,7 @@ void check_button2(XEvent *e, Game& g)
 
 void game_credits(void) 
 {
+	float gravity = 0.1;
 	static bool hasShown = false;
 	static Rect r;
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -544,14 +545,18 @@ void game_credits(void)
 	glDisable(GL_LIGHTING);
 	if (!hasShown) {
 		r.bot = g.yres - 20;
-		r.left = 0;
+		r.left = 300;
 		r.center = 0;
 		hasShown = true;
 	} else {
 		r.center--;
 	}
+	//testing purposes
+	for (int i =0; i < 200; i++) {
 	ggprint8b(&r, 16, 0x0000FF00, "Credits go here");
+	}
 	glPopAttrib();
 	glEnable(GL_DEPTH_TEST);
 }
+
 
