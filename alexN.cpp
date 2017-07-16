@@ -536,37 +536,20 @@ void check_button2(XEvent *e, Game& g)
 
 void game_credits(void) 
 {
-	 Rect r;
-
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_PROJECTION); glLoadIdentity();
-        gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        gluLookAt(
-                        g.cameraPosition[0], g.cameraPosition[1],
-                        g.cameraPosition[2], g.cameraPosition[0]-g.up[0],
-                        g.cameraPosition[1]-g.up[1],
-                        g.cameraPosition[2]-g.up[2], 0,1,0);
-
-        glPushMatrix();
+	glPushMatrix();
         glColor3f(0.2f, 0.2f, 0.2f);
         float w = 5.0;
         float d = 300.0;
         float h = 0.0;
         glTranslatef(0.0f, 0.0f, 0.0f);
         glBegin(GL_QUADS);
-
         //top
-        /*
         glNormal3f( 0.0f, 1.0f, 0.0f);
         glVertex3f( w, h,-d);
         glVertex3f(-w, h,-d);
         glVertex3f(-w, h, d);
         glVertex3f( w, h, d);
         glEnd();
-        */
-/*
         //top
         glNormal3f( 0.0f, 1.0f, 0.0f);
         glVertex3f( w, h,-d);
@@ -575,10 +558,9 @@ void game_credits(void)
         glVertex3f( w, h, d);
         glEnd();
         glPopMatrix();
-	glPushMatrix();
+        glPushMatrix();
         glTranslatef(0.15f, 0.0f, 0.0f);
         glBegin(GL_QUADS);
-*/
         //top
         glNormal3f( 0.0f, 1.0f, 0.0f);
         glVertex3f( w, h,-d);
@@ -587,21 +569,7 @@ void game_credits(void)
         glVertex3f( w, h, d);
         glEnd();
         glPopMatrix();
-        ggprint8b(&r, 16, 0x0000FF00, "Credits");
-        //guard rails
-        glColor3f(1.0f, 1.0f, 1.0f);
-        for (int i=0; i<120; i++) {
-                glPushMatrix();
-                glTranslatef(6.0f, -0.5f, (float)-i*2.5);
-                //box(0.2, 5.0, 0.2);
-                glPopMatrix();
-                glPushMatrix();
-                glTranslatef(-6.0f, -0.5f, (float)-i*2.5);
-        }
-        glViewport(0, 0, g.xres, g.yres);
-        glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-        glMatrixMode(GL_PROJECTION); glLoadIdentity();
-        gluOrtho2D(0, g.xres, 0, g.yres);
+	
 
                                    
 }
