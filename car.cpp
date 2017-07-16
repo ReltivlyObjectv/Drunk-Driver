@@ -437,8 +437,30 @@ void render(void)
 			glEnable(GL_DEPTH_TEST);
 		}
 	} else if (g.gameState == CREDITS) {
-			game_credits();
-	}
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+                //
+                //3D mode
+                glMatrixMode(GL_PROJECTION); glLoadIdentity();
+                gluPerspective(45.0f, g.aspectRatio, 0.1f, 100.0f);
+                glMatrixMode(GL_MODELVIEW);
+                glLoadIdentity();
+                //for documentation...
+                gluLookAt(
+                                g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
+                                g.cameraPosition[0]-g.up[0], g.cameraPosition[1]-g.up[1], g.cameraPosition[2]-g.up[2],
+                                0, 1, 0);
+
+                game_credits();
+                glViewport(0, 0, g.xres, g.yres);
+                glMatrixMode(GL_MODELVIEW);   glLoadIdentity();
+                glMatrixMode (GL_PROJECTION); glLoadIdentity();
+                gluOrtho2D(0, g.xres, 0, g.yres);
+                glPushAttrib(GL_ENABLE_BIT);
+                glDisable(GL_LIGHTING);
+
+        }
+}
+
 }
 
 void drawStreet(Game& g)
