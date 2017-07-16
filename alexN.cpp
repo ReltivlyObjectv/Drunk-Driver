@@ -536,55 +536,25 @@ void check_button2(XEvent *e, Game& g)
 
 void game_credits(void) 
 {
+ static Rect r;
+        static bool check = false;
+        glMatrixMode(GL_PROJECTION);
+        glDisable(GL_LIGHTING);
+        if (!check) {
+                r.bot = g.yres -20;
+                r.left = 300;
+                r.center = 0;
+                check = true;
+        }
+        else {
+                for (int i = 0; i < 50; i++) {
+                        r.center = i;
+                }
+        }
+                ggprint8b(&r, 16, 0x00ffffff, "Credits");
+                glPopMatrix();
+                glEnable(GL_TEXTURE_2D);
 
-	glPushMatrix();
-        glColor3f(0.0f, 0.0f, 0.0f);
-        float w = 50.0;
-        float d = 300.0;
-        float h = 0;
-        glTranslatef(0.0f, 0.0f, 0.0f);
-        glBegin(GL_QUADS);
-        //top
-        glNormal3f( 0.0f, 0.0f, 0.0f);
-        glVertex3f( w, h,-d);
-        glVertex3f(-w, h,-d);
-        glVertex3f(-w, h, d);
-        glVertex3f( w, h, d);
-        glEnd();
-        //double yellow lines
-	/*glColor3f(0.8f,0.8f,0.2f);
-	w = 0.1;
-	d = 300.0;
-	h = 0.0;
-	glTranslatef(-0.15f,0.0f,0.0f);
-	glBegin(GL_QUADS);
-	//top
-        glVertex3f( w, h,-d);
-        glVertex3f(-w, h,-d);
-        glVertex3f(-w, h, d);
-        glVertex3f( w, h, d);
-        glEnd();
-        glPopMatrix();
-	glPushMatrix();
-        glTranslatef(0.15f, 0.0f, 0.0f);
-        glBegin(GL_QUADS);
-        //top
-        glNormal3f( 0.0f, 1.0f, 0.0f);
-        glVertex3f( w, h,-d);
-        glVertex3f(-w, h,-d);
-        glVertex3f(-w, h, d);
-        glVertex3f( w, h, d);*/
-	glPushMatrix();
-	glDisable(GL_LIGHTING);
-	glDisable(GL_TEXTURE_2D);
-	glLoadIdentity();
-	Rect r;	
-	r.bot = g.yres -20;
-	r.left = 150;
-	r.center = d;
-	ggprint8b(&r, 16, 0x00ffffff, "Credits");
-        glPopMatrix();                           
-	glEnable(GL_TEXTURE_2D);
 }
 
 
