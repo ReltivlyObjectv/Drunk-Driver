@@ -459,7 +459,6 @@ void render(void)
                 glDisable(GL_LIGHTING);
 
         }
-}
 
 }
 
