@@ -541,9 +541,9 @@ void game_credits(void)
     glMatrixMode(GL_PROJECTION);
     glDisable(GL_LIGHTING);
     if (!check) {
-        r.bot = g.yres/2 -20;
+        r.bot = g.yres/2 - 50;
         r.left = g.xres/2;
-        r.center = 0;
+        r.center = 1;
         check = true;
         glBegin(GL_QUADS);
         glTexCoord2f(0.0, 1.0); glVertex2i(0,0);
@@ -553,18 +553,15 @@ void game_credits(void)
         glEnd();
     }
     else {
-        for (int i = 0; i < 50; i++) {
-            r.center = i;
-        }
-    }
-    ggprint16(&r, 16, 0x00ffffff, "Drunk Driver");
-    ggprint16(&r, 16, 0x00ffffff, "Game Developers");
-    ggprint16(&r, 16, 0x00ffffff, "-----------------");
-    ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
-    ggprint16(&r, 16, 0x00ffffff, "Christian R");
-    ggprint16(&r, 16, 0x00ffffff, "Dave R");
-    ggprint16(&r, 16, 0x00ffffff, "Abduelah");
-    glPopMatrix();
-    glEnable(GL_TEXTURE_2D);
-    
+        ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
+        ggprint40(&r, 16, 0x00ffffff, " ");
+        ggprint16(&r, 16, 0x00ffffff, "Game Developers");
+        ggprint16(&r, 16, 0x00ffffff, "-----------------");
+        ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
+        ggprint16(&r, 16, 0x00ffffff, "Christian R");
+        ggprint16(&r, 16, 0x00ffffff, "Dave R");
+        ggprint16(&r, 16, 0x00ffffff, "Abduelah");
+        glPopMatrix();
+        glEnable(GL_TEXTURE_2D);
+    } 
 }
