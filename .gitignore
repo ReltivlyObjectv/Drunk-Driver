@@ -4,14 +4,7 @@ car
 # Do not commit temporary files
 *~
 
-libggfonts.a
-
-fonttex.o
-
-car
-
-fonts.o
-
-libggfonts.a
-
+# Do not commit any other generated files
+*.a
 *.o
+images/*.ppm
