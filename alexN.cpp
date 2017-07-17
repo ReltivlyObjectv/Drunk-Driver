@@ -27,6 +27,9 @@
 //4 buttons Start, High Score, Credits, Exit
 #define MAXBUTTONS 4
 #define GAMEOVER_BUTTONS 2
+//Credit speed
+#define CREDIT_VELOCITY .000000001
+#define CREDIT_CALLS_FPS 200000000
 //------------------------------------------------
 extern int startgame;
 
@@ -536,32 +539,30 @@ void check_button2(XEvent *e, Game& g)
 
 void game_credits(void) 
 {
-    static Rect r;
-    static bool check = false;
-    glMatrixMode(GL_PROJECTION);
-    glDisable(GL_LIGHTING);
-    if (!check) {
-        r.bot = g.yres/2 - 50;
-        r.left = g.xres/2;
-        r.center = 1;
-        check = true;
-        glBegin(GL_QUADS);
-        glTexCoord2f(0.0, 1.0); glVertex2i(0,0);
-        glTexCoord2f(0.0, 0.0); glVertex2i(0,g.yres);
-        glTexCoord2f(1.0, 0.0); glVertex2i(g.xres,g.yres);
-        glTexCoord2f(1.0, 1.0); glVertex2i(g.xres,0);
-        glEnd();
-    }
-    else {
-        ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
-        ggprint40(&r, 16, 0x00ffffff, " ");
-        ggprint16(&r, 16, 0x00ffffff, "Game Developers");
-        ggprint16(&r, 16, 0x00ffffff, "-----------------");
-        ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
-        ggprint16(&r, 16, 0x00ffffff, "Christian R");
-        ggprint16(&r, 16, 0x00ffffff, "Dave R");
-        ggprint16(&r, 16, 0x00ffffff, "Abduelah");
-        glPopMatrix();
-        glEnable(GL_TEXTURE_2D);
-    } 
+	static Rect r;
+	static bool check = false;;
+	static int frameProgress = 0;
+	frameProgress++;
+	//static bool check = false;
+	glMatrixMode(GL_PROJECTION);
+	glDisable(GL_LIGHTING);
+	if (frameProgress > CREDIT_CALLS_FPS) {
+		r.bot -= CREDIT_VELOCITY;
+		frameProgress = 0;
+	} else if (!check) {
+		r.bot = g.yres/2 - 50;
+		r.left = g.xres/2;
+		r.center = 1;
+		check = true;
+	}
+	ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Game Developers");
+	ggprint16(&r, 16, 0x00ffffff, "-----------------");
+	ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
+	ggprint16(&r, 16, 0x00ffffff, "Christian R");
+	ggprint16(&r, 16, 0x00ffffff, "Dave R");
+	ggprint16(&r, 16, 0x00ffffff, "Abduelah");
+	glPopMatrix();
+	glEnable(GL_TEXTURE_2D);
 }

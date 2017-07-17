@@ -210,7 +210,7 @@ void init_opengl(void)
                  gameoverImage->width, gameoverImage->height,
                  0, GL_RGB, GL_UNSIGNED_BYTE, gameoverImage->data);
     //Dave show car dash
-    initCarPics();
+    //initCarPics();
 }
 
 void check_resize(XEvent *e)
@@ -406,8 +406,10 @@ void render(void)
         glMatrixMode (GL_PROJECTION); glLoadIdentity();
         gluOrtho2D(0, g.xres, 0, g.yres);
         //show car dash
-        showInCar(g);
-        glPushAttrib(GL_ENABLE_BIT);
+        
+	//showInCar(g);
+        
+	glPushAttrib(GL_ENABLE_BIT);
         glDisable(GL_LIGHTING);
         //glDisable(GL_DEPTH_TEST);
         //glDisable(GL_CULL_FACE);
