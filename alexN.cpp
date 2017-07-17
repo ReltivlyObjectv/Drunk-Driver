@@ -541,17 +541,29 @@ void game_credits(void)
         glMatrixMode(GL_PROJECTION);
         glDisable(GL_LIGHTING);
         if (!check) {
-                r.bot = g.yres -20;
-                r.left = 300;
+                r.bot = g.yres/2 -20;
+                r.left = g.xres/2;
                 r.center = 0;
                 check = true;
+		glBegin(GL_QUADS);
+   		glTexCoord2f(0.0, 1.0); glVertex2i(0,0);
+    		glTexCoord2f(0.0, 0.0); glVertex2i(0,g.yres);
+    		glTexCoord2f(1.0, 0.0); glVertex2i(g.xres,g.yres);
+    		glTexCoord2f(1.0, 1.0); glVertex2i(g.xres,0);
+    		glEnd();
         }
         else {
                 for (int i = 0; i < 50; i++) {
                         r.center = i;
                 }
         }
-                ggprint8b(&r, 16, 0x00ffffff, "Credits");
+                ggprint16(&r, 16, 0x00ffffff, "Drunk Driver");
+		ggprint16(&r, 16, 0x00ffffff, "Game Developers");
+		ggprint16(&r, 16, 0x00ffffff, "-----------------");
+		ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
+		ggprint16(&r, 16, 0x00ffffff, "Christian R");
+		ggprint16(&r, 16, 0x00ffffff, "Dave R");
+		ggprint16(&r, 16, 0x00ffffff, "Abduelah");
                 glPopMatrix();
                 glEnable(GL_TEXTURE_2D);
 
