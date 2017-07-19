@@ -47,29 +47,6 @@ typedef struct t_button {
 Button button[MAXBUTTONS];
 Button button2[GAMEOVER_BUTTONS];
 
-//Timer from walk framework
-class Timers {
-    public:
-	double physicsRate;
-	double oobillion;
-	struct timespec timeStart, timeEnd, timeCurrent;
-	struct timespec creditTime;
-	Timers() {
-	    physicsRate = 1.0 / 30.0;
-	    oobillion = 1.0 / 1e9;
-	}
-	double timeDiff(struct timespec *start, struct timespec *end) {
-	    return (double)(end->tv_sec - start->tv_sec ) +
-		(double)(end->tv_nsec - start->tv_nsec) * oobillion;
-	}
-	void timeCopy(struct timespec *dest, struct timespec *source) {
-	    memcpy(dest, source, sizeof(struct timespec));
-	}
-	void recordTime(struct timespec *t) {
-	    clock_gettime(CLOCK_REALTIME, t);
-	}
-} timers;
-
 //----------------------------------------------
 void mouse_click(int action, Game& g);
 void check_button(XEvent *e,Game& g);

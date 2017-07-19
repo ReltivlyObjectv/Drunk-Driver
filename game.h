@@ -149,6 +149,7 @@ public:
 	double oobillion;
 	struct timespec timeStart, timeEnd, timeCurrent;
 	struct timespec obstacleTime;
+	struct timespec creditTime;
 	Timers() {
 		physicsRate = 1.0 / 30.0;
 		oobillion = 1.0 / 1e9;
