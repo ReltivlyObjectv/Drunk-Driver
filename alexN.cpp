@@ -548,8 +548,8 @@ void game_credits(void)
 		timers.timeDiff(&timers.creditTime, &timers.timeCurrent);
 	if (timeSpan > g.delay) { 
 		++g.creditFrame;
-		if (g.creditFrame >= 16)
-			g.creditFrame -= 16;
+		if (g.creditFrame >= 60)
+			g.creditFrame -= 10;
 		timers.recordTime(&timers.creditTime);
 	}
 	glMatrixMode(GL_PROJECTION);

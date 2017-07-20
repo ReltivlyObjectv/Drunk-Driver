@@ -439,7 +439,9 @@ void render(void)
             glEnable(GL_DEPTH_TEST);
         }
     } else if (g.gameState == CREDITS) {
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        Timers timers;
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	timers.recordTime(&timers.creditTime);
         game_credits();
     }
     
