@@ -538,24 +538,25 @@ void check_button2(XEvent *e, Game& g)
 
 void game_credits(void) 
 {
-//	timers.recordTime(&timers.walkTime);
+	g.creditFrame = 0;
+	Timers timers;
+	timers.recordTime(&timers.creditTime);
 	static Rect r;
 	
-/*	timers.recordTime(&timers.timeCurrent);
-	double timeSpan = timers.timeDiff(&timers.walkTime, &timers.timeCurrent);
-	if (timeSpan > gl.delay) {
-	    //advance
-	    ++gl.walkFrame;
-	    if (gl.walkFrame >= 16)
-		gl.walkFrame -= 16;
-	    timers.recordTime(&timers.walkTime);
+	timers.recordTime(&timers.timeCurrent);
+	double timeSpan = 
+		timers.timeDiff(&timers.creditTime, &timers.timeCurrent);
+	if (timeSpan > g.delay) { 
+		++g.creditFrame;
+		if (g.creditFrame >= 16)
+			g.creditFrame -= 16;
+		timers.recordTime(&timers.creditTime);
 	}
-*/	
 	glMatrixMode(GL_PROJECTION);
 	glDisable(GL_LIGHTING);
-		r.bot = g.yres/2 - 50;
-		r.left = g.xres/2;
-		r.center = 1;
+	r.bot = g.yres/2 - 50;
+	r.left = g.xres/2;
+	r.center = 1;
 	ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Game Developers");

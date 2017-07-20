@@ -60,6 +60,7 @@ class Game {
 		int gameState;
 		int xres, yres;
 		int done;
+		int creditFrame;
 		double speed, distanceTraveled, bloodAlcoholContent, minimumBAC;
 		int cooldownDrink;
 		Flt aspectRatio;
