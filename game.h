@@ -132,8 +132,6 @@ class RoadObstacle {
 		static Ppmimage* sprite;
 		static GLuint texture;
 		double roadPositionLR, roadPositionDistance;
-		double calculateWidth();
-		double calculateHeight();
 };
 class CatObstacle {
 	public:

@@ -56,14 +56,18 @@ void render(void);
 //Turned menu off so it doesn't break program -- Christian
 Game g;
 
+RoadObstacle roadOb(0,25);
+
 int main(void)
 {
     //Convert images
     system("convert ./images/menu.jpg ./images/menu.ppm");
     system("convert ./images/inCarPic.png ./images/inCarPic.ppm");
     system("convert ./images/gameover.jpg ./images/gameover.ppm");
+    system("convert ./images/cat.png ./images/cat.ppm");
     //Start game
     printf("Loading Drunk Driver\n");
+    RoadObstacle::init("./images/cat.ppm", 2, 4);
     initXWindows();
     init_opengl();
     init();
@@ -361,6 +365,9 @@ void physics(void)
 {
     ControlManager::moveForward(g);
     ControlManager::checkBounds(g);
+    if (roadOb.isCameraInside(g)) {
+        roadOb.triggerHitEffects();
+    }
 }
 
 void render(void)
@@ -396,6 +403,7 @@ void render(void)
                   0, 1, 0);
         //
         drawStreet(g);
+        roadOb.render(g);
         //
         //
         //

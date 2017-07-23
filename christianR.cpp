@@ -44,8 +44,9 @@
 #define ROAD_WIDTH 4
 #define SPEED_TO_MPH_MULT 100
 #define FPS 50
-#define OBSTACLE_DEPTH 5
-#define OBSTACLE_WIDTH 5
+#define OBSTACLE_DEPTH 1
+#define OBSTACLE_WIDTH 1
+#define OBSTACLE_RENDER_DIST 100
 #define CAMERA_HEIGHT 1
 #define COOLDOWN_DRINK 50
 #define COOLDOWN_BAC .000008
@@ -320,10 +321,10 @@ void ControlManager::playAnimationHit()
 {
 	//Called by external functions to begin playing the animation
 	if (hittingObject) {
-		printf("Hit animation already in progress\n");
+		//printf("Hit animation already in progress\n");
 		return;
 	} else {
-		printf("Playing hit animation\n");
+		//printf("Playing hit animation\n");
 		hittingObject = true;
 	}
 }
@@ -361,7 +362,7 @@ void ControlManager::reset(Game* g)
 	g->up[0] = 0;
 	g->up[1] = 0;
 	g->up[2] = 1;
-	MakeVector(0.0, 1.0, 8.0, g->cameraPosition);
+	MakeVector(0.0, 1.0, 0.0, g->cameraPosition);
 	g->speed = 0.1;
 	g->distanceTraveled = 0;
 	g->bloodAlcoholContent = g->minimumBAC = 0;
@@ -444,19 +445,105 @@ RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance)
 }
 bool RoadObstacle::isCameraInside(Game& g)
 {
-	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH
-			|| g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH
-	) {
+    /*
+    if (g.distanceTraveled != roadPositionDistance) {
+        #ifdef DEBUG
+        printf("Obstacle Pos: %f\nPlayer Pos: %f", roadPositionDistance, g.distanceTraveled);
+        #endif
+        return false;
+    } else {
+        #ifdef DEBUG
+        printf("Obstacle reached on road");
+        #endif
+    }
+    */
+	if (g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH) {
+        return false;
+    }
+    if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH) {
 		return false;
 	}
-	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH
-			|| g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
-		return false;
+	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH) {
+        return false;
 	}
+    if (g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
+		//return false;
+    }
 	return true;
 }
 void RoadObstacle::triggerHitEffects()
 {
+	ControlManager::playAnimationHit();
+}
+void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
+{
+	//Loads up the sprite for the class type
+	spriteLocation = spriteLoc;
+	frameColumns = frameWidth;
+	frameRows = frameHeight;
+	sprite = ppm6GetImage(spriteLocation.c_str());
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	unsigned char *texData = buildAlphaData(sprite);	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
+		GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	free(texData);
+	unlink(spriteLocation.c_str());
+}
+
+void RoadObstacle::render(Game& g)
+{
+	//This function renders the object on the road. Can be called on all
+	//Objects, because it tests if they’re in the road
+	if (g.distanceTraveled > roadPositionDistance) {
+		//Object has been passed
+		return;
+	}
+	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_RENDER_DIST) {
+		//Object is too far ahead to see
+		return;
+	}
+	//printf("An obstacle can be seen on the road\n");
+    //glColor3f(1.0f, 1.0f, 1.0f);
+    glPushMatrix();
+	glBegin(GL_QUADS); 
+	glNormal3f( 0.0f, 0.0f, 1.0f); 
+	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,1, -roadPositionDistance); 
+	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,1, -roadPositionDistance); 
+	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,0, -roadPositionDistance); 
+	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,0, -roadPositionDistance); 
+	glEnd(); 
+    glPopMatrix();
+	//Ppmimage sprite => Part of class; no definition needed
+	/*
+	//
+	glBindTexture(GL_TEXTURE_2D, sprite);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	int frameCount = frameRows * frameColumns
+	static int frame = 0;
+	if (frame >= frameCount)
+		frame = 0;;
+	int ix = frame % frameRows;
+	int iy = frame % frameColumns;
+	float tx = (float)ix / frameCount;
+	float ty = (float)iy / 1.0;
+	glBegin(GL_QUADS);
+		glTexCoord2f(tx,      ty+.5); glVertex2i(cx-w, cy-h);
+		glTexCoord2f(tx,      ty);    glVertex2i(cx-w, cy+h);
+		glTexCoord2f(tx+.125, ty);    glVertex2i(cx+w, cy+h);
+		glTexCoord2f(tx+.125, ty+.5); glVertex2i(cx+w, cy-h);
+	glEnd();
+	frame++;
+	//TODO
+	*/
+}
+void CatObstacle::triggerHitEffects()
+{
+	//TODO Add sound effects?
 	ControlManager::playAnimationHit();
 }
 void blackoutScreen(Game& g, float secs)
@@ -540,9 +627,12 @@ void drawDebugInfo(Game& g)
 	//Left/Right position
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+    //Camera Position
+    sprintf(buffer, "Road Position (Dist): %.3f", g.cameraPosition[2]);
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//Vertical position
-	//sprintf(buffer, "Road Position (Vertical): %.3f", g.cameraPosition[1]);
-	//ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
+	sprintf(buffer, "Road Position (Vertical): %.3f", g.cameraPosition[1]);
+	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//Inebriation Level
 	sprintf(buffer, "Drunkness Level: %d", g.getInebriationLevel());
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);

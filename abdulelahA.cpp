@@ -22,7 +22,6 @@
 #include "game.h"
 #include "ppm.h"
 
-#define OBSTACLE_RENDER_DIST 100
 
 void box(float w1, float h1, float d1) 
 { 
@@ -189,78 +188,4 @@ void obstacles(Game& g)
 	glDisable(GL_ALPHA_TEST);
 }
 
-void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
-{
-	//Loads up the sprite for the class type
-	spriteLocation = spriteLoc;
-	frameColumns = frameWidth;
-	frameRows = frameHeight;
-	sprite = ppm6GetImage(spriteLocation.c_str());
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	unsigned char *texData = buildAlphaData(sprite);	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, texData);
-	free(texData);
-	unlink(spriteLocation.c_str());
-}
 
-void RoadObstacle::render(Game& g)
-{
-	//This function renders the object on the road. Can be called on all
-	//Objects, because it tests if they’re in the road
-	if (g.distanceTraveled > roadPositionDistance) {
-		//Object has been passed
-		return;
-	}
-	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_RENDER_DIST) {
-		//Object is too far ahead to see
-		return;
-	}
-	printf("An obstacle can be seen on the road\n");
-	//Object is within renderable space
-	double width = calculateWidth();
-	double height = calculateHeight();
-	printf("unfinished%f%f", width, height);
-	//Ppmimage sprite => Part of class; no definition needed
-	/*
-	//
-	glBindTexture(GL_TEXTURE_2D, sprite);
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.0f);
-	glColor4ub(255,255,255,255);
-	int frameCount = frameRows * frameColumns
-	static int frame = 0;
-	if (frame >= frameCount)
-		frame = 0;;
-	int ix = frame % frameRows;
-	int iy = frame % frameColumns;
-	float tx = (float)ix / frameCount;
-	float ty = (float)iy / 1.0;
-	glBegin(GL_QUADS);
-		glTexCoord2f(tx,      ty+.5); glVertex2i(cx-w, cy-h);
-		glTexCoord2f(tx,      ty);    glVertex2i(cx-w, cy+h);
-		glTexCoord2f(tx+.125, ty);    glVertex2i(cx+w, cy+h);
-		glTexCoord2f(tx+.125, ty+.5); glVertex2i(cx+w, cy-h);
-	glEnd();
-	frame++;
-	//TODO
-	*/
-}
-double RoadObstacle::calculateWidth()
-{
-	//TODO
-	return 0.0;
-}
-double RoadObstacle::calculateHeight()
-{
-	//TODO
-	return 0.0;
-}
-void CatObstacle::triggerHitEffects()
-{
-	//TODO Add sound effects?
-	ControlManager::playAnimationHit();
-}
