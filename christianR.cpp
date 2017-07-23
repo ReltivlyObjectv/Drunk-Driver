@@ -505,15 +505,16 @@ void RoadObstacle::render(Game& g)
 		//Object is too far ahead to see
 		return;
 	}
-	//printf("An obstacle can be seen on the road\n");
-    //glColor3f(1.0f, 1.0f, 1.0f);
+    //Calculate distance
+    double distanceAhead = roadPositionDistance - g.distanceTraveled;
+    //Render
     glPushMatrix();
 	glBegin(GL_QUADS); 
 	glNormal3f( 0.0f, 0.0f, 1.0f); 
-	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,1, -roadPositionDistance); 
-	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,1, -roadPositionDistance); 
-	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,0, -roadPositionDistance); 
-	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,0, -roadPositionDistance); 
+	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
+	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
+	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
+	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
 	glEnd(); 
     glPopMatrix();
 	//Ppmimage sprite => Part of class; no definition needed
