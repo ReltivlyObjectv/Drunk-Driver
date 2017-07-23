@@ -88,6 +88,11 @@ int main(void)
     }
     cleanupXWindows();
     cleanup_fonts();
+    //Remove old ppms
+    system("unlink ./images/menu.ppm");
+    system("unlink ./images/inCarPic.ppm");
+    system("unlink ./images/gameover.ppm");
+    system("unlink ./images/cat.ppm");
     return 0;
 }
 
