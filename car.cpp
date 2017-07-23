@@ -168,6 +168,7 @@ void init(void)
 {
     obstacles.push_back(new RoadObstacle(0,25));
     obstacles.push_back(new RoadObstacle(2,45));
+    obstacles.push_back(new RoadObstacle(-2,145));
     ControlManager::movingLeft =
     ControlManager::movingRight =
     ControlManager::slowingDown =

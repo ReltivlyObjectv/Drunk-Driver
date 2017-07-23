@@ -445,30 +445,18 @@ RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance)
 }
 bool RoadObstacle::isCameraInside(Game& g)
 {
-    /*
-    if (g.distanceTraveled != roadPositionDistance) {
-        #ifdef DEBUG
-        printf("Obstacle Pos: %f\nPlayer Pos: %f", roadPositionDistance, g.distanceTraveled);
-        #endif
-        return false;
-    } else {
-        #ifdef DEBUG
-        printf("Obstacle reached on road");
-        #endif
-    }
-    */
 	if (g.distanceTraveled > roadPositionDistance + OBSTACLE_DEPTH) {
-        return false;
-    }
-    if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH) {
+		return false;
+	}
+	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH) {
 		return false;
 	}
 	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH) {
-        return false;
+		return false;
 	}
-    if (g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
+	if (g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
 		//return false;
-    }
+	}
 	return true;
 }
 void RoadObstacle::triggerHitEffects()
@@ -488,7 +476,7 @@ void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	unsigned char *texData = buildAlphaData(sprite);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, texData);
+			GL_RGBA, GL_UNSIGNED_BYTE, texData);
 	free(texData);
 	unlink(spriteLocation.c_str());
 }
@@ -505,18 +493,22 @@ void RoadObstacle::render(Game& g)
 		//Object is too far ahead to see
 		return;
 	}
-    //Calculate distance
-    double distanceAhead = roadPositionDistance - g.distanceTraveled;
-    //Render
-    glPushMatrix();
+	//Calculate distance
+	double distanceAhead = roadPositionDistance - g.distanceTraveled;
+	//Render
+	glPushMatrix();
 	glBegin(GL_QUADS); 
-	glNormal3f( 0.0f, 0.0f, 1.0f); 
-	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
-	glVertex3f( roadPositionLR - OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
-	glVertex3f( roadPositionLR - OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
-	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
+	glNormal3f(0.0f, 0.0f, 1.0f); 
+	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,1, 
+		g.cameraPosition[2] - distanceAhead); 
+	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,1, 
+		g.cameraPosition[2] - distanceAhead); 
+	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,0, 
+		g.cameraPosition[2] - distanceAhead); 
+	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,0, 
+		g.cameraPosition[2] - distanceAhead); 
 	glEnd(); 
-    glPopMatrix();
+	glPopMatrix();
 	//Ppmimage sprite => Part of class; no definition needed
 	/*
 	//
@@ -527,16 +519,16 @@ void RoadObstacle::render(Game& g)
 	int frameCount = frameRows * frameColumns
 	static int frame = 0;
 	if (frame >= frameCount)
-		frame = 0;;
+	frame = 0;;
 	int ix = frame % frameRows;
 	int iy = frame % frameColumns;
 	float tx = (float)ix / frameCount;
 	float ty = (float)iy / 1.0;
 	glBegin(GL_QUADS);
-		glTexCoord2f(tx,      ty+.5); glVertex2i(cx-w, cy-h);
-		glTexCoord2f(tx,      ty);    glVertex2i(cx-w, cy+h);
-		glTexCoord2f(tx+.125, ty);    glVertex2i(cx+w, cy+h);
-		glTexCoord2f(tx+.125, ty+.5); glVertex2i(cx+w, cy-h);
+	glTexCoord2f(tx,      ty+.5); glVertex2i(cx-w, cy-h);
+	glTexCoord2f(tx,      ty);    glVertex2i(cx-w, cy+h);
+	glTexCoord2f(tx+.125, ty);    glVertex2i(cx+w, cy+h);
+	glTexCoord2f(tx+.125, ty+.5); glVertex2i(cx+w, cy-h);
 	glEnd();
 	frame++;
 	//TODO
@@ -628,8 +620,8 @@ void drawDebugInfo(Game& g)
 	//Left/Right position
 	sprintf(buffer, "Road Position (R/L): %.3f", g.cameraPosition[0]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
-    //Camera Position
-    sprintf(buffer, "Road Position (Dist): %.3f", g.cameraPosition[2]);
+	//Camera Position
+	sprintf(buffer, "Road Position (Dist): %.3f", g.cameraPosition[2]);
 	ggprint8b(&debugStats, 16, 0x00FFFF00, buffer);
 	//Vertical position
 	sprintf(buffer, "Road Position (Vertical): %.3f", g.cameraPosition[1]);
