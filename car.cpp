@@ -22,6 +22,7 @@
 
 #include <GL/glx.h>
 #include <GL/glu.h>
+#include <list>
 #include "log.h"
 #include "fonts.h"
 #include "game.h"
@@ -52,11 +53,9 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
-
-//Turned menu off so it doesn't break program -- Christian
+std::list<RoadObstacle*> obstacles;
+    
 Game g;
-
-RoadObstacle roadOb(0,25);
 
 int main(void)
 {
@@ -167,6 +166,8 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
+    obstacles.push_back(new RoadObstacle(0,25));
+    obstacles.push_back(new RoadObstacle(2,45));
     ControlManager::movingLeft =
     ControlManager::movingRight =
     ControlManager::slowingDown =
@@ -365,8 +366,10 @@ void physics(void)
 {
     ControlManager::moveForward(g);
     ControlManager::checkBounds(g);
-    if (roadOb.isCameraInside(g)) {
-        roadOb.triggerHitEffects();
+    for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
+        if ((*it)->isCameraInside(g)) {
+            (*it)->triggerHitEffects();
+        }
     }
 }
 
@@ -403,7 +406,9 @@ void render(void)
                   0, 1, 0);
         //
         drawStreet(g);
-        roadOb.render(g);
+        for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
+            (*it)->render(g);
+        }
         //
         //
         //

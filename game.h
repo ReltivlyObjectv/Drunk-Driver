@@ -102,8 +102,8 @@ void game_pause(void);
 void game_over(void);
 //
 void box (float , float , float );
-void initobstacle(Game& g);
-void obstacles(Game& g);
+//void initobstacle(Game& g);
+//void obstacles(Game& g);
 class ControlManager {
 	public:
 		static bool movingLeft, movingRight, slowingDown, speedingUp, hittingObject;

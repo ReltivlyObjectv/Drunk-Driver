@@ -512,8 +512,8 @@ void RoadObstacle::render(Game& g)
 	glBegin(GL_QUADS); 
 	glNormal3f( 0.0f, 0.0f, 1.0f); 
 	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
-	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
-	glVertex3f(-roadPositionLR - OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
+	glVertex3f( roadPositionLR - OBSTACLE_WIDTH,1, g.cameraPosition[2] - distanceAhead); 
+	glVertex3f( roadPositionLR - OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
 	glVertex3f( roadPositionLR + OBSTACLE_WIDTH,0, g.cameraPosition[2] - distanceAhead); 
 	glEnd(); 
     glPopMatrix();
