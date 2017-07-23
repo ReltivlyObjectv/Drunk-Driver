@@ -554,7 +554,7 @@ void game_credits(void)
 	}
 	glMatrixMode(GL_PROJECTION);
 	glDisable(GL_LIGHTING);
-	r.bot = g.yres/2 - 50;
+	r.bot = g.yres++;
 	r.left = g.xres/2;
 	r.center = 1;
 	ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
