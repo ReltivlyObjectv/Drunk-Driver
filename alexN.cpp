@@ -9,8 +9,9 @@
  * 6/22/17 : Move check mouse back and add the function to it to extend check mouse
  * 6/24/17 : Created and update check_button and initalize function in check_mouse
  *6/30/17 : Fix menu bug, added pause menu and gameover menu
+ *July Update: Menu fixed, Credits scene completed
  */
-
+#include <iostream>
 #include <string.h>
 #include <stdio.h>
 #include "fonts.h"
@@ -542,29 +543,47 @@ void game_credits(void)
 	Timers timers;
 	timers.recordTime(&timers.creditTime);
 	static Rect r;
-	
 	timers.recordTime(&timers.timeCurrent);
 	double timeSpan = 
 		timers.timeDiff(&timers.creditTime, &timers.timeCurrent);
 	if (timeSpan > g.delay) { 
 		++g.creditFrame;
-		if (g.creditFrame >= 60)
-			g.creditFrame -= 10;
+		if (g.creditFrame >= 10)
+			g.creditFrame -= 1;
 		timers.recordTime(&timers.creditTime);
 	}
 	glMatrixMode(GL_PROJECTION);
 	glDisable(GL_LIGHTING);
-	r.bot = g.yres++;
+	r.bot = g.yres++/2 -100;	
+	//r.bot = g.yres++;
 	r.left = g.xres/2;
 	r.center = 1;
 	ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
+	for (int i = 0; i < 10; i++) {
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	}
+	ggprint40(&r, 16, 0x00ffffff, "CMPS 3350 - SUMMER ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Game Developers");
 	ggprint16(&r, 16, 0x00ffffff, "-----------------");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Christian R");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Dave R");
-	ggprint16(&r, 16, 0x00ffffff, "Abduelah");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Copyrighted © 2017 Drunk Driver");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Framework by Professor Gordon");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, "Press Esc to exit");
 	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
 }
