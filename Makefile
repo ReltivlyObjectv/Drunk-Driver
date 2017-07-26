@@ -6,7 +6,7 @@ LFLAGSMAC = -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 all: fonts.o fonttex.o staticLib car
 
 #mac is used to compile on OS X, after "make macsymlink" has been called, if needed
-mac: fontsmac.o fonttex.o staticLib carmac
+mac: clean fontsmac.o fonttex.o staticLib carmac
 
 car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	@echo "Compiling game (Linux)"
@@ -26,6 +26,7 @@ clean:
 	rm -f *.o
 	rm -f *.a
 	rm -f images/*.ppm
+	rm -f .*.swp
 
 fonts.o: fonts.cpp fonts.h defs.h
 	@echo "Compiling fonts (Linux)"

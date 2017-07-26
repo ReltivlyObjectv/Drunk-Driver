@@ -55,9 +55,14 @@ enum GameStates {
 	CREDITS,
 	GAMEOVER
 };
+enum TimeOfDay {
+	DAY,
+	NIGHT
+};
 class Game {
 	public:
 		int gameState;
+		int timeOfDay;
 		int xres, yres;
 		int done;
 		int creditFrame;

@@ -293,6 +293,15 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 		case XK_r:
 			reset(&g);
 			break;
+		case XK_n:
+			if (isPress) {
+				if (g.timeOfDay == DAY) {
+					g.timeOfDay = NIGHT;
+				}  else {
+					g.timeOfDay = DAY;
+				}
+			}
+			break;
 		case XK_Escape:
 			printf("Key is pressed: %s (%d)\n", "Escape", key);
 			g.done = 1;
@@ -650,5 +659,6 @@ void drawDebugInfo(Game& g)
 	ggprint8b(&debugStats, 16, 0x0000FF00, "J - Drink a beer");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "P - Pause");
 	ggprint8b(&debugStats, 16, 0x0000FF00, "R - Restart");
+	ggprint8b(&debugStats, 16, 0x0000FF00, "N - Day/Night Mode");
 }
 #endif

@@ -183,7 +183,8 @@ void init(void)
 void init_opengl(void)
 {
 	//OpenGL initialization
-	glClearColor(0.0f, 0.4f, 0.5f, 1.0f);
+	//glClearColor(0.0f, 0.4f, 0.5f, 1.0f);
+	glClearColor(0.0f, 0.0f ,0.0f, 0.0f);
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
@@ -382,6 +383,11 @@ void physics(void)
 void render(void)
 {
 	//if startgame holds true pop up menu
+	if (g.timeOfDay == DAY) {
+		glClearColor(0.0f, 0.4f, 0.5f, 1.0f);	
+	} else {
+		glClearColor(0.0f, 0.0f ,0.0f, 0.0f);
+	}
 	if (g.gameState == MENU) {
 		//printf("Rendering Main Menu...\n");
 		glDisable(GL_DEPTH_TEST);
@@ -593,6 +599,7 @@ void drawStreet(Game& g)
 Game::Game() {
 	//constructor
 	gameState = MENU;
+	timeOfDay = DAY;
 	xres=640;
 	yres=480;
 	aspectRatio = (GLfloat)xres / (GLfloat)yres;
