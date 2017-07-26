@@ -559,12 +559,13 @@ void game_credits(void)
 	r.left = g.xres/2;
 	r.center = 1;
 	ggprint40(&r, 16, 0x00ffffff, "Drunk Driver");
-	for (int i = 0; i < 10; i++) {
-	ggprint40(&r, 16, 0x00ffffff, " ");
+	for (int i = 0; i < 3; i++) {
+		ggprint40(&r, 16, 0x00ffffff, " ");
 	}
 	ggprint40(&r, 16, 0x00ffffff, "CMPS 3350 - SUMMER ");
-	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint40(&r, 16, 0x00ffffff, " ");
+	for (int i = 0; i < 3; i++) {
+		ggprint40(&r, 16, 0x00ffffff, " ");
+	}
 	ggprint16(&r, 16, 0x00ffffff, "Game Developers");
 	ggprint16(&r, 16, 0x00ffffff, "-----------------");
 	ggprint40(&r, 16, 0x00ffffff, " ");
@@ -578,12 +579,15 @@ void game_credits(void)
 	ggprint16(&r, 16, 0x00ffffff, "Dave R");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint16(&r, 16, 0x00ffffff, "Copyrighted © 2017 Drunk Driver");
-	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Framework by Professor Gordon");
 	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Copyrighted 2017 Drunk Driver");
 	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint40(&r, 16, 0x00ffffff, "Press Esc to exit");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Thank you for playing");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Press Esc to Exit ");
 	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
 }

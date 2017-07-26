@@ -515,10 +515,14 @@ void drawStreet(Game& g)
         glPushMatrix();
         glTranslatef(6.0f, -0.5f, (float)-i*2.5);
         box(0.2, 5.0, 0.2);
-        glPopMatrix();
+        glTranslatef(-0.5f, -1.5f, (float)-i*2.5);
+        box(0.1, 5.0, 10.0);
+	glPopMatrix();
         glPushMatrix();
         glTranslatef(-6.0f, -0.5f, (float)-i*2.5);
         box(0.2, 5.0, 0.2);
+	glTranslatef(0.5f, -1.5f, (float)-i*2.5);
+	box(0.2, 5.0, 10.0);
         glPopMatrix();
     }
     //float lightPosition = *g.lightPosition + g.cameraPosition[2];
