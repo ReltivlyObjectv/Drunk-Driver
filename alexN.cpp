@@ -28,9 +28,6 @@
 //4 buttons Start, High Score, Credits, Exit
 #define MAXBUTTONS 4
 #define GAMEOVER_BUTTONS 2
-//Credit speed
-#define CREDIT_VELOCITY .000000001
-#define CREDIT_CALLS_FPS 200000000
 //------------------------------------------------
 //button click from bship framework
 typedef struct t_button {
@@ -50,20 +47,10 @@ Button button2[GAMEOVER_BUTTONS];
 
 //----------------------------------------------
 void mouse_click(int action, Game& g);
-void check_button(XEvent *e,Game& g);
 void check_button2(XEvent *e,Game& g);
 extern Game g;
 extern GLuint menuTexture;
 extern GLuint gameoverTexture;
-void button_init(void);
-void button_render(void);
-void game_pause(void);
-void game_over(void);
-void gameover_init(void);
-void gameover_click(int action, Game& g);
-void game_credits(void);
-void gameover_render(void);
-
 //---------------------------------------------
 //Button will be drawn onto the menu
 void button_init(void)
@@ -632,10 +619,77 @@ void drawLightSource(void)
 		box(0.21, 0.2, 0.2);
 		glPopMatrix();
 		glPushMatrix();
-		glTranslatef((float)(6.0-(2.5/2.0)+0.1), 3.9f,
+		glTranslatef((float)(6.0-(4.8/2.0)+0.1), 3.9f,
+			(float)-i*10);
+		box(0.21, 0.2, 0.2);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef((float)(6.0-(4.8/2.0)+0.1), 3.9f,
 			(float)-i*10);
 		box(0.21, 0.2, 0.2);
 		glPopMatrix();
 
+
 	}
 }
+void drawPowerLines(void)
+{
+	for (int i = 0; i < 2; i++) {
+		glColor3f(0.0f, 0.0f, 0.0f);
+		glPushMatrix();
+		glTranslatef((i==0?1:-1)*10.0f, 4.7f, (float)-75);
+		//Middle
+		box(1.0/16.0, 1.0/16.0, 150);
+		//Right 
+		glTranslatef(0.5f, 0.0f, (float)0);
+		box(1.0/16.0, 1.0/16.0, 150);
+		//Left
+		glTranslatef(-1.0f, 0.0f, (float)0);
+		box(1.0/16.0, 1.0/16.0, 150);
+		glPopMatrix();
+	}
+	glColor3f(0.72f, 0.42f, 0.28f);
+	for (int i = 0; i < 30; i++) {
+		//Poles
+		glPushMatrix();
+		glTranslatef(10.0f, -0.5f, (float)-i*20);
+		box(0.5, 10, 0.2);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(-10.0f, -0.5f, (float)-i*20);
+		box(0.5, 10, 0.2);
+		glPopMatrix();
+		//Chassis
+		glPushMatrix();
+		glTranslatef(10.0f, 4.7f, (float)-i*20);
+		box(2.5, 0.5, 0.2);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(-10.0f, 4.7f, (float)-i*20);
+		box(2.5, 0.5, 0.2);
+		glPopMatrix();
+	}
+}
+
+
+/*void drawFilledSun(void)
+{
+    //static float angle;
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(0, 0, -10);
+    int i, x, y;
+    double radius = 0.30;
+    //glColor3ub(253, 184, 19);     
+    glColor3ub(255, 0, 0);
+    double twicePi = 2.0 * 3.142;
+    x = 0, y = 0;
+    glBegin(GL_TRIANGLE_FAN); //BEGIN CIRCLE
+    glVertex2f(x, y); // center of circle
+    for (i = 0; i <= 20; i++)   {
+        glVertex2f (
+            (x + (radius * cos(i * twicePi / 20))), (y + (radius * sin(i * twicePi / 20)))
+            );
+    }
+    glEnd(); //END
+}*/

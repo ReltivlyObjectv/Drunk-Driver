@@ -88,13 +88,13 @@ class Game {
 		Ppmimage *inCarImage;
 };
 void showInCar(Game& g);
+void drawFilledSun();
 void drawStreet(Game& g);
 void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
 void drawDebugInfo(Game& g);
 void check_button(XEvent *e, Game& g);
 void check_button2(XEvent *e, Game& g);
-void game_credits();
 unsigned char *buildAlphaData(Ppmimage *img);
 void initCarPics();
 
@@ -105,9 +105,13 @@ void button_init(void);
 void button_render(void);
 void game_pause(void);
 void game_over(void);
-void drawstreetLight();
-void drawLightSource();
-//
+void drawstreetLight(void);
+void drawLightSource(void);
+void drawPowerLines(void);
+void game_credits(void);
+void gameover_init(void);
+void gameover_click(int action, Game& g);
+void gameover_render(void);
 void box (float , float , float );
 //void initobstacle(Game& g);
 //void obstacles(Game& g);

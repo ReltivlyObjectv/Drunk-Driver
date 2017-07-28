@@ -418,6 +418,7 @@ void render(void)
 				0, 1, 0);
 		//
 		drawStreet(g);
+//		drawFilledSun();
 		for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 			(*it)->render(g);
 		}
@@ -474,6 +475,7 @@ void render(void)
 
 void drawStreet(Game& g)
 {
+
 	glPushMatrix();
 	glColor3f(0.2f, 0.2f, 0.2f);
 	float w = 5.0;
@@ -532,41 +534,7 @@ void drawStreet(Game& g)
 	drawstreetLight();
 	drawLightSource();
 	//power lines
-	for (int i = 0; i < 2; i++) {
-		glColor3f(0.0f, 0.0f, 0.0f);
-		glPushMatrix();
-		glTranslatef((i==0?1:-1)*10.0f, 4.7f, (float)-75);
-		//Middle
-		box(1.0/16.0, 1.0/16.0, 150);
-		//Right	
-		glTranslatef(0.5f, 0.0f, (float)0);
-		box(1.0/16.0, 1.0/16.0, 150);
-		//Left
-		glTranslatef(-1.0f, 0.0f, (float)0);
-		box(1.0/16.0, 1.0/16.0, 150);
-		glPopMatrix();
-	}
-	glColor3f(0.72f, 0.42f, 0.28f);
-	for (int i=0; i<30; i++) {
-		//Poles
-		glPushMatrix();
-		glTranslatef(10.0f, -0.5f, (float)-i*20);
-		box(0.5, 10, 0.2);
-		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(-10.0f, -0.5f, (float)-i*20);
-		box(0.5, 10, 0.2);
-		glPopMatrix();
-		//Chassis
-		glPushMatrix();
-		glTranslatef(10.0f, 4.7f, (float)-i*20);
-		box(2.5, 0.5, 0.2);
-		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(-10.0f, 4.7f, (float)-i*20);
-		box(2.5, 0.5, 0.2);
-		glPopMatrix();
-	}
+	drawPowerLines();
 	//float lightPosition = *g.lightPosition + g.cameraPosition[2];
 	//float lightPosition = *g.lightPosition;
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
@@ -592,3 +560,25 @@ Game::Game() {
 	inCarImage=NULL;
 	done = 0;
 }
+
+/*void drawFilledSun(void)
+{
+    //static float angle;
+    glLoadIdentity();
+    glTranslatef(0, 0, -10);
+    int i, x, y;
+    double radius = 0.30;
+    //glColor3ub(253, 184, 19);     
+    glColor3ub(255, 0, 0);
+    double twicePi = 2.0 * 3.142;
+    x = 0, y = 0;
+    glBegin(GL_TRIANGLE_FAN); //BEGIN CIRCLE
+    glVertex2f(x, y); // center of circle
+    for (i = 0; i <= 20; i++)   {
+        glVertex2f (
+            (x + (radius * cos(i * twicePi / 20))), (y + (radius * sin(i * twicePi / 20)))
+            );
+    }
+    glEnd(); //END
+}*/
+
