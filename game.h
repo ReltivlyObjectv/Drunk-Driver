@@ -105,6 +105,8 @@ void button_init(void);
 void button_render(void);
 void game_pause(void);
 void game_over(void);
+void drawstreetLight();
+void drawLightSource();
 //
 void box (float , float , float );
 //void initobstacle(Game& g);

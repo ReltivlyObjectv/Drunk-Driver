@@ -529,30 +529,8 @@ void drawStreet(Game& g)
 		box(0.2, 5.0, 10.0);
 		glPopMatrix();
 	}
-	//Street Light
-	float stagger = 5.0;
-	for (int i = 0; i< 60; i++) {
-		//Poles - Left
-		glPushMatrix();
-		glTranslatef(6.0f, 1.5f, (float)(-i*10));
-		box(0.2, 5.0, 0.2);
-		glPopMatrix();
-		//Poles - Right
-		glPushMatrix();
-		glTranslatef(-6.0f, 1.5f, (float)(-i*10)-stagger);
-		box(0.2, 5.0, 0.2);
-		glPopMatrix();
-		//Lights - Right
-		glPushMatrix();
-		glTranslatef((float)(6.0-(2.5/2.0)+0.1), 4.0f, (float)-i*10);
-		box(2.5, 0.2, 0.2);
-		glPopMatrix();
-		//Lights - Left
-		glPushMatrix();
-		glTranslatef((float)(-6.0+(2.5/2.0)-0.1), 4.0f, (float)(-i*10)-stagger);
-		box(2.5, 0.2, 0.2);
-		glPopMatrix();
-	}
+	drawstreetLight();
+	drawLightSource();
 	//power lines
 	for (int i = 0; i < 2; i++) {
 		glColor3f(0.0f, 0.0f, 0.0f);

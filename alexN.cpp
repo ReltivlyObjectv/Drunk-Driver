@@ -63,6 +63,7 @@ void gameover_init(void);
 void gameover_click(int action, Game& g);
 void game_credits(void);
 void gameover_render(void);
+
 //---------------------------------------------
 //Button will be drawn onto the menu
 void button_init(void)
@@ -590,4 +591,51 @@ void game_credits(void)
 	ggprint16(&r, 16, 0x00ffffff, "Press Esc to Exit ");
 	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
+}
+
+void drawstreetLight(void)
+{
+	float stagger = 5.0;
+	for (int i = 0; i< 60; i++) {
+		//Poles - Left
+		glPushMatrix();
+		glTranslatef(6.0f, 1.5f, (float)(-i*10));
+		box(0.2, 5.0, 0.2);
+		glPopMatrix();
+		//Poles - Right
+		glPushMatrix();
+		glTranslatef(-6.0f, 1.5f, (float)(-i*10)-stagger);
+		box(0.2, 5.0, 0.2);
+		glPopMatrix();
+		//Lights - Right
+		glPushMatrix();
+		glTranslatef((float)(6.0-(2.5/2.0)+0.1), 4.0f,
+			 (float)-i*10);
+		box(2.5, 0.2, 0.2);
+		glPopMatrix();
+		//Lights - Left
+		glPushMatrix();
+		glTranslatef((float)(-6.0+(2.5/2.0)-0.1), 4.0f, 
+			(float)(-i*10)-stagger);
+		box(2.5, 0.2, 0.2);
+		glPopMatrix();
+		}
+}
+void drawLightSource(void) 
+{
+	float stagger = 5.0;
+        for (int i = 0; i <60; i++) {
+		glColor3f(255.0, 255.0, 102);
+		glPushMatrix();
+		glTranslatef((float)(-6.0+(4.8/2.0)-0.1), 3.9f, 
+			(float)(-i*10)-stagger);
+		box(0.21, 0.2, 0.2);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef((float)(6.0-(2.5/2.0)+0.1), 3.9f,
+			(float)-i*10);
+		box(0.21, 0.2, 0.2);
+		glPopMatrix();
+
+	}
 }
