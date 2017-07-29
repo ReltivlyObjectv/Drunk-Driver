@@ -448,10 +448,6 @@ void Game::updateCooldowns()
 		bloodAlcoholContent -= COOLDOWN_BAC;
 	}
 }
-void initObstacles() {
-	RoadObstacle::init("images/cat.ppm", 2, 4);
-	CatObstacle::init("images/cat.ppm", 2, 4);
-}
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
 {
 	roadPositionLR = roadPosLR;
@@ -549,14 +545,6 @@ void RoadObstacle::render(Game& g)
 	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_ALPHA_TEST);
-}
-CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
-{
-}
-void CatObstacle::triggerHitEffects()
-{
-	ControlManager::playAnimationHit();
 }
 void blackoutScreen(Game& g, float secs)
 {

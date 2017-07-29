@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <vector>
+#include <list>
 #include "ppm.h"
 
 void box (float , float , float );
@@ -96,7 +97,6 @@ void drawDebugInfo(Game& g);
 void check_button(XEvent *e, Game& g);
 void check_button2(XEvent *e, Game& g);
 unsigned char *buildAlphaData(Ppmimage *img);
-void initObstacles();
 void initCarPics();
 
 //Alex's Function
@@ -150,6 +150,7 @@ class CatObstacle : public RoadObstacle {
 		virtual void triggerHitEffects();
 };
 
+void initObstacles(std::list<RoadObstacle*>& obstacles);
 
 //----------------------------------------------------------------------------
 

@@ -15,6 +15,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
+#include <list>
 #include "ppm.h"
 
 extern Game g;
@@ -84,6 +85,28 @@ void initCarPics(void)
 		g.inCarImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
 		g.inCarImage->data);
 		
+}
+void initObstacles(std::list<RoadObstacle*>& obstacles)
+{
+	//This is called at startup, and initializes each obstacle (must be called for every class)
+	//RoadObstacle::init("images/cat.ppm", 2, 4);
+	CatObstacle::init("images/cat.ppm", 2, 4);
+	
+	obstacles.push_back(new CatObstacle(0,25));
+	obstacles.push_back(new CatObstacle(2,45));
+	obstacles.push_back(new CatObstacle(-2,145));
+	obstacles.push_back(new CatObstacle(0,150));
+}
+//Cat Obstacle
+CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance) 
+	: RoadObstacle(roadPosLR, roadPosDistance)
+{
+	//Leave Blank -- Just calls to super constructor
+}
+void CatObstacle::triggerHitEffects()
+{
+	//Everthing in here is executed when the player hits the obstacle
+	ControlManager::playAnimationHit();
 }
 
 //added new section for database connection here

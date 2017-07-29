@@ -170,11 +170,7 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
-	initObstacles();
-	obstacles.push_back(new RoadObstacle(0,25));
-	obstacles.push_back(new RoadObstacle(2,45));
-	obstacles.push_back(new RoadObstacle(-2,145));
-	obstacles.push_back(new CatObstacle(0,150));
+	initObstacles(obstacles);
 	ControlManager::movingLeft =
 		ControlManager::movingRight =
 		ControlManager::slowingDown =
