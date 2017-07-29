@@ -66,8 +66,6 @@ bool ControlManager::movingLeft,
 
 int RoadObstacle::frameRows,
     RoadObstacle::frameColumns;
-
-std::string RoadObstacle::spriteLocation;
 Ppmimage* RoadObstacle::sprite;
 GLuint RoadObstacle::texture;
 
@@ -266,11 +264,6 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 		case XK_s:
 			ControlManager::slowingDown = isPress;
 			break;
-		case XK_h:
-			if (isPress && g.gameState == UNPAUSED) {
-				ControlManager::playAnimationHit();
-			}
-			break;
 		case XK_j:
 			if (isPress && g.gameState == UNPAUSED) {
 				if (g.cooldownDrink == 0) {
@@ -290,6 +283,16 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 				}
 			}
 			break;
+		case XK_Escape:
+			printf("Key is pressed: %s (%d)\n", "Escape", key);
+			g.done = 1;
+			break;
+		#ifdef DEBUG
+		case XK_h:
+			if (isPress && g.gameState == UNPAUSED) {
+				ControlManager::playAnimationHit();
+			}
+			break;
 		case XK_r:
 			reset(&g);
 			break;
@@ -302,10 +305,7 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 				}
 			}
 			break;
-		case XK_Escape:
-			printf("Key is pressed: %s (%d)\n", "Escape", key);
-			g.done = 1;
-			break;
+		#endif
 	}
 }
 void ControlManager::checkBounds(Game& g)
@@ -447,6 +447,9 @@ void Game::updateCooldowns()
 		bloodAlcoholContent -= COOLDOWN_BAC;
 	}
 }
+void initObstacles() {
+	RoadObstacle::init("images/cat.ppm", 2, 4);
+}
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
 {
 	roadPositionLR = roadPosLR;
@@ -475,10 +478,9 @@ void RoadObstacle::triggerHitEffects()
 void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
 {
 	//Loads up the sprite for the class type
-	spriteLocation = spriteLoc;
 	frameColumns = frameWidth;
 	frameRows = frameHeight;
-	sprite = ppm6GetImage(spriteLocation.c_str());
+	sprite = ppm6GetImage(spriteLoc.c_str());
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
@@ -487,7 +489,7 @@ void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
 			GL_RGBA, GL_UNSIGNED_BYTE, texData);
 	free(texData);
-	unlink(spriteLocation.c_str());
+	//unlink(spriteLoc.c_str());
 }
 
 void RoadObstacle::render(Game& g)
@@ -506,42 +508,31 @@ void RoadObstacle::render(Game& g)
 	double distanceAhead = roadPositionDistance - g.distanceTraveled;
 	//Render
 	glPushMatrix();
+	//glNormal3f(0.0f, 0.0f, 1.0f); 
+	glColor3f(1.0, 1.0, 1.0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	
+	
 	glBegin(GL_QUADS); 
-	glNormal3f(0.0f, 0.0f, 1.0f); 
+	glTexCoord2f(0,0);
 	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,1, 
 		g.cameraPosition[2] - distanceAhead); 
+	glTexCoord2f(0,1);
 	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,1, 
 		g.cameraPosition[2] - distanceAhead); 
+	glTexCoord2f(1,1);
 	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,0, 
 		g.cameraPosition[2] - distanceAhead); 
+	glTexCoord2f(1,0);
 	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,0, 
 		g.cameraPosition[2] - distanceAhead); 
 	glEnd(); 
 	glPopMatrix();
-	//Ppmimage sprite => Part of class; no definition needed
-	/*
-	//
-	glBindTexture(GL_TEXTURE_2D, sprite);
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.0f);
-	glColor4ub(255,255,255,255);
-	int frameCount = frameRows * frameColumns
-	static int frame = 0;
-	if (frame >= frameCount)
-	frame = 0;;
-	int ix = frame % frameRows;
-	int iy = frame % frameColumns;
-	float tx = (float)ix / frameCount;
-	float ty = (float)iy / 1.0;
-	glBegin(GL_QUADS);
-	glTexCoord2f(tx,      ty+.5); glVertex2i(cx-w, cy-h);
-	glTexCoord2f(tx,      ty);    glVertex2i(cx-w, cy+h);
-	glTexCoord2f(tx+.125, ty);    glVertex2i(cx+w, cy+h);
-	glTexCoord2f(tx+.125, ty+.5); glVertex2i(cx+w, cy-h);
-	glEnd();
-	frame++;
-	//TODO
-	*/
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_ALPHA_TEST);
 }
 void CatObstacle::triggerHitEffects()
 {

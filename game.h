@@ -96,6 +96,7 @@ void drawDebugInfo(Game& g);
 void check_button(XEvent *e, Game& g);
 void check_button2(XEvent *e, Game& g);
 unsigned char *buildAlphaData(Ppmimage *img);
+void initObstacles();
 void initCarPics();
 
 //Alex's Function
@@ -139,9 +140,8 @@ class RoadObstacle {
 		virtual void triggerHitEffects();
 	private:
 		static int frameColumns, frameRows;
-		static std::string spriteLocation;
-		static Ppmimage* sprite;
 		static GLuint texture;
+		static Ppmimage* sprite;
 		double roadPositionLR, roadPositionDistance;
 };
 class CatObstacle {

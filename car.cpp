@@ -171,6 +171,7 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
+	initObstacles();
 	obstacles.push_back(new RoadObstacle(0,25));
 	obstacles.push_back(new RoadObstacle(2,45));
 	obstacles.push_back(new RoadObstacle(-2,145));
@@ -418,7 +419,7 @@ void render(void)
 				0, 1, 0);
 		//
 		drawStreet(g);
-//		drawFilledSun();
+		//drawFilledSun();
 		for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 			(*it)->render(g);
 		}
