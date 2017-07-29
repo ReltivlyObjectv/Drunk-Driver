@@ -46,6 +46,7 @@
 #define FPS 50
 #define OBSTACLE_DEPTH 1
 #define OBSTACLE_WIDTH 1
+#define OBSTACLE_HEIGHT 2
 #define OBSTACLE_RENDER_DIST 100
 #define CAMERA_HEIGHT 1
 #define COOLDOWN_DRINK 50
@@ -448,7 +449,7 @@ void Game::updateCooldowns()
 	}
 }
 void initObstacles() {
-	RoadObstacle::init("images/cat.ppm", 4, 2);
+	RoadObstacle::init("images/cat.ppm", 2, 4);
 }
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
 {
@@ -518,8 +519,8 @@ void RoadObstacle::render(Game& g)
 	static int walkFrame = 0;
 	int ix = walkFrame % frameColumns;
 	int iy = (walkFrame / frameColumns) % frameRows;
-	float tx = (float)ix / 8.0;
-	float ty = (float)iy / 2.0;
+	float tx = (float)ix / frameRows;
+	float ty = (float)iy / frameColumns;
 	if (lastTime < time(nullptr)) {
 		walkFrame++;
 		lastTime = time(nullptr);
@@ -527,11 +528,11 @@ void RoadObstacle::render(Game& g)
 	glBegin(GL_QUADS); 
 	//Corner 1
 	glTexCoord2f(tx,      ty+(1.0/frameRows));
-	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,1, 
+	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,OBSTACLE_HEIGHT, 
 		g.cameraPosition[2] - distanceAhead); 
 	//Corner 2
 	glTexCoord2f(tx,      ty);
-	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,1, 
+	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,OBSTACLE_HEIGHT, 
 		g.cameraPosition[2] - distanceAhead); 
 	//Corner 3
 	glTexCoord2f(tx+(1.0/frameColumns), ty);
