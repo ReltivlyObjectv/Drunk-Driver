@@ -519,8 +519,10 @@ void RoadObstacle::render(Game& g)
 	static int walkFrame = 0;
 	int ix = walkFrame % frameColumns;
 	int iy = (walkFrame / frameColumns) % frameRows;
-	float tx = (float)ix / frameRows;
+	//float tx = (float)ix / frameRows;
 	float ty = (float)iy / frameColumns;
+	float tx = (float)ix;
+	
 	if (lastTime < time(nullptr)) {
 		walkFrame++;
 		lastTime = time(nullptr);
@@ -546,11 +548,6 @@ void RoadObstacle::render(Game& g)
 	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_ALPHA_TEST);
-}
-void CatObstacle::triggerHitEffects()
-{
-	//TODO Add sound effects?
-	ControlManager::playAnimationHit();
 }
 void blackoutScreen(Game& g, float secs)
 {

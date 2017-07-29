@@ -144,10 +144,6 @@ class RoadObstacle {
 		static Ppmimage* sprite;
 		double roadPositionLR, roadPositionDistance;
 };
-class CatObstacle {
-	public:
-		virtual void triggerHitEffects();
-};
 
 
 //----------------------------------------------------------------------------
