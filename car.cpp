@@ -66,7 +66,6 @@ int main(void)
 	system("convert ./images/cat.png ./images/cat.ppm");
 	//Start game
 	printf("Loading Drunk Driver\n");
-	RoadObstacle::init("./images/cat.ppm", 2, 4);
 	initXWindows();
 	init_opengl();
 	init();
@@ -175,6 +174,7 @@ void init(void)
 	obstacles.push_back(new RoadObstacle(0,25));
 	obstacles.push_back(new RoadObstacle(2,45));
 	obstacles.push_back(new RoadObstacle(-2,145));
+	obstacles.push_back(new CatObstacle(0,150));
 	ControlManager::movingLeft =
 		ControlManager::movingRight =
 		ControlManager::slowingDown =
