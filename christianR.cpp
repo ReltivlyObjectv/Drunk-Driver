@@ -512,18 +512,20 @@ void RoadObstacle::render(Game& g)
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.0f);
 	glColor4ub(255,255,255,255);
-	static std::time_t lastTime = time(nullptr);
+	//static std::time_t lastTime = time(nullptr);
+	static int framesPassed = 0;
 	static int walkFrame = 0;
 	int ix = walkFrame % frameColumns;
 	int iy = (walkFrame / frameColumns) % frameRows;
-	//float tx = (float)ix / frameRows;
 	float ty = (float)iy / frameColumns;
 	float tx = (float)ix;
 	
-	if (lastTime < time(nullptr)) {
+	//if (lastTime < time(nullptr)) {
+	if (framesPassed > 20) {
 		walkFrame++;
-		lastTime = time(nullptr);
+		framesPassed = 0;
 	}
+	framesPassed++;
 	glBegin(GL_QUADS); 
 	//Corner 1
 	glTexCoord2f(tx,      ty+(1.0/frameRows));
