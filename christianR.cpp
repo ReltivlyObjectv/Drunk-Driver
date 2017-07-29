@@ -448,7 +448,7 @@ void Game::updateCooldowns()
 	}
 }
 void initObstacles() {
-	RoadObstacle::init("images/cat.ppm", 2, 4);
+	RoadObstacle::init("images/cat.ppm", 4, 2);
 }
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
 {
@@ -514,19 +514,31 @@ void RoadObstacle::render(Game& g)
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.0f);
 	glColor4ub(255,255,255,255);
-	
-	
+	static std::time_t lastTime = time(nullptr);
+	static int walkFrame = 0;
+	int ix = walkFrame % frameColumns;
+	int iy = (walkFrame / frameColumns) % frameRows;
+	float tx = (float)ix / 8.0;
+	float ty = (float)iy / 2.0;
+	if (lastTime < time(nullptr)) {
+		walkFrame++;
+		lastTime = time(nullptr);
+	}
 	glBegin(GL_QUADS); 
-	glTexCoord2f(0,0);
+	//Corner 1
+	glTexCoord2f(tx,      ty+(1.0/frameRows));
 	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,1, 
 		g.cameraPosition[2] - distanceAhead); 
-	glTexCoord2f(0,1);
+	//Corner 2
+	glTexCoord2f(tx,      ty);
 	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,1, 
 		g.cameraPosition[2] - distanceAhead); 
-	glTexCoord2f(1,1);
+	//Corner 3
+	glTexCoord2f(tx+(1.0/frameColumns), ty);
 	glVertex3f(roadPositionLR - OBSTACLE_WIDTH,0, 
 		g.cameraPosition[2] - distanceAhead); 
-	glTexCoord2f(1,0);
+	//Corner 4
+	glTexCoord2f(tx+(1.0/frameColumns), ty+(1.0/frameRows));
 	glVertex3f(roadPositionLR + OBSTACLE_WIDTH,0, 
 		g.cameraPosition[2] - distanceAhead); 
 	glEnd(); 
