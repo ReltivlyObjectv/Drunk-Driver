@@ -675,9 +675,8 @@ void drawPowerLines(void)
 
 void drawSun(void)
 {
-    
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glTranslatef(0, 0, -10);
+    glLoadIdentity();
+    glTranslatef(-0, 0, -10);
     int i, x, y;
     double radius = 0.30;
     glColor3ub(253, 184, 19);     

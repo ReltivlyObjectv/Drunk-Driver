@@ -419,7 +419,6 @@ void render(void)
 				0, 1, 0);
 		//
 		drawStreet(g);
-		drawSun();
 		for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 			(*it)->render(g);
 		}
@@ -539,6 +538,9 @@ void drawStreet(Game& g)
 	//float lightPosition = *g.lightPosition + g.cameraPosition[2];
 	//float lightPosition = *g.lightPosition;
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
+	glPushMatrix();
+	drawSun();
+	glPopMatrix();
 }
 
 
