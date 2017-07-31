@@ -96,6 +96,21 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 	obstacles.push_back(new CatObstacle(2,45));
 	obstacles.push_back(new CatObstacle(-2,145));
 	obstacles.push_back(new CatObstacle(0,150));
+
+	ManObstacle::init("images/man.ppm", 2, 4);
+	
+	obstacles.push_back(new ManObstacle(0,25));
+	obstacles.push_back(new ManObstacle(2,45));
+	obstacles.push_back(new ManObstacle(-2,145));
+	obstacles.push_back(new ManObstacle(0,150));
+
+	VehicleObstacle::init("images/car.ppm", 2, 4);
+	
+	obstacles.push_back(new VehicleObstacle(0,25));
+	obstacles.push_back(new VehicleObstacle(2,45));
+	obstacles.push_back(new VehicleObstacle(-2,145));
+	obstacles.push_back(new VehicleObstacle(0,150));
+
 }
 //Cat Obstacle
 CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance) 
@@ -104,6 +119,33 @@ CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance)
 	//Leave Blank -- Just calls to super constructor
 }
 void CatObstacle::triggerHitEffects()
+{
+	//Everthing in here is executed when the player hits the obstacle
+	ControlManager::playAnimationHit();
+}
+
+
+//Man Obstacle
+ManObstacle::ManObstacle(double roadPosLR, double roadPosDistance) 
+	: RoadObstacle(roadPosLR, roadPosDistance)
+{
+	//Leave Blank -- Just calls to super constructor
+}
+
+void ManObstacle::triggerHitEffects()
+{
+	//Everthing in here is executed when the player hits the obstacle
+	ControlManager::playAnimationHit();
+}
+
+//Vehicle Obstacle
+VehicleObstacle::VehicleObstacle(double roadPosLR, double roadPosDistance) 
+	: RoadObstacle(roadPosLR, roadPosDistance)
+{
+	//Leave Blank -- Just calls to super constructor
+}
+
+void VehicleObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
 	ControlManager::playAnimationHit();
