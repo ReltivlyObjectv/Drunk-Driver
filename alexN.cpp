@@ -18,6 +18,7 @@
 #include "log.h"
 #include "ppm.h"
 #include "game.h"
+#include "math.h"
 //-------------------------------------------------
 //Button width
 #define BUTTON_W 50
@@ -672,7 +673,7 @@ void drawPowerLines(void)
 }
 
 
-/*void drawSun(void)
+void drawSun(void)
 {
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -682,12 +683,12 @@ void drawPowerLines(void)
     glColor3ub(253, 184, 19);     
     double Pi = 2.0 * 3.142;
     x = 0, y = 0;
-    glBegin(GL_TRIANGLE_FAN); //BEGIN CIRCLE
-    glVertex2f(x, y); // center of circle
+    glBegin(GL_TRIANGLE_FAN); 
+    glVertex2f(x, y); 
     for (i = 0; i <= 20; i++)   {
         glVertex2f (
             (x + (radius * cos(i * Pi / 20))), (y + (radius * sin(i * Pi / 20)))
             );
     }
     glEnd(); 
-}*/
+}
