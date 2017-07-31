@@ -143,7 +143,7 @@ VehicleObstacle::VehicleObstacle(double roadPosLR, double roadPosDistance)
 void VehicleObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
-	ControlManager::playAnimationHit();
+	g.speed = 0.1;
 }
 
 //Bus Obstacle
