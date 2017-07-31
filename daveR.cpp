@@ -159,6 +159,19 @@ void BusObstacle::triggerHitEffects()
 	ControlManager::playAnimationHit();
 }
 
+void filterRGB(float R, float G, float B) 
+{
+// Currently applies a colored overlay based on RGB, each from 0.0-1.0
+//      glClear(GL_COLOR_BUFFER_BIT);
+        glColor3f(R, G, B);
+        glBegin(GL_QUAD_STRIP);
+        glVertex2f( 0.0f,  0.0f);
+        glVertex2f( 0.0f, 5.1f);
+        glVertex2f(5.1f,  0.0f);
+        glVertex2f(5.1f, 5.1f);
+        glEnd();
+}
+
 //added new section for database connection here
 /* Standard C++ includes */
 #include <stdlib.h>
