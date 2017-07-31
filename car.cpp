@@ -64,9 +64,9 @@ int main(void)
 	system("convert ./images/inCarPic.png ./images/inCarPic.ppm");
 	system("convert ./images/gameover.jpg ./images/gameover.ppm");
 	system("convert ./images/cat.png ./images/cat.ppm");
-	system("convert ./images/man.png ./images/man.ppm");
-	system("convert ./images/car.png ./images/car.ppm");
-	system("convert ./images/bus.png ./images/bus.ppm");
+	system("convert ./images/man.jpg ./images/man.ppm");
+	system("convert ./images/car.jpg ./images/car.ppm");
+	system("convert ./images/bus.jpg ./images/bus.ppm");
 	//Start game
 	printf("Loading Drunk Driver\n");
 	initXWindows();
