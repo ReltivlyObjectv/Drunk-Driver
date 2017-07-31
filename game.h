@@ -89,7 +89,7 @@ class Game {
 		Ppmimage *inCarImage;
 };
 void showInCar(Game& g);
-void drawFilledSun();
+void drawSun();
 void drawStreet(Game& g);
 void drawPauseMenu(Game& g);
 void blackoutScreen(Game& g, float secs=-1);
