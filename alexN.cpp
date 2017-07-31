@@ -675,10 +675,10 @@ void drawPowerLines(void)
 
 void drawSun(void)
 {
-    glLoadIdentity();
-    glTranslatef(-0, 0, -10);
+    //Sun position is stationary but moves off screen
+    glTranslatef(-8.5, 9.0, -90);
     int i, x, y;
-    double radius = 0.30;
+    double radius = 3.0;
     glColor3ub(253, 184, 19);     
     double Pi = 2.0 * 3.142;
     x = 0, y = 0;

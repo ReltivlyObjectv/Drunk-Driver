@@ -404,7 +404,7 @@ void render(void)
 		glEnable(GL_DEPTH_TEST);
 	} else if (g.gameState == UNPAUSED || g.gameState == PAUSED || g.gameState == GAMEOVER) {
 		//printf("Rendering Game...\n");
-		Rect r;
+		//Rect r;
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//
 		//3D mode
@@ -419,6 +419,10 @@ void render(void)
 				0, 1, 0);
 		//
 		drawStreet(g);
+		glPushMatrix();
+		drawSun();
+		glPopMatrix();
+
 		for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 			(*it)->render(g);
 		}
@@ -439,10 +443,10 @@ void render(void)
 		glDisable(GL_LIGHTING);
 		//glDisable(GL_DEPTH_TEST);
 		//glDisable(GL_CULL_FACE);
-		r.bot = g.yres - 20;
-		r.left = 10;
-		r.center = 0;
-		ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
+		//r.bot = g.yres - 20;
+		//r.left = 10;
+		//r.center = 0;
+		//ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
 #ifdef DEBUG
 		drawDebugInfo(g);
 #endif
@@ -538,9 +542,8 @@ void drawStreet(Game& g)
 	//float lightPosition = *g.lightPosition + g.cameraPosition[2];
 	//float lightPosition = *g.lightPosition;
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
-	glPushMatrix();
-	drawSun();
-	glPopMatrix();
+	
+	
 }
 
 
