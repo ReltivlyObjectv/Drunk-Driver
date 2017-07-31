@@ -415,7 +415,6 @@ void render(void)
 				0, 1, 0);
 		//
 		drawStreet(g);
-		//drawFilledSun();
 		for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 			(*it)->render(g);
 		}
@@ -558,24 +557,5 @@ Game::Game() {
 	done = 0;
 }
 
-/*void drawFilledSun(void)
-{
-    //static float angle;
-    glLoadIdentity();
-    glTranslatef(0, 0, -10);
-    int i, x, y;
-    double radius = 0.30;
-    //glColor3ub(253, 184, 19);     
-    glColor3ub(255, 0, 0);
-    double twicePi = 2.0 * 3.142;
-    x = 0, y = 0;
-    glBegin(GL_TRIANGLE_FAN); //BEGIN CIRCLE
-    glVertex2f(x, y); // center of circle
-    for (i = 0; i <= 20; i++)   {
-        glVertex2f (
-            (x + (radius * cos(i * twicePi / 20))), (y + (radius * sin(i * twicePi / 20)))
-            );
-    }
-    glEnd(); //END
-}*/
+
 
