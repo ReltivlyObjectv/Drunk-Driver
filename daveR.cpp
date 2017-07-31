@@ -111,6 +111,13 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 	obstacles.push_back(new VehicleObstacle(-2,145));
 	obstacles.push_back(new VehicleObstacle(0,150));
 
+	BusObstacle::init("images/bus.ppm", 2, 4);
+	
+	obstacles.push_back(new BusObstacle(0,25));
+	obstacles.push_back(new BusObstacle(2,45));
+	obstacles.push_back(new BusObstacle(-2,145));
+	obstacles.push_back(new BusObstacle(0,150));
+
 }
 //Cat Obstacle
 CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance) 
@@ -146,6 +153,19 @@ VehicleObstacle::VehicleObstacle(double roadPosLR, double roadPosDistance)
 }
 
 void VehicleObstacle::triggerHitEffects()
+{
+	//Everthing in here is executed when the player hits the obstacle
+	ControlManager::playAnimationHit();
+}
+
+//Bus Obstacle
+BusObstacle::BusObstacle(double roadPosLR, double roadPosDistance) 
+	: RoadObstacle(roadPosLR, roadPosDistance)
+{
+	//Leave Blank -- Just calls to super constructor
+}
+
+void BusObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
 	ControlManager::playAnimationHit();
