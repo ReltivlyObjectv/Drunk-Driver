@@ -93,29 +93,17 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 	CatObstacle::init("images/cat.ppm", 2, 4);
 	
 	obstacles.push_back(new CatObstacle(0,25));
-	obstacles.push_back(new CatObstacle(2,45));
-	obstacles.push_back(new CatObstacle(-2,145));
-	obstacles.push_back(new CatObstacle(0,150));
 
-	ManObstacle::init("images/man.ppm", 2, 4);
+	ManObstacle::init("images/man.ppm");
 	
-	obstacles.push_back(new ManObstacle(0,25));
 	obstacles.push_back(new ManObstacle(2,45));
-	obstacles.push_back(new ManObstacle(-2,145));
-	obstacles.push_back(new ManObstacle(0,150));
 
-	VehicleObstacle::init("images/car.ppm", 2, 4);
+	VehicleObstacle::init("images/car.ppm");
 	
-	obstacles.push_back(new VehicleObstacle(0,25));
-	obstacles.push_back(new VehicleObstacle(2,45));
 	obstacles.push_back(new VehicleObstacle(-2,145));
-	obstacles.push_back(new VehicleObstacle(0,150));
 
-	BusObstacle::init("images/bus.ppm", 2, 4);
+	BusObstacle::init("images/bus.ppm");
 	
-	obstacles.push_back(new BusObstacle(0,25));
-	obstacles.push_back(new BusObstacle(2,45));
-	obstacles.push_back(new BusObstacle(-2,145));
 	obstacles.push_back(new BusObstacle(0,150));
 
 }
