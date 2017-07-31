@@ -672,24 +672,22 @@ void drawPowerLines(void)
 }
 
 
-/*void drawFilledSun(void)
+/*void drawSun(void)
 {
-    //static float angle;
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
     glTranslatef(0, 0, -10);
     int i, x, y;
     double radius = 0.30;
-    //glColor3ub(253, 184, 19);     
-    glColor3ub(255, 0, 0);
-    double twicePi = 2.0 * 3.142;
+    glColor3ub(253, 184, 19);     
+    double Pi = 2.0 * 3.142;
     x = 0, y = 0;
     glBegin(GL_TRIANGLE_FAN); //BEGIN CIRCLE
     glVertex2f(x, y); // center of circle
     for (i = 0; i <= 20; i++)   {
         glVertex2f (
-            (x + (radius * cos(i * twicePi / 20))), (y + (radius * sin(i * twicePi / 20)))
+            (x + (radius * cos(i * Pi / 20))), (y + (radius * sin(i * twicePi / 20)))
             );
     }
-    glEnd(); //END
+    glEnd(); 
 }*/
