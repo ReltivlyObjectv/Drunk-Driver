@@ -686,7 +686,7 @@ void drawPowerLines(void)
     glVertex2f(x, y); // center of circle
     for (i = 0; i <= 20; i++)   {
         glVertex2f (
-            (x + (radius * cos(i * Pi / 20))), (y + (radius * sin(i * twicePi / 20)))
+            (x + (radius * cos(i * Pi / 20))), (y + (radius * sin(i * Pi / 20)))
             );
     }
     glEnd(); 
