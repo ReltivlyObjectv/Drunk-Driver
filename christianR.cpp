@@ -65,11 +65,6 @@ bool ControlManager::movingLeft,
      ControlManager::speedingUp, 
      ControlManager::hittingObject;
 
-int RoadObstacle::frameRows,
-    RoadObstacle::frameColumns;
-Ppmimage* RoadObstacle::sprite;
-GLuint RoadObstacle::texture;
-
 double ControlManager::applyDrunkSwerve(Game& g)
 {
 	double swerveMovement = ControlManager::calculateSwerveModifier(g);
@@ -448,10 +443,22 @@ void Game::updateCooldowns()
 		bloodAlcoholContent -= COOLDOWN_BAC;
 	}
 }
-RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance) 
+RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance,
+	std::string spriteLoc, int frameWidth, int frameHeight) 
 {
 	roadPositionLR = roadPosLR;
 	roadPositionDistance = roadPosDistance;
+	frameColumns = frameWidth;
+	frameRows = frameHeight;
+	sprite = ppm6GetImage(spriteLoc.c_str());
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	unsigned char *texData = buildAlphaData(sprite);	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	free(texData);
 }
 bool RoadObstacle::isCameraInside(Game& g)
 {
@@ -473,23 +480,6 @@ void RoadObstacle::triggerHitEffects()
 {
 	ControlManager::playAnimationHit();
 }
-void RoadObstacle::init(std::string spriteLoc, int frameWidth, int frameHeight)
-{
-	//Loads up the sprite for the class type
-	frameColumns = frameWidth;
-	frameRows = frameHeight;
-	sprite = ppm6GetImage(spriteLoc.c_str());
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	unsigned char *texData = buildAlphaData(sprite);	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE, texData);
-	free(texData);
-	//unlink(spriteLoc.c_str());
-}
-
 void RoadObstacle::render(Game& g)
 {
 	//This function renders the object on the road. Can be called on all

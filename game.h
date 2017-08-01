@@ -133,45 +133,51 @@ class ControlManager {
 //This is a parent class to be used by all road obstacles as children classes
 class RoadObstacle {
 	public:
-		RoadObstacle(double roadPosLR, double roadPosDistance);
-		static void init(std::string spriteLoc, int frameWidth=1, int frameHeight=1);
+		RoadObstacle(double roadPosLR, double roadPosDistance, 
+				std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		bool isCameraInside(Game& g);
 		void render(Game& g);
 		virtual void triggerHitEffects();
 	private:
-		static int frameColumns, frameRows;
-		static GLuint texture;
-		static Ppmimage* sprite;
+		int frameColumns, frameRows;
+		GLuint texture;
+		Ppmimage* sprite;
 		double roadPositionLR, roadPositionDistance;
 };
 class CatObstacle : public RoadObstacle {
 	public:
-		CatObstacle(double roadPosLR, double roadPosDistance);
+		CatObstacle(double roadPosLR, double roadPosDistance,
+			std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		virtual void triggerHitEffects();
 };
 class ManObstacle : public RoadObstacle {
 	public:
-		ManObstacle(double roadPosLR, double roadPosDistance);
+		ManObstacle(double roadPosLR, double roadPosDistance,
+			std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		virtual void triggerHitEffects();
 };
 class VehicleObstacle : public RoadObstacle {
 	public:
-		VehicleObstacle(double roadPosLR, double roadPosDistance);
+		VehicleObstacle(double roadPosLR, double roadPosDistance,
+			std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		virtual void triggerHitEffects();
 };
 class BusObstacle : public RoadObstacle {
 	public:
-		BusObstacle(double roadPosLR, double roadPosDistance);
+		BusObstacle(double roadPosLR, double roadPosDistance,
+			std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		virtual void triggerHitEffects();
 };
 class BeerObstacle : public RoadObstacle {
 	public:
-		BeerObstacle(double roadPosLR, double roadPosDistance);
+		BeerObstacle(double roadPosLR, double roadPosDistance,
+			std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		virtual void triggerHitEffects();
 };
 class TacoObstacle : public RoadObstacle {
 	public:
-		TacoObstacle(double roadPosLR, double roadPosDistance);
+		TacoObstacle(double roadPosLR, double roadPosDistance,
+			std::string spriteLoc, int frameWidth=1, int frameHeight=1);
 		virtual void triggerHitEffects();
 };
 

@@ -90,34 +90,24 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 {
 	//This is called at startup, and initializes each obstacle (must be called for every class)
 	//RoadObstacle::init("images/cat.ppm", 2, 4);
-	CatObstacle::init("images/cat.ppm", 2, 4);
+	obstacles.push_back(new CatObstacle(0,25,"images/cat.ppm", 2, 4));
 	
-	obstacles.push_back(new CatObstacle(0,25));
+	obstacles.push_back(new ManObstacle(2,45,"images/man.ppm"));
+	
+	obstacles.push_back(new VehicleObstacle(-2,145,"images/car.ppm"));
 
-	ManObstacle::init("images/man.ppm");
+	obstacles.push_back(new BusObstacle(0,150,"images/bus.ppm"));
 	
-	obstacles.push_back(new ManObstacle(2,45));
-
-	VehicleObstacle::init("images/car.ppm");
+	obstacles.push_back(new BeerObstacle(0,150,"images/beer.ppm"));
 	
-	obstacles.push_back(new VehicleObstacle(-2,145));
-
-	BusObstacle::init("images/bus.ppm");
-	
-	obstacles.push_back(new BusObstacle(0,150));
-
-	BeerObstacle::init("images/beer.ppm");
-	
-	obstacles.push_back(new BeerObstacle(0,150));
-
-	TacoObstacle::init("images/beer.ppm");
-	
-	obstacles.push_back(new TacoObstacle(0,150));
+	obstacles.push_back(new TacoObstacle(0,150,"images/beer.ppm"));
 
 }
 //Cat Obstacle
-CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
+CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance, 
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance, 
+	spriteLoc,frameWidth, frameHeight) 
 {
 	//Leave Blank -- Just calls to super constructor
 }
@@ -129,8 +119,10 @@ void CatObstacle::triggerHitEffects()
 
 
 //Man Obstacle
-ManObstacle::ManObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
+ManObstacle::ManObstacle(double roadPosLR, double roadPosDistance,
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance,
+	spriteLoc, frameWidth, frameHeight)
 {
 	//Leave Blank -- Just calls to super constructor
 }
@@ -142,8 +134,10 @@ void ManObstacle::triggerHitEffects()
 }
 
 //Vehicle Obstacle
-VehicleObstacle::VehicleObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
+VehicleObstacle::VehicleObstacle(double roadPosLR, double roadPosDistance, 
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance,
+	spriteLoc, frameWidth, frameHeight)
 {
 	//Leave Blank -- Just calls to super constructor
 }
@@ -155,8 +149,10 @@ void VehicleObstacle::triggerHitEffects()
 }
 
 //Bus Obstacle
-BusObstacle::BusObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
+BusObstacle::BusObstacle(double roadPosLR, double roadPosDistance,
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance,
+	spriteLoc, frameWidth, frameHeight)
 {
 	//Leave Blank -- Just calls to super constructor
 }
@@ -168,8 +164,10 @@ void BusObstacle::triggerHitEffects()
 }
 
 //Beer Obstacle
-BeerObstacle::BeerObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
+BeerObstacle::BeerObstacle(double roadPosLR, double roadPosDistance,
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance,
+	spriteLoc, frameWidth, frameHeight)
 {
 	//Leave Blank -- Just calls to super constructor
 }
@@ -181,8 +179,10 @@ void BeerObstacle::triggerHitEffects()
 }
 
 //Taco Obstacle
-TacoObstacle::TacoObstacle(double roadPosLR, double roadPosDistance) 
-	: RoadObstacle(roadPosLR, roadPosDistance)
+TacoObstacle::TacoObstacle(double roadPosLR, double roadPosDistance, 
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance,
+	spriteLoc, frameWidth, frameHeight)
 {
 	//Leave Blank -- Just calls to super constructor
 }
