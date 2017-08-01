@@ -67,6 +67,8 @@ int main(void)
 	system("convert ./images/man.jpg ./images/man.ppm");
 	system("convert ./images/car.jpg ./images/car.ppm");
 	system("convert ./images/bus.jpg ./images/bus.ppm");
+	system("convert ./images/bottle_sprite.png ./images/beer.ppm");
+	system("convert ./images/taco.png ./images/taco.ppm");
 	//Start game
 	printf("Loading Drunk Driver\n");
 	initXWindows();
@@ -96,6 +98,10 @@ int main(void)
 	system("unlink ./images/gameover.ppm");
 	system("unlink ./images/cat.ppm");
 	system("unlink ./images/man.ppm");
+	system("unlink ./images/car.ppm");
+	system("unlink ./images/bus.ppm");
+	system("unlink ./images/beer.ppm");
+	system("unlink ./images/taco.ppm");
 	return 0;
 }
 

@@ -164,6 +164,16 @@ class BusObstacle : public RoadObstacle {
 		BusObstacle(double roadPosLR, double roadPosDistance);
 		virtual void triggerHitEffects();
 };
+class BeerObstacle : public RoadObstacle {
+	public:
+		BeerObstacle(double roadPosLR, double roadPosDistance);
+		virtual void triggerHitEffects();
+};
+class TacoObstacle : public RoadObstacle {
+	public:
+		TacoObstacle(double roadPosLR, double roadPosDistance);
+		virtual void triggerHitEffects();
+};
 
 void initObstacles(std::list<RoadObstacle*>& obstacles);
 
