@@ -98,9 +98,9 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 
 	obstacles.push_back(new BusObstacle(0,150,"images/bus.ppm"));
 	
-	obstacles.push_back(new BeerObstacle(0,150,"images/beer.ppm"));
+	obstacles.push_back(new BeerObstacle(1.5,200,"images/beer.ppm"));
 	
-	obstacles.push_back(new TacoObstacle(0,150,"images/beer.ppm"));
+	obstacles.push_back(new TacoObstacle(-1,250,"images/taco.ppm"));
 
 }
 //Cat Obstacle

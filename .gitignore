@@ -8,3 +8,5 @@ car
 *.a
 *.o
 images/*.ppm
+
+*.swp
