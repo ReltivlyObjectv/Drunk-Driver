@@ -271,7 +271,7 @@ void mouse_click(int action, Game& g)
                     }
                     if (i == 1) {
                         //show high score
-                        system("firefox http://www.army.mil/article/181742/dont_ruin_the_game_by_drinking_driving");
+                        system("firefox http://www.cs.csub/~drezac/.highscore.php");
                         break;
                     }
                     if (i == 2) {
