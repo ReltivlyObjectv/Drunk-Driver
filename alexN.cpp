@@ -559,19 +559,28 @@ void game_credits(void)
 	ggprint16(&r, 16, 0x00ffffff, "-----------------");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint16(&r, 16, 0x00ffffff, "Alexander Nguyen");
+	ggprint16(&r, 16, 0x00ffffff, "Menu Design        Alexander Nguyen");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint16(&r, 16, 0x00ffffff, "Christian R");
+	ggprint16(&r, 16, 0x00ffffff, "Control Design     Christian R");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint16(&r, 16, 0x00ffffff, "Dave R");
+	ggprint16(&r, 16, 0x00ffffff, "Obstacle Design    Dave R");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint40(&r, 16, 0x00ffffff, " ");
-	ggprint16(&r, 16, 0x00ffffff, "Framework by Professor Gordon");
+	ggprint16(&r, 16, 0x00ffffff, "Makefile/Debug     Christian R");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Road Maker         Alexander Nguyen");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "Website Design    Dave R");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint16(&r, 16, 0x00ffffff, "3D Framework       Professor Gordon");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Copyrighted 2017 Drunk Driver");
-	ggprint40(&r, 16, 0x00ffffff, " ");
+	ggprint40(&r, 16, 0x00ffffff, "Brought to you by Students at CSUB");
 	ggprint40(&r, 16, 0x00ffffff, " ");
 	ggprint16(&r, 16, 0x00ffffff, "Thank you for playing");
 	ggprint40(&r, 16, 0x00ffffff, " ");
@@ -675,7 +684,6 @@ void drawPowerLines(void)
 
 void drawSun(void)
 {
-    //Sun position is stationary but moves off screen
     glTranslatef(-8.5, 9.0, g.cameraPosition[2]-90);
     int i, x, y;
     double radius = 3.0;
