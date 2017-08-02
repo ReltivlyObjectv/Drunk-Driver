@@ -183,6 +183,13 @@ class TacoObstacle : public RoadObstacle {
 		virtual void triggerHitEffects();
 };
 
+class FinishObstacle : public RoadObstacle {
+	public:
+		FinishObstacle(double roadPosLR, double roadPosDistance,
+				std::string spriteLoc, int frameWidth=1, int frameHeight=1);
+		virtual void triggerHitEffects();
+};
+
 void initObstacles(std::list<RoadObstacle*>& obstacles);
 std::list<RoadObstacle*>& getObstacles();
 

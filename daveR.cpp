@@ -63,7 +63,7 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 {
 	//This is called at startup, and initializes each obstacle (must be called for every class)
 	//RoadObstacle::init("images/cat.ppm", 2, 4);
-	for (int i = 0; i < 250*6; i+=3) {
+	for (int i = 0; i < 1500; i+=3) {
 		if (rand() % 5 == 0) {
 			float leftRight = (float)((rand() % 800) - 400) / 100.0;
 			switch (rand() % 9) {
@@ -91,6 +91,7 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 			}
 		}
 	}
+	obstacles.push_back(new FinishObstacle(-1,1600,"images/checkered.ppm"));
 
 }
 //Cat Obstacle
@@ -232,6 +233,27 @@ void TacoObstacle::triggerHitEffects()
 	#endif
 	g.bloodAlcoholContent -= 0.005;
 }
+//Finish Line Obstacle
+FinishObstacle::FinishObstacle(double roadPosLR, double roadPosDistance, 
+	std::string spriteLoc, int frameWidth, int frameHeight) 
+	: RoadObstacle(roadPosLR, roadPosDistance,
+		spriteLoc, frameWidth, frameHeight)
+{
+	//Leave Blank -- Just calls to super constructor
+}
+
+void FinishObstacle::triggerHitEffects()
+{
+	//Everthing in here is executed when the player hits the obstacle
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
+	//Game winning condition
+	g.gameState = CREDITS;
+}
+
 
 void filterRGB(float R, float G, float B) 
 {
