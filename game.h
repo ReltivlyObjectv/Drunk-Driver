@@ -186,11 +186,6 @@ class TacoObstacle : public RoadObstacle {
 
 void initObstacles(std::list<RoadObstacle*>& obstacles);
 std::list<RoadObstacle*>& getObstacles();
-class ObstacleManager {
-	public:
-		static std::list<RoadObstacle*> obstacles;
-};
-
 
 //----------------------------------------------------------------------------
 

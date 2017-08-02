@@ -61,8 +61,6 @@ void initCarPics(void)
 }
 void initObstacles(std::list<RoadObstacle*>& obstacles)
 {
-	//Remove any obstacles from a previous playthrough
-	obstacles.clear();
 	//This is called at startup, and initializes each obstacle (must be called for every class)
 	//RoadObstacle::init("images/cat.ppm", 2, 4);
 	for (int i = 0; i < 250*6; i+=5) {

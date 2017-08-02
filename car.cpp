@@ -53,13 +53,13 @@ void check_keys(XEvent *e);
 void physics(void);
 void render(void);
 
+std::list<RoadObstacle*> obstacles;
+
 Game g;
 
 int main(void)
 {
-	printf("Loading Drunk Driver\n");
 	//Convert images
-	printf("Loading Images\n");
 	system("convert ./images/menu.jpg ./images/menu.ppm");
 	system("convert ./images/inCarPic.png ./images/inCarPic.ppm");
 	system("convert ./images/gameover.jpg ./images/gameover.ppm");
@@ -70,7 +70,7 @@ int main(void)
 	system("convert ./images/bottle_sprite.png ./images/beer.ppm");
 	system("convert ./images/taco.png ./images/taco.ppm");
 	//Start game
-	printf("Loading Menu\n");
+	printf("Loading Drunk Driver\n");
 	initXWindows();
 	init_opengl();
 	init();
@@ -181,6 +181,7 @@ void reshape_window(int width, int height)
 void init(void)
 {
 	initCarPics();
+	initObstacles(obstacles);
 	ControlManager::movingLeft =
 		ControlManager::movingRight =
 		ControlManager::slowingDown =
@@ -380,8 +381,7 @@ void physics(void)
 {
 	ControlManager::moveForward(g);
 	ControlManager::checkBounds(g);
-	for (std::list<RoadObstacle*>::iterator it=ObstacleManager::obstacles.begin(); 
-			it != ObstacleManager::obstacles.end(); ++it) {
+	for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 		if ((*it)->isCameraInside(g)) {
 			(*it)->triggerHitEffects();
 		}
@@ -430,8 +430,7 @@ void render(void)
 		drawSun();
 		glPopMatrix();
 
-		for (std::list<RoadObstacle*>::iterator it=ObstacleManager::obstacles.begin(); 
-				it != ObstacleManager::obstacles.end(); ++it) {
+		for (std::list<RoadObstacle*>::iterator it=obstacles.begin(); it != obstacles.end(); ++it) {
 			(*it)->render(g);
 		}
 		//
@@ -574,4 +573,9 @@ Game::Game() {
 	lightPosition[3] = 1.0f;
 	inCarImage=NULL;
 	done = 0;
+}
+
+std::list<RoadObstacle*>& getObstacles()
+{
+	return obstacles;
 }
