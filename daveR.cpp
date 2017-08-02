@@ -23,6 +23,7 @@ extern Game g;
 using namespace std;
 
 GLuint inCarTexture;
+Ppmimage* sprite;
 int displayDash=1;
 //int w=0, h=0;
 //void initOpengl(void);
@@ -33,6 +34,9 @@ void showInCar(Game& g)
     	//Next line added
         glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, inCarTexture);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
 		glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
@@ -45,46 +49,15 @@ void showInCar(Game& g)
   
 void initCarPics(void)
 {
-	g.inCarImage = ppm6GetImage("./images/inCarPic.ppm");
-	glGenTextures(1 , &inCarTexture);
+	sprite = ppm6GetImage("images/inCarPic.ppm");
+	glGenTextures(1, &inCarTexture);
 	glBindTexture(GL_TEXTURE_2D, inCarTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-			g.inCarImage->width, g.inCarImage->height,
-			0, GL_RGB, GL_UNSIGNED_BYTE, g.inCarImage->data);	
-	//Ppmimage *inCarImage=NULL;
-	//OpenGL initialization
-	glViewport(0, 0, g.xres, g.yres);
-	//Initialize matrices
-	glMatrixMode(GL_PROJECTION); glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-	//This sets 2D mode (no perspective)
-	glOrtho(0, g.xres, 0, g.yres, -1, 1);
-	//
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_FOG);
-	glDisable(GL_CULL_FACE);
-	//
-	//Clear the screen
-	glClearColor(1.0, 1.0, 1.0, 1.0);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//Do this to allow fonts
-	glEnable(GL_TEXTURE_2D);
-	initialize_fonts();
-	//
-	//load the images file into a ppm structure.
-	//
-	//g.inCarImage = ppm6GetImage("inCarPic.ppm");
-	glBindTexture(GL_TEXTURE_2D, inCarTexture);
-	//
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,g.inCarImage->width, 
-		g.inCarImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, 
-		g.inCarImage->data);
-		
+	unsigned char *texData = buildAlphaData(sprite);	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite->width, sprite->height, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	free(texData);
 }
 void initObstacles(std::list<RoadObstacle*>& obstacles)
 {
