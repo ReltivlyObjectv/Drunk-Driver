@@ -90,17 +90,31 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 {
 	//This is called at startup, and initializes each obstacle (must be called for every class)
 	//RoadObstacle::init("images/cat.ppm", 2, 4);
-	obstacles.push_back(new CatObstacle(0,25,"images/cat.ppm", 2, 4));
-	
-	obstacles.push_back(new ManObstacle(2,45,"images/man.ppm"));
-	
-	obstacles.push_back(new VehicleObstacle(-2,145,"images/car.ppm"));
-
-	obstacles.push_back(new BusObstacle(0,150,"images/bus.ppm"));
-	
-	obstacles.push_back(new BeerObstacle(1.5,200,"images/beer.ppm"));
-	
-	obstacles.push_back(new TacoObstacle(-1,250,"images/taco.ppm"));
+	for (int i = 0; i < 250*6; i+=5) {
+		if (rand() % 5 == 0) {
+			float leftRight = (float)((rand() % 800) - 400) / 100.0;
+			switch (rand() % 6) {
+				case 1:
+					obstacles.push_back(new CatObstacle(leftRight,i,"images/cat.ppm", 2, 4));
+					break;
+				case 2: 
+					obstacles.push_back(new ManObstacle(leftRight,i,"images/man.ppm"));
+					break;
+				case 3:
+					obstacles.push_back(new VehicleObstacle(leftRight,i,"images/car.ppm"));
+					break;
+				case 4:
+					obstacles.push_back(new BusObstacle(leftRight,i,"images/bus.ppm"));
+					break;
+				case 5:
+					obstacles.push_back(new BeerObstacle(leftRight,i,"images/beer.ppm", 8, 1));
+					break;
+				case 6:
+					obstacles.push_back(new TacoObstacle(leftRight,i,"images/taco.ppm"));
+					break;
+			}
+		}
+	}
 
 }
 //Cat Obstacle
@@ -114,6 +128,11 @@ CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance,
 void CatObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
 	ControlManager::playAnimationHit();
 }
 
@@ -130,7 +149,12 @@ ManObstacle::ManObstacle(double roadPosLR, double roadPosDistance,
 void ManObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
-	ControlManager::playAnimationHit();
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
+	g.gameState = GAMEOVER;
 }
 
 //Vehicle Obstacle
@@ -145,7 +169,12 @@ VehicleObstacle::VehicleObstacle(double roadPosLR, double roadPosDistance,
 void VehicleObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
-	g.speed = 0.1;
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
+	g.speed /= 2.0;
 }
 
 //Bus Obstacle
@@ -160,7 +189,12 @@ BusObstacle::BusObstacle(double roadPosLR, double roadPosDistance,
 void BusObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
-	ControlManager::playAnimationHit();
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
+	g.speed = 0.1;
 }
 
 //Beer Obstacle
@@ -175,7 +209,12 @@ BeerObstacle::BeerObstacle(double roadPosLR, double roadPosDistance,
 void BeerObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
-	ControlManager::playAnimationHit();
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
+	ControlManager::drinkBeer(g);
 }
 
 //Taco Obstacle
@@ -190,7 +229,12 @@ TacoObstacle::TacoObstacle(double roadPosLR, double roadPosDistance,
 void TacoObstacle::triggerHitEffects()
 {
 	//Everthing in here is executed when the player hits the obstacle
-	ControlManager::playAnimationHit();
+	if (isActive) {
+		isActive = false;
+	} else {
+		return;
+	}
+	g.bloodAlcoholContent -= 0.005;
 }
 
 void filterRGB(float R, float G, float B) 

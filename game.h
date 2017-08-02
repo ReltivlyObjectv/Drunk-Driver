@@ -126,6 +126,7 @@ class ControlManager {
 		static void checkBounds(Game& g);
 		static double calculateSwerveModifier(Game& g);
 		static void playAnimationHit();
+		static void drinkBeer(Game& g);
 	private:
 		static void displayHitAnimation(Game& g, bool restart = false);
 };
@@ -138,6 +139,8 @@ class RoadObstacle {
 		bool isCameraInside(Game& g);
 		void render(Game& g);
 		virtual void triggerHitEffects();
+	protected:
+		bool isActive;
 	private:
 		int frameColumns, frameRows;
 		GLuint texture;
@@ -182,6 +185,7 @@ class TacoObstacle : public RoadObstacle {
 };
 
 void initObstacles(std::list<RoadObstacle*>& obstacles);
+std::list<RoadObstacle*>& getObstacles();
 
 //----------------------------------------------------------------------------
 

@@ -241,6 +241,12 @@ double ControlManager::calculateSwerveModifier(Game& g)
 			break;
 	}
 }
+void ControlManager::drinkBeer(Game& g)
+{
+	g.bloodAlcoholContent += BAC_PER_BEER;
+	g.minimumBAC += BAC_PER_BEER * .33;
+	g.cooldownDrink = COOLDOWN_DRINK;
+}
 void ControlManager::applyControls(Game& g, int key, bool isPress)
 {
 	switch (key) {
@@ -264,9 +270,7 @@ void ControlManager::applyControls(Game& g, int key, bool isPress)
 			if (isPress && g.gameState == UNPAUSED) {
 				if (g.cooldownDrink == 0) {
 					printf("Key is pressed: %s (%d)\n", "Drinking a nice, cold bev", key);
-					g.bloodAlcoholContent += BAC_PER_BEER;
-					g.minimumBAC += BAC_PER_BEER * .33;
-					g.cooldownDrink = COOLDOWN_DRINK;
+					drinkBeer(g);
 				}			
 			}
 			break;
@@ -446,6 +450,7 @@ void Game::updateCooldowns()
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance,
 	std::string spriteLoc, int frameWidth, int frameHeight) 
 {
+	isActive = true;
 	roadPositionLR = roadPosLR;
 	roadPositionDistance = roadPosDistance;
 	frameColumns = frameWidth;

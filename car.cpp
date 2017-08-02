@@ -573,5 +573,7 @@ Game::Game() {
 	done = 0;
 }
 
-
-
+std::list<RoadObstacle*>& getObstacles()
+{
+	return obstacles;
+}
