@@ -45,8 +45,8 @@
 #define ROAD_WIDTH 4
 #define SPEED_TO_MPH_MULT 100
 #define FPS 50
-#define OBSTACLE_DEPTH 1
-#define OBSTACLE_WIDTH 1
+#define OBSTACLE_DEPTH 1.0
+#define OBSTACLE_WIDTH 1.0
 #define OBSTACLE_HEIGHT 2
 #define OBSTACLE_RENDER_DIST 100
 #define CAMERA_HEIGHT 1
@@ -448,8 +448,8 @@ void Game::updateCooldowns()
 		bloodAlcoholContent -= COOLDOWN_BAC;
 	}
 }
-std::map<std::string, Ppmimage*> textures;
 
+std::map<std::string, Ppmimage*> textures;
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance,
 	std::string spriteLoc, int frameWidth, int frameHeight) 
 {
@@ -484,10 +484,10 @@ bool RoadObstacle::isCameraInside(Game& g)
 	if (g.distanceTraveled < roadPositionDistance - OBSTACLE_DEPTH) {
 		return false;
 	}
-	if (g.cameraPosition[0] < roadPositionLR - OBSTACLE_WIDTH) {
+	if (g.cameraPosition[0] < roadPositionLR - (OBSTACLE_WIDTH/2.0)) {
 		return false;
 	}
-	if (g.cameraPosition[0] > roadPositionLR + OBSTACLE_WIDTH) {
+	if (g.cameraPosition[0] > roadPositionLR + (OBSTACLE_WIDTH/2.0)) {
 		//return false;
 	}
 	return true;
