@@ -63,26 +63,29 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 {
 	//This is called at startup, and initializes each obstacle (must be called for every class)
 	//RoadObstacle::init("images/cat.ppm", 2, 4);
-	for (int i = 0; i < 250*6; i+=5) {
+	for (int i = 0; i < 250*6; i+=3) {
 		if (rand() % 5 == 0) {
 			float leftRight = (float)((rand() % 800) - 400) / 100.0;
-			switch (rand() % 6) {
-				case 1:
+			switch (rand() % 9) {
+				case 0:
 					obstacles.push_back(new CatObstacle(leftRight,i,"images/cat.ppm", 2, 4));
 					break;
-				case 2: 
+				case 1: 
 					obstacles.push_back(new ManObstacle(leftRight,i,"images/man.ppm"));
 					break;
-				case 3:
+				case 2:
 					obstacles.push_back(new VehicleObstacle(leftRight,i,"images/car.ppm"));
 					break;
-				case 4:
+				case 3:
 					obstacles.push_back(new BusObstacle(leftRight,i,"images/bus.ppm"));
 					break;
+				case 4:
 				case 5:
+				case 6:
 					obstacles.push_back(new BeerObstacle(leftRight,i,"images/beer.ppm", 8, 1));
 					break;
-				case 6:
+				case 7:
+				case 8:
 					obstacles.push_back(new TacoObstacle(leftRight,i,"images/taco.ppm"));
 					break;
 			}
@@ -106,6 +109,9 @@ void CatObstacle::triggerHitEffects()
 	} else {
 		return;
 	}
+	#ifdef DEBUG
+	printf("Obstacle hit: %s\n", "Cat");
+	#endif
 	ControlManager::playAnimationHit();
 }
 
@@ -129,6 +135,7 @@ void ManObstacle::triggerHitEffects()
 	}
 	#ifdef DEBUG
 	ControlManager::playAnimationHit();
+	printf("Obstacle hit: %s\n", "Man");
 	#else
 	g.gameState = GAMEOVER;
 	#endif
@@ -151,6 +158,9 @@ void VehicleObstacle::triggerHitEffects()
 	} else {
 		return;
 	}
+	#ifdef DEBUG
+	printf("Obstacle hit: %s\n", "Vehicle");
+	#endif
 	g.speed /= 2.0;
 }
 
@@ -171,6 +181,9 @@ void BusObstacle::triggerHitEffects()
 	} else {
 		return;
 	}
+	#ifdef DEBUG
+	printf("Obstacle hit: %s\n", "Bus");
+	#endif
 	g.speed = 0.1;
 }
 
@@ -191,6 +204,9 @@ void BeerObstacle::triggerHitEffects()
 	} else {
 		return;
 	}
+	#ifdef DEBUG
+	printf("Obstacle hit: %s\n", "Beer");
+	#endif
 	ControlManager::drinkBeer(g);
 }
 
@@ -211,6 +227,9 @@ void TacoObstacle::triggerHitEffects()
 	} else {
 		return;
 	}
+	#ifdef DEBUG
+	printf("Obstacle hit: %s\n", "Taco");
+	#endif
 	g.bloodAlcoholContent -= 0.005;
 }
 
