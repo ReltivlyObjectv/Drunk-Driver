@@ -65,6 +65,7 @@ bool ControlManager::movingLeft,
      ControlManager::slowingDown,
      ControlManager::speedingUp, 
      ControlManager::hittingObject;
+std::list<RoadObstacle*> ObstacleManager::obstacles;
 
 double ControlManager::applyDrunkSwerve(Game& g)
 {
@@ -365,6 +366,7 @@ void ControlManager::displayHitAnimation(Game& g, bool restart)
 }
 void ControlManager::reset(Game* g)
 {
+	initObstacles(ObstacleManager::obstacles);
 	movingLeft = 
 		movingRight = 
 		slowingDown = 
@@ -488,7 +490,7 @@ bool RoadObstacle::isCameraInside(Game& g)
 		return false;
 	}
 	if (g.cameraPosition[0] > roadPositionLR + (OBSTACLE_WIDTH/2.0)) {
-		//return false;
+		return false;
 	}
 	return true;
 }
