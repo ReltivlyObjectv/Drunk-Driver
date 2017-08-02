@@ -257,9 +257,9 @@ void FinishObstacle::triggerHitEffects()
 		return;
 	}
 	//Game winning condition
-	g.gameState = CREDITS;
 	ControlManager::reset(&g);
 	//g.gameState = MENU;
+	g.gameState = CREDITS;
 }
 
 
