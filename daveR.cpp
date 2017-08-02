@@ -92,8 +92,10 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 			}
 		}
 	}
-	obstacles.push_back(new FinishObstacle(-1,1600,"images/checkered.ppm"));
-
+//	obstacles.push_back(new FinishObstacle(-4,1600,"images/checkered.ppm"));
+	for (int i=-4; i<6; i+=2) {
+		obstacles.push_back(new FinishObstacle(i,1600,"images/checkered.ppm"));
+	}
 }
 //Cat Obstacle
 CatObstacle::CatObstacle(double roadPosLR, double roadPosDistance, 
@@ -256,6 +258,8 @@ void FinishObstacle::triggerHitEffects()
 	}
 	//Game winning condition
 	g.gameState = CREDITS;
+	ControlManager::reset(&g);
+	g.gameState = MENU;
 }
 
 
