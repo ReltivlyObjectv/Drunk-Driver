@@ -34,6 +34,7 @@ macsymlink:
 
 clean:
 	rm -f car
+	rm -f cardebug
 	rm -f *.o
 	rm -f *.a
 	rm -f images/*.ppm
