@@ -689,8 +689,8 @@ void drawSun(void)
     glTranslatef(-8.5, 9.0, g.cameraPosition[2]-90);
     int i, x, y;
     double radius = 3.0;
-    if (g.timeOfDay == DAY) 
-	(glColor3ub(253, 184, 19);     
+    if (g.timeOfDay == DAY) {
+	glColor3ub(253, 184, 19);     
     } else {
 	glColor3ub(255, 255, 255);
     }
