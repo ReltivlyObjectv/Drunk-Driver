@@ -457,9 +457,10 @@ void render(void)
 		//r.left = 10;
 		//r.center = 0;
 		//ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
-		showInCar(g);
 		#ifdef DEBUG
 		drawDebugInfo(g);
+		#else
+		showInCar(g);
 		#endif
 		glPopAttrib();
 		//Blackout if need be

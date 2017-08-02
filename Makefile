@@ -5,12 +5,18 @@ LFLAGSMAC = -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 #all is used to compile on Linux
 all: fonts.o fonttex.o staticLib car
 
+debug: fonts.o fonttex.o staticLib cardebug
+
 #mac is used to compile on OS X, after "make macsymlink" has been called, if needed
 mac: clean fontsmac.o fonttex.o staticLib carmac
 
-car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
+cardebug: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	@echo "Compiling game (Linux)"
 	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGS) -o car -D DEBUG
+
+car: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
+	@echo "Compiling game (Linux)"
+	g++ $(CFLAGS) car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp log.cpp fonts.cpp fonttex.cpp ppm.cpp -Wall -Wextra $(LFLAGS) -o car
 
 carmac: car.cpp christianR.cpp daveR.cpp alexN.cpp abdulelahA.cpp game.h
 	@echo "Compiling game (OS X)"
