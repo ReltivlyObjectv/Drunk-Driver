@@ -28,6 +28,7 @@
 #include <sstream>
 #include <unistd.h>
 #include <vector>
+#include <map>
 
 #include "game.h"
 #include "fonts.h"
@@ -447,6 +448,8 @@ void Game::updateCooldowns()
 		bloodAlcoholContent -= COOLDOWN_BAC;
 	}
 }
+std::map<std::string, Ppmimage*> textures;
+
 RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance,
 	std::string spriteLoc, int frameWidth, int frameHeight) 
 {
@@ -455,7 +458,15 @@ RoadObstacle::RoadObstacle(double roadPosLR, double roadPosDistance,
 	roadPositionDistance = roadPosDistance;
 	frameColumns = frameWidth;
 	frameRows = frameHeight;
-	sprite = ppm6GetImage(spriteLoc.c_str());
+	if (textures.find(spriteLoc) != textures.end()) {
+		//Already in map
+		sprite = textures[spriteLoc];
+	} else {
+		//Not in map
+		sprite = ppm6GetImage(spriteLoc.c_str());
+		textures.insert(textures.begin(),
+			std::pair<std::string,Ppmimage*>(spriteLoc,sprite));
+	}
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
