@@ -59,6 +59,7 @@
 #define SPEED_MOD_SLOWER .005
 
 
+extern std::list<RoadObstacle*> obstacles;
 
 bool ControlManager::movingLeft,
      ControlManager::movingRight,
@@ -365,6 +366,10 @@ void ControlManager::displayHitAnimation(Game& g, bool restart)
 }
 void ControlManager::reset(Game* g)
 {
+	for (std::list<RoadObstacle*>::iterator it= obstacles.begin(); 
+		it != obstacles.end(); ++it) {
+		(*it)->isActive = true;
+	}
 	movingLeft = 
 		movingRight = 
 		slowingDown = 

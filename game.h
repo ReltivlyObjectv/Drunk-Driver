@@ -139,7 +139,6 @@ class RoadObstacle {
 		bool isCameraInside(Game& g);
 		void render(Game& g);
 		virtual void triggerHitEffects();
-	protected:
 		bool isActive;
 	private:
 		int frameColumns, frameRows;
