@@ -460,7 +460,7 @@ void render(void)
 		#ifdef DEBUG
 		drawDebugInfo(g);
 		#else
-		//showInCar(g);
+		showInCar(g);
 		#endif
 		glPopAttrib();
 		//Blackout if need be
