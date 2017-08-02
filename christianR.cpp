@@ -50,7 +50,7 @@
 #define OBSTACLE_HEIGHT 2
 #define OBSTACLE_RENDER_DIST 100
 #define CAMERA_HEIGHT 1
-#define COOLDOWN_DRINK 50
+#define COOLDOWN_DRINK 5
 #define COOLDOWN_BAC .000008
 #define BAC_PER_BEER .025
 #define TURN_MAX 0.1
@@ -316,19 +316,19 @@ void ControlManager::checkBounds(Game& g)
 		return;
 	}
 	if (g.cameraPosition[0] > ROAD_WIDTH) {
-		printf("Gameover!\n");
 		g.cameraPosition[0] = ROAD_WIDTH;
 		ControlManager::movingLeft = ControlManager::movingRight = false;
 		#ifndef DEBUG
 		g.gameState = GAMEOVER;
+		//printf("Gameover!\n");
 		#endif
 	}
 	if (g.cameraPosition[0] < -1 * ROAD_WIDTH) {
-		printf("Gameover!\n");
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 		ControlManager::movingLeft = ControlManager::movingRight = false;
 		#ifndef DEBUG
 		g.gameState = GAMEOVER;
+		//printf("Gameover!\n");
 		#endif
 	}
 }
