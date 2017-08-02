@@ -4,7 +4,7 @@
 //date:    summer 2017
 //
 //Framework for group attempting a 3D game.
-//
+//////////////////////////////////////463 uncomment showInCar()
 #include <stdio.h>
 #include <stdlib.h>
 //#include <unistd.h>
@@ -460,7 +460,7 @@ void render(void)
 		#ifdef DEBUG
 		drawDebugInfo(g);
 		#else
-		showInCar(g);
+		//showInCar(g);
 		#endif
 		glPopAttrib();
 		//Blackout if need be

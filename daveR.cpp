@@ -17,6 +17,7 @@
 #include <GL/glu.h>
 #include <list>
 #include "ppm.h"
+#include <stdio.h>
 
 extern Game g;
 
@@ -231,10 +232,10 @@ void TacoObstacle::triggerHitEffects()
 	#ifdef DEBUG
 	printf("Obstacle hit: %s\n", "Taco");
 	#endif
-	if (g.bloodAlcoholContent > .005)
+	if (g.bloodAlcoholContent > g.minimumBAC + .005)
 		g.bloodAlcoholContent -= 0.005;
 	else
-		g.bloodAlcoholContent = 0.0;
+		g.bloodAlcoholContent = g.minimumBAC;
 }
 //Finish Line Obstacle
 FinishObstacle::FinishObstacle(double roadPosLR, double roadPosDistance, 
