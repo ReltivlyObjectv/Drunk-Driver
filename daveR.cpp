@@ -154,7 +154,11 @@ void ManObstacle::triggerHitEffects()
 	} else {
 		return;
 	}
+	#ifdef DEBUG
+	ControlManager::playAnimationHit();
+	#else
 	g.gameState = GAMEOVER;
+	#endif
 }
 
 //Vehicle Obstacle
