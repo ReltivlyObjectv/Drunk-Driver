@@ -493,7 +493,7 @@ bool RoadObstacle::isCameraInside(Game& g)
 		return false;
 	}
 	if (g.cameraPosition[0] > roadPositionLR + (OBSTACLE_WIDTH/2.0)) {
-		//return false;
+		return false;
 	}
 	return true;
 }
