@@ -319,13 +319,17 @@ void ControlManager::checkBounds(Game& g)
 		printf("Gameover!\n");
 		g.cameraPosition[0] = ROAD_WIDTH;
 		ControlManager::movingLeft = ControlManager::movingRight = false;
+		#ifndef DEBUG
 		g.gameState = GAMEOVER;
+		#endif
 	}
 	if (g.cameraPosition[0] < -1 * ROAD_WIDTH) {
 		printf("Gameover!\n");
 		g.cameraPosition[0] = -1 * ROAD_WIDTH;
 		ControlManager::movingLeft = ControlManager::movingRight = false;
+		#ifndef DEBUG
 		g.gameState = GAMEOVER;
+		#endif
 	}
 }
 void ControlManager::playAnimationHit()
