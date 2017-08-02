@@ -93,8 +93,8 @@ void initObstacles(std::list<RoadObstacle*>& obstacles)
 		}
 	}
 //	obstacles.push_back(new FinishObstacle(-4,1600,"images/checkered.ppm"));
-	for (int i=-4; i<6; i+=2) {
-		obstacles.push_back(new FinishObstacle(i,1600,"images/checkered.ppm"));
+	for (int i=0; i<6; i+=1) {
+		obstacles.push_back(new FinishObstacle(-4+(i*2),1600,"images/checkered.ppm"));
 	}
 }
 //Cat Obstacle
