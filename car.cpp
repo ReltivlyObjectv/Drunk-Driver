@@ -180,6 +180,7 @@ void reshape_window(int width, int height)
 
 void init(void)
 {
+	initCarPics();
 	initObstacles(obstacles);
 	ControlManager::movingLeft =
 		ControlManager::movingRight =
@@ -453,9 +454,11 @@ void render(void)
 		//r.left = 10;
 		//r.center = 0;
 		//ggprint8b(&r, 16, 0x00887766, "Drunk Driver");
-#ifdef DEBUG
+		#ifdef DEBUG
 		drawDebugInfo(g);
-#endif
+		#else
+		showInCar(g);
+		#endif
 		glPopAttrib();
 		//Blackout if need be
 		blackoutScreen(g);
