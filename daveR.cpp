@@ -259,7 +259,7 @@ void FinishObstacle::triggerHitEffects()
 	//Game winning condition
 	g.gameState = CREDITS;
 	ControlManager::reset(&g);
-	g.gameState = MENU;
+	//g.gameState = MENU;
 }
 
 
