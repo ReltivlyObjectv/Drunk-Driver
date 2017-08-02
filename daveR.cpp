@@ -231,7 +231,10 @@ void TacoObstacle::triggerHitEffects()
 	#ifdef DEBUG
 	printf("Obstacle hit: %s\n", "Taco");
 	#endif
-	g.bloodAlcoholContent -= 0.005;
+	if (g.bloodAlcoholContent > .005)
+		g.bloodAlcoholContent -= 0.005;
+	else
+		g.bloodAlcoholContent = 0.0;
 }
 //Finish Line Obstacle
 FinishObstacle::FinishObstacle(double roadPosLR, double roadPosDistance, 
