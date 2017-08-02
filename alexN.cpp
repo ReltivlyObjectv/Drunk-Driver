@@ -609,7 +609,7 @@ void drawstreetLight(void)
 		//Lights - Right
 		glPushMatrix();
 		glTranslatef((float)(6.0-(2.5/2.0)+0.1), 4.0f,
-			 (float)-i*10);
+			(float)-i*10);
 		box(2.5, 0.2, 0.2);
 		glPopMatrix();
 		//Lights - Left
@@ -689,10 +689,10 @@ void drawSun(void)
     glTranslatef(-8.5, 9.0, g.cameraPosition[2]-90);
     int i, x, y;
     double radius = 3.0;
-    if (g.timeOfDay == DAY) {
-    	glColor3ub(253, 184, 19);     
+    if (g.timeOfDay == DAY) 
+	(glColor3ub(253, 184, 19);     
     } else {
-    	glColor3ub(255, 255, 255);
+	glColor3ub(255, 255, 255);
     }
     double Pi = 2.0 * 3.142;
     x = 0, y = 0;
